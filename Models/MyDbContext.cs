@@ -25,10 +25,15 @@
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
-
+                // Make 1 to 1 relationship between Teacher and UserTeacher
                 modelBuilder.Entity<UserTeacher>()
                     .HasIndex(u => u.Email)
                     .IsUnique();
+
+                // Create many to many relationship between Classes and Subjects
+                modelBuilder.Entity<Class>()
+                    .HasMany(c => c.Subjects)
+                    .WithMany(s => s.Classes);
 
                 // Seed Grades
                 modelBuilder.Entity<Grade>().HasData(

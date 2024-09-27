@@ -1,0 +1,23 @@
+@model IEnumerable<SchoolSystemTask.Models.Subject>;
+@{
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+<table>
+    <thead class="table-bordered table">
+        <tr>
+            <th>
+                Subject name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subject in Model)
+        {
+            <tr>
+                <td>
+                    @subject.SubjectName
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

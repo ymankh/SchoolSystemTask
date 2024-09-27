@@ -45,6 +45,7 @@ namespace SchoolSystemTask
             // Add Repositories
             builder.Services.AddScoped<UserRepository>();
             builder.Services.AddScoped<TeacherRepository>();
+            builder.Services.AddScoped<ClassesRepository>();
 
 
             var app = builder.Build();

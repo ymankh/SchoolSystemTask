@@ -12,7 +12,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolSystemTask.Controllers
 {
-    public class HomeController(ILogger<HomeController> logger, MyDbContext context, UserRepository userRepository, TeacherRepository teacherRepository) : Controller
+    public class HomeController(
+    ILogger<HomeController> logger,
+    MyDbContext context,
+    // Repositories
+    UserRepository userRepository,
+    TeacherRepository teacherRepository,
+    ClassesRepository classesRepository
+    ) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
 
@@ -141,7 +148,8 @@ namespace SchoolSystemTask.Controllers
         }
         public IActionResult Classes()
         {
-            return View();
+            var classes = classesRepository.GetClasses();
+            return View(classes);
         }
         public IActionResult Chat()
         {
@@ -157,7 +165,5 @@ namespace SchoolSystemTask.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-
     }
 }

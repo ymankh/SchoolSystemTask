@@ -77,7 +77,7 @@ namespace SchoolSystemTask.Models
 
         public int SectionId { get; set; }
         public Section Section { get; set; }
-
+        public IQueryable<Subject> Subjects { get; set; }
         public ICollection<Student> Students { get; set; }
         public ICollection<ClassSchedule> ClassSchedules { get; set; }
     }
@@ -91,6 +91,7 @@ namespace SchoolSystemTask.Models
         // Navigation properties
         public ICollection<TeachingAssignment> TeachingAssignments { get; set; }
         public ICollection<Grade> Grades { get; set; }
+        public IQueryable<Class> Classes { get; set; }
     }
 
     // Represents the teaching assignment of a teacher to a class and subject
