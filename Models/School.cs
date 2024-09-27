@@ -18,6 +18,7 @@ namespace SchoolSystemTask.Models
         public required string LastName { get; set; }
         public string? ParentContact { get; set; }
         public string? Address { get; set; }
+
         public DateOnly BirthDate { get; set; }
 
 

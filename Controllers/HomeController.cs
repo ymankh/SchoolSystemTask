@@ -2,22 +2,23 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolSystemTask.Models;
 using SchoolSystemTask.ViewModels;
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using SchoolSystemTask.Models.SchoolManagementSystem.Data;
+using SchoolSystemTask.Helpers;
+using SchoolSystemTask.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolSystemTask.Controllers
 {
-    public class HomeController(ILogger<HomeController> logger, MyDbContext context) : Controller
+    public class HomeController(ILogger<HomeController> logger, MyDbContext context, UserRepository userRepository, TeacherRepository teacherRepository) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
 
+        [Authorize]
         public IActionResult Index()
         {
-            // Authorization 
-            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
-            var user = context.UserTeachers.Find(userId);
-
-            if (user == null)
-                return RedirectToAction(nameof(HomePage));
             var students = context.Students.ToList();
             var data = new HomeViewModel
             {
@@ -38,22 +39,44 @@ namespace SchoolSystemTask.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginPage([FromForm] string email, [FromForm] string password)
+        public async Task<IActionResult> LoginPage([FromForm] string email, [FromForm] string password)
         {
-            var user = context.UserTeachers.FirstOrDefault(u => u.Email == email && u.Password == password);
+            var user = userRepository.GetUserByEmailAndPassword(email, password);
 
-            if (user == null) return View();
-            ViewBag.Message = "Bad credentials";
-            HttpContext.Session.SetString("UserId", user.UserTeacherId.ToString());
+            if (user == null)
+            {
+                ViewBag.Email = email;
+                ViewBag.Message = "Bad credentials";
+                return View();
+            }
+            // Create claims based on user data
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Role, "User") // Assign role to the user claim
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = false // Cookie is not persistent across sessions
+            };
+
+            // Sign in the user and issue the cookie
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties);
+
             return RedirectToAction(nameof(Index));
 
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction(nameof(HomePage));
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("HomePage", "Home");
         }
+
         public IActionResult RegisterPage()
         {
             return View();
@@ -62,28 +85,16 @@ namespace SchoolSystemTask.Controllers
         [HttpPost]
         public IActionResult RegisterPage([FromForm] string firstName, [FromForm] string lastName, [FromForm] string password, [FromForm] string email)
         {
-            var oldUser = context.UserTeachers.FirstOrDefault(u => u.Email == email);
-            if (oldUser != null)
+            // Check if email has a user
+            var oldUser = userRepository.GetUserByEmail(email);
+            if (oldUser == null)
             {
                 ViewBag.Message = "There is already an existing account associated with an existing account.";
                 return View();
             }
 
-            var newTeacher = new Teacher
-            {
-                FirstName = firstName,
-                LastName = lastName
-            };
-            context.Teachers.Add(newTeacher);
-            context.SaveChanges();
-            var newUser = new UserTeacher
-            {
-                Email = email,
-                Password = password,
-                TeacherId = newTeacher.TeacherId
-            };
-            context.UserTeachers.Add(newUser);
-            context.SaveChanges();
+            var newTeacher = teacherRepository.CreateTeacher(firstName, lastName);
+            var newUser = userRepository.Register(newTeacher, email, password, "teacher");
             return Redirect(nameof(LoginPage));
         }
 
@@ -93,13 +104,29 @@ namespace SchoolSystemTask.Controllers
         }
 
         [HttpPost]
-        public IActionResult Students([FromForm] string firstName, [FromForm] string lastName, [FromForm] int classId)
+        public IActionResult Students(
+            [FromForm] string firstName,
+            [FromForm] string lastName,
+            [FromForm] int classId,
+            [FromForm] string parentContact,
+            [FromForm] string address,
+            [FromForm] DateOnly birthDate,
+            [FromForm] string nationalId,
+            [FromForm] string secondName,
+            [FromForm] string thirdName
+        )
         {
             var student = new Student
             {
                 FirstName = firstName,
                 LastName = lastName,
-                ClassId = classId
+                ClassId = classId,
+                ParentContact = parentContact,
+                Address = address,
+                BirthDate = birthDate,
+                NationalId = nationalId,
+                SecondName = secondName,
+                ThirdName = thirdName
             };
             context.Students.Add(student);
             context.SaveChanges();
@@ -130,5 +157,7 @@ namespace SchoolSystemTask.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

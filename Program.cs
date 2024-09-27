@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using SchoolSystemTask.Helpers;
 using SchoolSystemTask.Models.SchoolManagementSystem.Data;
+using SchoolSystemTask.Repositories;
 
 namespace SchoolSystemTask
 {
@@ -24,6 +27,26 @@ namespace SchoolSystemTask
                 options.Cookie.IsEssential = true; // Make the session cookie essential
             });
 
+            // Add authentication using cookies
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/LoginPage";
+                });
+
+            // Add authorization with role policies
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+            });
+
+
+            // Add Repositories
+            builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<TeacherRepository>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -36,6 +59,10 @@ namespace SchoolSystemTask
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // Enable middleware for authentication and authorization
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseRouting();
 

@@ -4,13 +4,8 @@
 
     namespace SchoolManagementSystem.Data
     {
-        public class MyDbContext : DbContext
+        public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
         {
-            public MyDbContext(DbContextOptions<MyDbContext> options)
-                : base(options)
-            {
-            }
-
             // DbSet properties for each model
             public DbSet<Student> Students { get; set; }
             public DbSet<Teacher> Teachers { get; set; }
@@ -30,6 +25,11 @@
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
+
+                modelBuilder.Entity<UserTeacher>()
+                    .HasIndex(u => u.Email)
+                    .IsUnique();
+
                 // Seed Grades
                 modelBuilder.Entity<Grade>().HasData(
                     new Grade { GradeId = 1, GradeName = "5th Grade" },
