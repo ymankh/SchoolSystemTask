@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SchoolSystemTask.Models.SchoolManagementSystem.Data;
 using SchoolSystemTask.Repositories;
 
 namespace SchoolSystemTask.Controllers
 {
-    public class SubjectsController(MyDbContext context) : Controller
+    public class SubjectsController(MyDbContext contextm, ClassesRepository classesRepository) : Controller
     {
         [HttpGet]
         public IActionResult Index()
         {
-            var subjects = ClassesRepository.GetClasses();
+            var subjects = classesRepository.GetClasses();
             return View(subjects);
         }
     }

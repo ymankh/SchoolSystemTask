@@ -1,15 +1,14 @@
-﻿@{
+﻿@using SchoolSystemTask.Controllers.DTOs;
+@{
     ViewData["Title"] = "Classes";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
+@model TeacherClassesDTO;
 
 <div class="container-fluid py-4">
     <h3 class="mb-4">Manage Classes</h3>
     <div>
-        <button class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#examModal"
-                id="add-exam-button">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examModal" id="add-exam-button">
             <i class="fa fa-plus me-1" aria-hidden="true"></i>Add class
         </button>
     </div>
@@ -39,54 +38,49 @@
                     <div class="table-responsive dashboard-table">
                         <table class="table align-items-center mb-0">
                             <thead>
+
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Subject
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Grade
                                     </th>
                                     <th></th>
                                 </tr>
+
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Math</h6>
+                                @foreach (var _class in Model.Classes)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">Math</h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs">6th grade</td>
+                                        </td>
+                                        <td class="text-xs">6th grade</td>
 
-                                    <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Edit"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="javascript:;"
-                                               class="btn btn-link p-1"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#examModal"
-                                               onclick="addDeleteButton()">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Enrolled students"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="students.html" class="btn btn-link p-1">
-                                                <i class="fa-solid fa-clipboard-check"></i>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
+                                        <td class="align-middle">
+                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="Edit" data-container="body" data-animation="true">
+                                                <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                    data-bs-target="#examModal" onclick="addDeleteButton()">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                            </span>
+                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="Enrolled students" data-container="body" data-animation="true">
+                                                <a href="students.html" class="btn btn-link p-1">
+                                                    <i class="fa-solid fa-clipboard-check"></i>
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -192,47 +186,44 @@
 @section Modals
 {
     <!-- Add/Edit Classes Modal -->
-    <div class="modal fade"
-         id="examModal"
-         tabindex="-1"
-         aria-labelledby="examModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="examModalLabel">Add/Edit Exam</h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="examForm">
-                        <!-- Maximum Mark -->
-                        <div class="mb-3">
-                            <label for="className" class="form-label">Mark</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="className"
-                                   name="className"
-                                   placeholder="Enter Class Name"
-                                   required />
+                        @* Class form with, 1- Select grade, 2- Select subject *@
+                        <div class="input-group input-group-static mb-4">
+                            <label for="SubjectInput" class="ms-0">Select Subject</label>
+                            <select class="form-control" name="subjectId" id="SubjectInput">
+                                @foreach (var subject in Model.Subjects)
+                                {
+                                    <option value="@subject.SubjectId">@subject.SubjectName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="input-group input-group-static mb-4">
+                            <label for="GradeInput" class="ms-0">Select Grade</label>
+                            <select class="form-control" name="GradeId" id="gradeInput">
+                                @foreach (var grade in Model.Grades)
+                                {
+                                    <option value="@grade.GradeId">@grade.GradeName</option>
+                                }
+                            </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" form="classForm" class="btn btn-primary">
-                        Save Exam
+                        Class
                     </button>
-                    <button id="delete-exam-button"
-                            type="submit"
-                            form="classForm"
-                            class="btn btn-danger d-none">
+                    <button id="delete-exam-button" type="submit" form="classForm" class="btn btn-danger d-none">
                         Delete
                     </button>
                 </div>
