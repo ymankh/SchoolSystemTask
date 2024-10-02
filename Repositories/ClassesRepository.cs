@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.Controllers.DTOs;
+using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.Models;
 
 namespace SchoolSystemTask.Repositories
@@ -23,6 +24,17 @@ namespace SchoolSystemTask.Repositories
                 Subjects = context.Subjects.ToList(),
                 Grades = context.Grades.ToList()
             };
+        }
+        public Class CreateClass(AddClassDto addClassDto)
+        {
+            var newClass = new Class
+            {
+                GradeId = addClassDto.GradeId,
+                SectionId = addClassDto.SectionId
+            };
+            context.Classes.Add(newClass);
+            context.SaveChanges();
+            return newClass;
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using SchoolSystemTask.Helpers;
 using SchoolSystemTask.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using SchoolSystemTask.DTOs.ClassesDTOs;
 
 namespace SchoolSystemTask.Controllers
 {
@@ -148,6 +149,16 @@ namespace SchoolSystemTask.Controllers
         }
         [Authorize]
         public IActionResult Classes()
+        {
+            var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var user = context.UserTeachers.Find(id);
+            var classes = classesRepository.GetClasses();
+            return View(classes);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Classes(AddClassDto addClassDto)
         {
             var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var user = context.UserTeachers.Find(id);
