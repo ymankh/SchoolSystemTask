@@ -19,6 +19,13 @@ namespace SchoolSystemTask
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Add API controllers support
+            builder.Services.AddControllers();
+
+
+            // Register Swagger services
+            builder.Services.AddSwaggerGen();
+
             // Add session services
             builder.Services.AddSession(options =>
             {
@@ -59,6 +66,16 @@ namespace SchoolSystemTask
             }
 
             app.UseHttpsRedirection();
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
+            // Specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "School System Task API V1");
+                c.RoutePrefix = string.Empty; // This serves Swagger UI at the root (e.g., https://localhost:{port}/)
+            });
             app.UseStaticFiles();
 
             // Enable middleware for authentication and authorization
@@ -75,6 +92,8 @@ namespace SchoolSystemTask
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=HomePage}/{id?}");
+            // Maps API controller routes
+            app.MapControllers();
 
             app.Run();
         }
