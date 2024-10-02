@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.Helpers;
-using SchoolSystemTask.Models.SchoolManagementSystem.Data;
+using SchoolSystemTask.Models;
 using SchoolSystemTask.Repositories;
 
 namespace SchoolSystemTask

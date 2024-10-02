@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SchoolSystemTask.Models.SchoolManagementSystem.Data;
+using SchoolSystemTask.Models;
 using SchoolSystemTask.Repositories;
 
 namespace SchoolSystemTask.Controllers
@@ -9,7 +9,7 @@ namespace SchoolSystemTask.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var subjects = classesRepository.GetClasses();
+            var subjects = classesRepository.GetClasses().Subjects;
             return View(subjects);
         }
     }

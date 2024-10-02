@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using SchoolSystemTask.Models.SchoolManagementSystem.Data;
 using SchoolSystemTask.Helpers;
 using SchoolSystemTask.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -60,6 +59,7 @@ namespace SchoolSystemTask.Controllers
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.NameIdentifier, user.UserTeacherId.ToString()),
                 new(ClaimTypes.Role, "User") // Assign role to the user claim
             };
 
@@ -94,7 +94,7 @@ namespace SchoolSystemTask.Controllers
         {
             // Check if email has a user
             var oldUser = userRepository.GetUserByEmail(email);
-            if (oldUser == null)
+            if (oldUser != null)
             {
                 ViewBag.Message = "There is already an existing account associated with an existing account.";
                 return View();
@@ -146,8 +146,11 @@ namespace SchoolSystemTask.Controllers
         {
             return View();
         }
+        [Authorize]
         public IActionResult Classes()
         {
+            var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var user = context.UserTeachers.Find(id);
             var classes = classesRepository.GetClasses();
             return View(classes);
         }

@@ -1,5 +1,4 @@
 ﻿using SchoolSystemTask.Models;
-using SchoolSystemTask.Models.SchoolManagementSystem.Data;
 
 namespace SchoolSystemTask.Helpers
 {

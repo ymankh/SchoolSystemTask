@@ -1,6 +1,5 @@
 ﻿
 using SchoolSystemTask.Models;
-using SchoolSystemTask.Models.SchoolManagementSystem.Data;
 using SchoolSystemTask.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +16,7 @@ namespace SchoolSystemTask.Repositories
             var hashedPassword = HashHelper.HashPassword(password, salt);
             var user = new UserTeacher
             {
-                TeacherId = teacher.TeacherId,
+                TeacherId = teacher.Id,
                 Email = email,
                 PasswordHash = hashedPassword,
                 Salt = salt,
@@ -35,7 +34,7 @@ namespace SchoolSystemTask.Repositories
             return context.UserTeachers.FirstOrDefault(u => u.Email == email);
         }
 
-        
+
         public UserTeacher? GetUserByEmailAndPassword(string email, string password)
         {
 

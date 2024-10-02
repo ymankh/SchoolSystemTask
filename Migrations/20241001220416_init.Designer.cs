@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SchoolSystemTask.Models.SchoolManagementSystem.Data;
+using SchoolSystemTask.Models;
 
 #nullable disable
 
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240927092311_UpdateUserController")]
-    partial class UpdateUserController
+    [Migration("20241001220416_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,82 +20,10 @@ namespace SchoolSystemTask.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("GradeSubject", b =>
-                {
-                    b.Property<int>("GradeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("GradeId", "SubjectId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("GradeSubject");
-
-                    b.HasData(
-                        new
-                        {
-                            GradeId = 1,
-                            SubjectId = 1
-                        },
-                        new
-                        {
-                            GradeId = 1,
-                            SubjectId = 2
-                        },
-                        new
-                        {
-                            GradeId = 2,
-                            SubjectId = 3
-                        },
-                        new
-                        {
-                            GradeId = 2,
-                            SubjectId = 4
-                        });
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.Assignment", b =>
-                {
-                    b.Property<int>("AssignmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("AssignmentId");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Assignments");
-                });
-
             modelBuilder.Entity("SchoolSystemTask.Models.Class", b =>
                 {
-                    b.Property<int>("ClassId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("EventId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("GradeId")
@@ -104,9 +32,7 @@ namespace SchoolSystemTask.Migrations
                     b.Property<int>("SectionId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ClassId");
-
-                    b.HasIndex("EventId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GradeId");
 
@@ -115,195 +41,224 @@ namespace SchoolSystemTask.Migrations
                     b.ToTable("Classes");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.ClassSchedule", b =>
+            modelBuilder.Entity("SchoolSystemTask.Models.ClassSubject", b =>
                 {
-                    b.Property<int>("ClassScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ClassId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DayOfWeek")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ClassScheduleId");
-
-                    b.HasIndex("ClassId");
+                    b.HasKey("ClassId", "SubjectId");
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("ClassSchedules");
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.Event", b =>
-                {
-                    b.Property<int>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("EventId");
-
-                    b.ToTable("Events");
+                    b.ToTable("ClassSubjects");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Exam", b =>
                 {
-                    b.Property<int>("ExamId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("ExamDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ExamName")
+                    b.Property<string>("ExamType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("TeacherSubjectId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ExamId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("TeacherSubjectId");
 
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Exams");
+                    b.ToTable("Exam");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.ExamMark", b =>
                 {
-                    b.Property<int>("ExamMarkId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ExamId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Mark")
-                        .HasColumnType("REAL");
+                    b.Property<int>("Mark")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ExamMarkId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ExamId");
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("ExamMarks");
+                    b.ToTable("ExamMark");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Grade", b =>
                 {
-                    b.Property<int>("GradeId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("GradeName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("GradeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Grades");
 
                     b.HasData(
                         new
                         {
-                            GradeId = 1,
-                            GradeName = "5th Grade"
+                            Id = 1,
+                            Name = "Grade 1"
                         },
                         new
                         {
-                            GradeId = 2,
-                            GradeName = "6th Grade"
+                            Id = 2,
+                            Name = "Grade 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Grade 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Grade 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Grade 5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Grade 6"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Grade 7"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Grade 8"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Grade 9"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Grade 10"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Grade 11"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Grade 12"
                         });
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.NoteType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NoteTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NoteType");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Section", b =>
                 {
-                    b.Property<int>("SectionId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GradeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SectionName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("SectionId");
-
-                    b.HasIndex("GradeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Sections");
 
                     b.HasData(
                         new
                         {
-                            SectionId = 1,
-                            GradeId = 1,
-                            SectionName = "Section A"
+                            Id = 1,
+                            Name = "A"
                         },
                         new
                         {
-                            SectionId = 2,
-                            GradeId = 1,
-                            SectionName = "Section B"
+                            Id = 2,
+                            Name = "B"
                         },
                         new
                         {
-                            SectionId = 3,
-                            GradeId = 2,
-                            SectionName = "Section A"
+                            Id = 3,
+                            Name = "C"
                         },
                         new
                         {
-                            SectionId = 4,
-                            GradeId = 2,
-                            SectionName = "Section B"
+                            Id = 4,
+                            Name = "D"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "E"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "F"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "G"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "H"
                         });
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Student", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("BirthDate")
+                    b.Property<DateOnly?>("BirthDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ClassId")
@@ -318,119 +273,186 @@ namespace SchoolSystemTask.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NationalId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ParentContact")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SecondName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("StudentDetailsId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ThirdName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("StudentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("StudentDetailsId")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.StudentNote", b =>
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentAbsence", b =>
                 {
-                    b.Property<int>("StudentNoteId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Details")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastUpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
+                    b.Property<DateTime>("Datetime")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("StudentNoteTypeId")
+                    b.Property<int>("TeacherSubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TeacherSubjectId");
+
+                    b.ToTable("StudentAbsence");
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentClass", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("StudentId", "ClassId");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("StudentClasses");
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentDetails");
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentNote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("NoteTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("StudentNoteId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoteTypeId");
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("StudentNoteTypeId");
-
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("StudentNotes");
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.StudentNoteType", b =>
-                {
-                    b.Property<int>("StudentNoteTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("NoteType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("StudentNoteTypeId");
-
-                    b.ToTable("StudentNotesType");
+                    b.ToTable("StudentNote");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Subject", b =>
                 {
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("SubjectName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("SubjectId");
+                    b.HasKey("Id");
 
                     b.ToTable("Subjects");
 
                     b.HasData(
                         new
                         {
-                            SubjectId = 1,
-                            SubjectName = "Mathematics"
+                            Id = 1,
+                            Name = "Mathematics"
                         },
                         new
                         {
-                            SubjectId = 2,
-                            SubjectName = "Science"
+                            Id = 2,
+                            Name = "English"
                         },
                         new
                         {
-                            SubjectId = 3,
-                            SubjectName = "History"
+                            Id = 3,
+                            Name = "Science"
                         },
                         new
                         {
-                            SubjectId = 4,
-                            SubjectName = "English"
+                            Id = 4,
+                            Name = "History"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Geography"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Computer Science"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Physics"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Chemistry"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Biology"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Physical Education"
                         });
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Teacher", b =>
                 {
-                    b.Property<int>("TeacherId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -442,18 +464,21 @@ namespace SchoolSystemTask.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("TeacherId");
+                    b.Property<string>("SecondName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ThirdName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.TeachingAssignment", b =>
+            modelBuilder.Entity("SchoolSystemTask.Models.TeacherSubject", b =>
                 {
-                    b.Property<int>("TeachingAssignmentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SubjectId")
@@ -462,15 +487,13 @@ namespace SchoolSystemTask.Migrations
                     b.Property<int>("TeacherId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("TeachingAssignmentId");
-
-                    b.HasIndex("ClassId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachingAssignments");
+                    b.ToTable("TeacherSubject");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.UserTeacher", b =>
@@ -499,54 +522,15 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasKey("UserTeacherId");
 
-                    b.HasIndex("TeacherId")
-                        .IsUnique();
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("UserTeachers");
                 });
 
-            modelBuilder.Entity("GradeSubject", b =>
-                {
-                    b.HasOne("SchoolSystemTask.Models.Grade", null)
-                        .WithMany()
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolSystemTask.Models.Subject", null)
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.Assignment", b =>
-                {
-                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolSystemTask.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Subject");
-                });
-
             modelBuilder.Entity("SchoolSystemTask.Models.Class", b =>
                 {
-                    b.HasOne("SchoolSystemTask.Models.Event", null)
-                        .WithMany("Classes")
-                        .HasForeignKey("EventId");
-
                     b.HasOne("SchoolSystemTask.Models.Grade", "Grade")
-                        .WithMany()
+                        .WithMany("Classes")
                         .HasForeignKey("GradeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -562,50 +546,34 @@ namespace SchoolSystemTask.Migrations
                     b.Navigation("Section");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.ClassSchedule", b =>
+            modelBuilder.Entity("SchoolSystemTask.Models.ClassSubject", b =>
                 {
                     b.HasOne("SchoolSystemTask.Models.Class", "Class")
-                        .WithMany("ClassSchedules")
+                        .WithMany("ClassSubjects")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SchoolSystemTask.Models.Subject", "Subject")
-                        .WithMany()
+                        .WithMany("ClassSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolSystemTask.Models.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Class");
 
                     b.Navigation("Subject");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Exam", b =>
                 {
-                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
+                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", "TeacherSubject")
+                        .WithMany("Exams")
+                        .HasForeignKey("TeacherSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolSystemTask.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Subject");
+                    b.Navigation("TeacherSubject");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.ExamMark", b =>
@@ -627,17 +595,6 @@ namespace SchoolSystemTask.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.Section", b =>
-                {
-                    b.HasOne("SchoolSystemTask.Models.Grade", "Grade")
-                        .WithMany("Sections")
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grade");
-                });
-
             modelBuilder.Entity("SchoolSystemTask.Models.Student", b =>
                 {
                     b.HasOne("SchoolSystemTask.Models.Class", "Class")
@@ -646,57 +603,95 @@ namespace SchoolSystemTask.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SchoolSystemTask.Models.StudentDetails", "StudentDetails")
+                        .WithOne("Student")
+                        .HasForeignKey("SchoolSystemTask.Models.Student", "StudentDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Class");
+
+                    b.Navigation("StudentDetails");
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentAbsence", b =>
+                {
+                    b.HasOne("SchoolSystemTask.Models.Student", "Student")
+                        .WithMany("StudentAbsences")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", "TeacherSubject")
+                        .WithMany("StudentAbsences")
+                        .HasForeignKey("TeacherSubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("TeacherSubject");
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentClass", b =>
+                {
+                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
+                        .WithMany("StudentClasses")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolSystemTask.Models.Student", "Student")
+                        .WithMany("StudentClasses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.StudentNote", b =>
                 {
+                    b.HasOne("SchoolSystemTask.Models.NoteType", "NoteType")
+                        .WithMany("StudentNotes")
+                        .HasForeignKey("NoteTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SchoolSystemTask.Models.Student", "Student")
                         .WithMany("StudentNotes")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolSystemTask.Models.StudentNoteType", "StudentNoteType")
-                        .WithMany("StudentNotes")
-                        .HasForeignKey("StudentNoteTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SchoolSystemTask.Models.Teacher", "Teacher")
                         .WithMany("StudentNotes")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.Navigation("NoteType");
 
-                    b.Navigation("StudentNoteType");
+                    b.Navigation("Student");
 
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.TeachingAssignment", b =>
+            modelBuilder.Entity("SchoolSystemTask.Models.TeacherSubject", b =>
                 {
-                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SchoolSystemTask.Models.Subject", "Subject")
-                        .WithMany("TeachingAssignments")
+                        .WithMany("TeacherSubjects")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SchoolSystemTask.Models.Teacher", "Teacher")
-                        .WithMany("TeachingAssignments")
+                        .WithMany("TeacherSubjects")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Class");
 
                     b.Navigation("Subject");
 
@@ -706,8 +701,8 @@ namespace SchoolSystemTask.Migrations
             modelBuilder.Entity("SchoolSystemTask.Models.UserTeacher", b =>
                 {
                     b.HasOne("SchoolSystemTask.Models.Teacher", "Teacher")
-                        .WithOne("UserTeacher")
-                        .HasForeignKey("SchoolSystemTask.Models.UserTeacher", "TeacherId")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -716,14 +711,11 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.Class", b =>
                 {
-                    b.Navigation("ClassSchedules");
+                    b.Navigation("ClassSubjects");
+
+                    b.Navigation("StudentClasses");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.Event", b =>
-                {
-                    b.Navigation("Classes");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Exam", b =>
@@ -733,7 +725,12 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.Grade", b =>
                 {
-                    b.Navigation("Sections");
+                    b.Navigation("Classes");
+                });
+
+            modelBuilder.Entity("SchoolSystemTask.Models.NoteType", b =>
+                {
+                    b.Navigation("StudentNotes");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Section", b =>
@@ -745,27 +742,38 @@ namespace SchoolSystemTask.Migrations
                 {
                     b.Navigation("ExamMarks");
 
+                    b.Navigation("StudentAbsences");
+
+                    b.Navigation("StudentClasses");
+
                     b.Navigation("StudentNotes");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.StudentNoteType", b =>
+            modelBuilder.Entity("SchoolSystemTask.Models.StudentDetails", b =>
                 {
-                    b.Navigation("StudentNotes");
+                    b.Navigation("Student")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Subject", b =>
                 {
-                    b.Navigation("TeachingAssignments");
+                    b.Navigation("ClassSubjects");
+
+                    b.Navigation("TeacherSubjects");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Teacher", b =>
                 {
                     b.Navigation("StudentNotes");
 
-                    b.Navigation("TeachingAssignments");
+                    b.Navigation("TeacherSubjects");
+                });
 
-                    b.Navigation("UserTeacher")
-                        .IsRequired();
+            modelBuilder.Entity("SchoolSystemTask.Models.TeacherSubject", b =>
+                {
+                    b.Navigation("Exams");
+
+                    b.Navigation("StudentAbsences");
                 });
 #pragma warning restore 612, 618
         }

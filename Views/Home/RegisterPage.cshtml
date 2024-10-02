@@ -24,6 +24,13 @@
     <link rel="stylesheet"
           href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <link rel="stylesheet" href="/scholar-1.0.0/assets/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.css"
+          integrity="sha512-DIW4FkYTOxjCqRt7oS9BFO+nVOwDL4bzukDyDtMO7crjUZhwpyrWBFroq+IqRe6VnJkTpRAS6nhDvf0w+wHmxg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
+            integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
     <style>
         .sign-in-up {
             --navbar-height: 100px;
@@ -89,13 +96,9 @@
                                 <a href="@Url.Action("HomePage" ,"Home")#contact">Contact Us</a>
                             </li>
                             <li class="scroll-to-section">
-                                <a>
-                                    <button type="button"
-                                            class="btn text-white"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#loginModal">
-                                        Login
-                                    </button>
+                                <a class="btn text-white"
+                                   href="@Url.Action("LoginPage", "Home")">
+                                    Login
                                 </a>
                             </li>
                         </ul>
@@ -185,7 +188,7 @@
                             </button>
                         </div>
                         <div class="text-center text-muted">
-                            have an account? <a href="sign-in.html">Login</a>
+                            have an account? <a href="@Url.Action("LoginPage", "Home")">Login</a>
                         </div>
                     </form>
                 </div>
@@ -202,5 +205,16 @@
     <script src="/scholar-1.0.0/assets/js/owl-carousel.js"></script>
     <script src="/scholar-1.0.0/assets/js/counter.js"></script>
     <script src="/scholar-1.0.0/assets/js/custom.js"></script>
+    <script>
+        let message = "@ViewBag.Message"
+        if (message.length > 0) {
+            iziToast.error({
+                title: 'Error',
+                message: message,
+                position: 'topCenter', // bottomRight,center, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+            });
+        }
+
+    </script>
 </body>
 </html>
