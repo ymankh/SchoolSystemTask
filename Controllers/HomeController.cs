@@ -9,6 +9,7 @@ using SchoolSystemTask.Helpers;
 using SchoolSystemTask.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using SchoolSystemTask.DTOs.ClassesDTOs;
+using SchoolSystemTask.DTOs.StudentsDTOs;
 
 namespace SchoolSystemTask.Controllers
 {
@@ -49,7 +50,6 @@ namespace SchoolSystemTask.Controllers
         public async Task<IActionResult> LoginPage([FromForm] string email, [FromForm] string password)
         {
             var user = userRepository.GetUserByEmailAndPassword(email, password);
-
             if (user == null)
             {
                 ViewBag.Email = email;
@@ -108,33 +108,24 @@ namespace SchoolSystemTask.Controllers
 
         public IActionResult Students()
         {
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Students(
-            [FromForm] string firstName,
-            [FromForm] string lastName,
-            [FromForm] int classId,
-            [FromForm] string parentContact,
-            [FromForm] string address,
-            [FromForm] DateOnly birthDate,
-            [FromForm] string nationalId,
-            [FromForm] string secondName,
-            [FromForm] string thirdName
-        )
+        public IActionResult Students([FromForm] AddStudentDto addStudentDto)
         {
             var student = new Student
             {
-                FirstName = firstName,
-                LastName = lastName,
-                ClassId = classId,
-                ParentContact = parentContact,
-                Address = address,
-                BirthDate = birthDate,
-                NationalId = nationalId,
-                SecondName = secondName,
-                ThirdName = thirdName
+                FirstName = addStudentDto.FirstName,
+                LastName = addStudentDto.LastName,
+                ClassId = addStudentDto.ClassId,
+                ParentContact = addStudentDto.ParentContact,
+                Address = addStudentDto.Address,
+                BirthDate = addStudentDto.BirthDate,
+                NationalId = addStudentDto.NationalId,
+                SecondName = addStudentDto.SecondName,
+                ThirdName = addStudentDto.ThirdName
             };
             context.Students.Add(student);
             context.SaveChanges();
@@ -150,18 +141,17 @@ namespace SchoolSystemTask.Controllers
         [Authorize]
         public IActionResult Classes()
         {
-            var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var user = context.UserTeachers.Find(id);
+            var user = GetUser();
             var classes = classesRepository.GetClasses();
             return View(classes);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Classes(AddClassDto addClassDto)
+        public IActionResult Classes([FromForm] AddClassDto addClassDto)
         {
-            var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var user = context.UserTeachers.Find(id);
+            var newClass = classesRepository.CreateClass(addClassDto);
+            var user = GetUser();
             var classes = classesRepository.GetClasses();
             return View(classes);
         }
@@ -178,6 +168,13 @@ namespace SchoolSystemTask.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        // Only use after authentication
+        private UserTeacher? GetUser()
+        {
+            var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var user = context.UserTeachers.Find(id);
+            return user;
         }
     }
 }

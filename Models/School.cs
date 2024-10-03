@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolSystemTask.Models
 {
@@ -126,10 +127,10 @@ namespace SchoolSystemTask.Models
     {
         public int ClassId { get; set; } // Composite Primary Key
         public Class Class { get; set; } // Navigation Property
-        
+
         [ForeignKey("TeacherSubject")]
         public int TeacherSubjectId { get; set; } // Composite Primary Key
-        public Subject TeacherSubject { get; set; } // Navigation Property
+        public TeacherSubject TeacherSubject { get; set; } // Navigation Property
     }
 
     public class Grade
@@ -180,7 +181,8 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        public string Name { get; set; } // Not Null
+        [MaxLength(255)]
+        public required string Name { get; set; } // Not Null
 
         public ICollection<Class> Classes { get; set; }
     }

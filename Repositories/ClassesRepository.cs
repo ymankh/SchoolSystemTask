@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SchoolSystemTask.Controllers.DTOs;
 using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.Models;
 
@@ -7,26 +6,38 @@ namespace SchoolSystemTask.Repositories
 {
     public class ClassesRepository(MyDbContext context)
     {
-        public TeacherClassesDTO GetClasses()
+        public TeacherClassesDto GetClasses()
         {
-            return new TeacherClassesDTO
+            return new TeacherClassesDto
             {
                 Classes = context.Classes.Include(c => c.ClassSubjects).ToList(),
                 Subjects = context.Subjects.ToList(),
-                Grades = context.Grades.ToList()
+                Grades = context.Grades.ToList(),
+                Sections = context.Sections.ToList()
+
             };
         }
-        public TeacherClassesDTO GetClasses(int TeacherId)
+        public TeacherClassesDto GetClasses(int teacherId)
         {
-            return new TeacherClassesDTO
+            return new TeacherClassesDto
             {
-                Classes = context.Classes.Include(c => c.ClassSubjects).ThenInclude(c => c.TeacherSubject).Where(c => c.ClassSubjects.Any(cs => cs.TeacherSubjectId == TeacherId)).ToList(),
+                Classes = context.Classes.
+                    Include(c => c.ClassSubjects).
+                    ThenInclude(c => c.TeacherSubject).
+                    Where(c => c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).
+                    ToList(),
                 Subjects = context.Subjects.ToList(),
                 Grades = context.Grades.ToList()
             };
         }
         public Class CreateClass(AddClassDto addClassDto)
         {
+            var oldClass = context.Classes.FirstOrDefault(
+                c => c.GradeId == addClassDto.GradeId && c.SectionId == addClassDto.SectionId);
+            if (oldClass != null)
+            {
+                return oldClass;
+            }
             var newClass = new Class
             {
                 GradeId = addClassDto.GradeId,

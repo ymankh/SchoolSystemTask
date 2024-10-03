@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
     ViewData["Thin"] = "Students";
 }
+@model IEnumerable<Student>;
 <div class="container-fluid py-4">
     <h3 class="mb-4">Manage Students</h3>
     <div>
@@ -95,125 +96,59 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="../assets/new/profile-user.svg"
-                                                     class="avatar avatar-sm me-3"
-                                                     alt="Ahmad Abdul-Mahdi" />
+                                @foreach (var student in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="../assets/new/profile-user.svg"
+                                                         class="avatar avatar-sm me-3"
+                                                         alt="@student.FirstName @student.LastName" />
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@student.FirstName @student.LastName</h6>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Ahmad Abdul-Mahdi</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Math</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> 14 </span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add note"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="javascript:;"
-                                               class="btn btn-link add-note-btn"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#AddNoteModal">
-                                                <i class="fa-solid fa-notes-medical ms-1"></i>
-                                            </a>
-                                        </span>
-                                        <div class="form-check d-none absence-checkbox">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value="1"
-                                                   checked=""
-                                                   name="Absences" />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="../assets/new/profile-user.svg"
-                                                     class="avatar avatar-sm me-3"
-                                                     alt="Ahmad Abdul-Mahdi" />
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Ahmad Abdul-Mahdi</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Math</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> 14 </span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add note"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <button class="btn btn-link btn-link add-note-btn"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#AddNoteModal">
-                                                <i class="fa-solid fa-notes-medical ms-1"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-check d-none absence-checkbox">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value="1"
-                                                   checked=""
-                                                   name="Absences" />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="../assets/new/profile-user.svg"
-                                                     class="avatar avatar-sm me-3"
-                                                     alt="Ahmad Abdul-Mahdi" />
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Ahmad Abdul-Mahdi</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Math</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> 14 </span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add note"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <button class="btn btn-link btn-link add-note-btn"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#AddNoteModal">
-                                                <i class="fa-solid fa-notes-medical ms-1"></i>
-                                            </button>
-                                        </span>
+                                        </td>
+                                        <td>
+                                            @foreach (var classSubject in @student.Class.ClassSubjects)
+                                            {
+                                                <span>
+                                                    @classSubject.TeacherSubject.Subject
+                                                </span>
+                                            }
+                                        </td>
 
-                                        <div class="form-check d-none absence-checkbox">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value="1"
-                                                   checked=""
-                                                   name="Absences" />
-                                        </div>
-                                    </td>
-                                </tr>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 14 </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class="d-inline-block"
+                                                  data-bs-toggle="tooltip"
+                                                  data-bs-placement="top"
+                                                  title="Add note"
+                                                  data-container="body"
+                                                  data-animation="true">
+                                                <a href="javascript:;"
+                                                   class="btn btn-link add-note-btn"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#AddNoteModal">
+                                                    <i class="fa-solid fa-notes-medical ms-1"></i>
+                                                </a>
+                                            </span>
+                                            <div class="form-check d-none absence-checkbox">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       value="1"
+                                                       checked=""
+                                                       name="Absences" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+
                                 <!-- Repeat for other students -->
                             </tbody>
                         </table>

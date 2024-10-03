@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SchoolSystemTask.Models;
 
-namespace SchoolSystemTask.Controllers.DTOs
+namespace SchoolSystemTask.DTOs.ClassesDTOs
 {
-    public class TeacherClassesDTO
+    public class TeacherClassesDto
     {
         public IEnumerable<Class> Classes { get; set; }
         public IEnumerable<Subject> Subjects { get; set; }
         public IEnumerable<Grade> Grades { get; set; }
+        public IEnumerable<Section> Sections { get; set; }
     }
 }
