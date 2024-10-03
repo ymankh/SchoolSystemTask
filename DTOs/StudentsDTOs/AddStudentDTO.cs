@@ -2,8 +2,7 @@
 {
     public class AddStudentDto
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public int ClassId { get; set; }
         public string ParentContact { get; set; }
         public string Address { get; set; }

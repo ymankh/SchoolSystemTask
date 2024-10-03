@@ -116,20 +116,7 @@ namespace SchoolSystemTask.Controllers
         [HttpPost]
         public IActionResult Students([FromForm] AddStudentDto addStudentDto)
         {
-            var student = new Student
-            {
-                FirstName = addStudentDto.FirstName,
-                LastName = addStudentDto.LastName,
-                ClassId = addStudentDto.ClassId,
-                ParentContact = addStudentDto.ParentContact,
-                Address = addStudentDto.Address,
-                BirthDate = addStudentDto.BirthDate,
-                NationalId = addStudentDto.NationalId,
-                SecondName = addStudentDto.SecondName,
-                ThirdName = addStudentDto.ThirdName
-            };
-            context.Students.Add(student);
-            context.SaveChanges();
+            
             ViewBag.Message = "Student has been added successfully";
 
             return Redirect(nameof(Students));
