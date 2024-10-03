@@ -19,7 +19,8 @@ namespace SchoolSystemTask.Controllers
     // Repositories
     UserRepository userRepository,
     TeacherRepository teacherRepository,
-    ClassesRepository classesRepository
+    ClassesRepository classesRepository,
+    StudentsRepository studentsRepository
     ) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
@@ -108,8 +109,8 @@ namespace SchoolSystemTask.Controllers
 
         public IActionResult Students()
         {
-
-            return View();
+            var students = studentsRepository.All();
+            return View(students);
         }
 
         [HttpPost]
@@ -131,7 +132,7 @@ namespace SchoolSystemTask.Controllers
             context.SaveChanges();
             ViewBag.Message = "Student has been added successfully";
 
-            return View();
+            return Redirect(nameof(Students));
         }
 
         public IActionResult Exams()
