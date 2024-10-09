@@ -29,10 +29,10 @@ namespace SchoolSystemTask.Repositories
                 Grades = context.Grades.ToList()
             };
         }
-        public Class CreateClass(AddClassDto addClassDto)
+        public Class CreateClass(AddClassDto addClassDto, int teacherId)
         {
             var oldClass = context.Classes.FirstOrDefault(
-                c => c.GradeId == addClassDto.GradeId && c.SectionId == addClassDto.SectionId);
+                c => c.GradeId == addClassDto.GradeId && c.SectionId == addClassDto.SectionId && c.TeacherId == teacherId);
             if (oldClass != null)
             {
                 return oldClass;
@@ -40,7 +40,8 @@ namespace SchoolSystemTask.Repositories
             var newClass = new Class
             {
                 GradeId = addClassDto.GradeId,
-                SectionId = addClassDto.SectionId
+                SectionId = addClassDto.SectionId,
+                TeacherId = teacherId
             };
             context.Classes.Add(newClass);
             context.SaveChanges();

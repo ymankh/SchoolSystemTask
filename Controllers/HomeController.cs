@@ -159,8 +159,8 @@ namespace SchoolSystemTask.Controllers
         [HttpPost]
         public IActionResult Classes([FromForm] AddClassDto addClassDto)
         {
-            var newClass = classesRepository.CreateClass(addClassDto);
             var user = GetUser();
+            var newClass = classesRepository.CreateClass(addClassDto, user!.TeacherId);
             var classes = classesRepository.GetClasses();
             return View(classes);
         }
