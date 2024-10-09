@@ -1,9 +1,10 @@
-﻿@{
+﻿@using SchoolSystemTask.ViewModels
+@{
     ViewData["Title"] = "Students";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
     ViewData["Thin"] = "Students";
 }
-@model IEnumerable<Student>;
+@model StudentsViewModel;
 <div class="container-fluid py-4">
     <h3 class="mb-4">Manage Students</h3>
     <div>
@@ -39,20 +40,13 @@
                             <div class="input-group input-group-outline my-3">
                                 <select class="form-control" required>
                                     <option disabled selected>Select Class</option>
+                                    @foreach (var _class in Model.Classes)
+                                    {
+                                        <option>@_class.Grade.Name, @_class.Section.Name</option>
+                                    }
 
-                                    <optgroup label="6th Grade">
-                                        <option value="Class 1">Math</option>
-                                        <option value="Class 1">Science</option>
-                                    </optgroup>
-                                    <optgroup label="7th Grade">
-                                        <option value="Class 2">Science</option>
-                                        <option value="Class 2">English</option>
-                                    </optgroup>
-
-                                    <optgroup label="8th Grade">
-                                        <option value="Class 3">Math</option>
-                                    </optgroup>
                                 </select>
+
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center"
@@ -96,13 +90,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var student in Model)
+                                @foreach (var student in Model.Students)
                                 {
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="../assets/new/profile-user.svg"
+                                                    <img src="/assets/new/profile-user.svg"
                                                          class="avatar avatar-sm me-3"
                                                          alt="@student.FirstName @student.LastName" />
                                                 </div>
@@ -115,13 +109,13 @@
                                             @foreach (var classSubject in @student.Class.ClassSubjects)
                                             {
                                                 <span>
-                                                    @classSubject.TeacherSubject.Subject
+                                                    @classSubject.TeacherSubject.Subject.Name
                                                 </span>
                                             }
                                         </td>
 
                                         <td class="align-middle text-center text-sm">
-                                            <span class="text-xs font-weight-bold"> 14 </span>
+                                            <span class="text-xs font-weight-bold"> @student.StudentAbsences.Count </span>
                                         </td>
                                         <td class="align-middle">
                                             <span class="d-inline-block"
@@ -291,7 +285,7 @@
                 <div class="modal-body">
                     <form>
                         <div class="input-group input-group-outline my-3">
-                            <select class="form-control" required>
+                            <select class="form-control" required name="FullName">
                                 <option disabled selected>Note Type</option>
                                 <option value="Positive Action">Positive Action</option>
                                 <option value="Bad Behavior">Bad Behavior</option>
@@ -339,13 +333,13 @@
                             <div class="col-md-6">
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label">Student Full Name</label>
-                                    <input type="text" class="form-control" required />
+                                    <input type="text" class="form-control" required name="FullName" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label">National ID</label>
-                                    <input type="text" class="form-control" required />
+                                    <input type="text" class="form-control" required name="NationalId" />
                                 </div>
                             </div>
                         </div>
@@ -353,28 +347,19 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-outline my-3">
-                                    <select class="form-control" required>
+                                    <select class="form-control" required name="classId">
                                         <option disabled selected>Select Class</option>
-
-                                        <optgroup label="6th Grade">
-                                            <option value="Class 1">Math</option>
-                                            <option value="Class 1">Science</option>
-                                        </optgroup>
-                                        <optgroup label="7th Grade">
-                                            <option value="Class 2">Science</option>
-                                            <option value="Class 2">English</option>
-                                        </optgroup>
-
-                                        <optgroup label="8th Grade">
-                                            <option value="Class 3">Math</option>
-                                        </optgroup>
+                                        @foreach (var _class in Model.Classes)
+                                        {
+                                            <option value="@_class.Id">@_class.Grade.Name, @_class.Section.Name</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group input-group-static my-3">
                                     <label>Date of Birth</label>
-                                    <input type="date" class="form-control" required />
+                                    <input type="date" class="form-control" required name="BirthDate" />
                                 </div>
                             </div>
                         </div>
@@ -382,13 +367,22 @@
                             <div class="col-md-6">
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label">Parent Contact</label>
-                                    <input type="tel" class="form-control" required />
+                                    <input type="tel" class="form-control" required name="ParentContact" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" required />
+                                    <input type="text" class="form-control" required name="Address" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="input-group input-group-outline my-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" required name="Email" />
                                 </div>
                             </div>
                         </div>
@@ -402,6 +396,7 @@
 
 @section Scripts {
     <script>
+        // This script for taking attendance.
         const takeAttendanceButton = document.getElementById(
             "take-attendance-button"
         );

@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="card-footer p-3">
-                    <p class="mb-0">students in all classes</p>
+                    <p class="mb-0">students in all class</p>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="assets/new/profile-user.svg"
+                                                    <img src="/assets/new/profile-user.svg"
                                                          class="avatar avatar-sm me-3"
                                                          alt="Ahmad Abdul-Mahdi" />
                                                 </div>
@@ -134,9 +134,14 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>Math</td>
+                                        <td>
+                                            @foreach (var subject in student.Class.ClassSubjects)
+                                            {
+                                                <span>@subject.Class.Grade.Name, @subject.Class.Section.Name </span>
+                                            }
+                                        </td>
                                         <td class="align-middle text-center text-sm">
-                                            <span class="text-xs font-weight-bold"> 14 </span>
+                                            <span class="text-xs font-weight-bold"> @student.StudentAbsences.Count </span>
                                         </td>
                                         <td class="align-middle">
                                             <div class="progress-wrapper w-75 mx-auto">

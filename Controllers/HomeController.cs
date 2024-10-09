@@ -10,6 +10,7 @@ using SchoolSystemTask.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.DTOs.StudentsDTOs;
+using SchoolSystemTask.DTOs.ExamDTOs;
 
 namespace SchoolSystemTask.Controllers
 {
@@ -28,10 +29,10 @@ namespace SchoolSystemTask.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            var students = context.Students.ToList();
+            var students = studentsRepository.All();
             var data = new HomeViewModel
             {
-                Students = students
+                Students = students,
             };
             return View(data);
         }
@@ -109,14 +110,19 @@ namespace SchoolSystemTask.Controllers
 
         public IActionResult Students()
         {
+            var data = new StudentsViewModel
+            {
+                Students = studentsRepository.All(),
+                Classes = classesRepository.GetClasses().Classes
+            };
             var students = studentsRepository.All();
-            return View(students);
+            return View(data);
         }
 
         [HttpPost]
         public IActionResult Students([FromForm] AddStudentDto addStudentDto)
         {
-            
+            studentsRepository.Add(addStudentDto);
             ViewBag.Message = "Student has been added successfully";
 
             return Redirect(nameof(Students));
@@ -124,6 +130,15 @@ namespace SchoolSystemTask.Controllers
 
         public IActionResult Exams()
         {
+            
+            return View();
+        }
+
+        // For Adding an Exam 
+        [HttpPost]
+        public IActionResult Exams([FromForm] CreateExamDto createExamDto)
+        {
+
             return View();
         }
         [Authorize]

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolSystemTask.Models;
 
@@ -10,9 +11,11 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241003201643_updateStudentDetailes")]
+    partial class updateStudentDetailes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -64,39 +67,18 @@ namespace SchoolSystemTask.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Detailes")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<TimeSpan>("ExamDuration")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("ExamStartDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ExamType")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsVisible")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("MarkPublished")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TeacherSubjectId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("TeacherSubjectId");
 
-                    b.ToTable("Exams");
+                    b.ToTable("Exam");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.ExamMark", b =>
@@ -595,19 +577,11 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.Exam", b =>
                 {
-                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
-                        .WithMany("Exams")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SchoolSystemTask.Models.TeacherSubject", "TeacherSubject")
                         .WithMany("Exams")
                         .HasForeignKey("TeacherSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Class");
 
                     b.Navigation("TeacherSubject");
                 });
@@ -751,8 +725,6 @@ namespace SchoolSystemTask.Migrations
             modelBuilder.Entity("SchoolSystemTask.Models.Class", b =>
                 {
                     b.Navigation("ClassSubjects");
-
-                    b.Navigation("Exams");
 
                     b.Navigation("StudentClasses");
 

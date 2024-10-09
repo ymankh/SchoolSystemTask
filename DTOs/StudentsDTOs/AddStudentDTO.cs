@@ -8,7 +8,6 @@
         public string Address { get; set; }
         public DateOnly BirthDate { get; set; }
         public string NationalId { get; set; }
-        public string SecondName { get; set; }
-        public string ThirdName { get; set; }
+
     }
 }

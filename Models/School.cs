@@ -20,7 +20,6 @@ namespace SchoolSystemTask.Models
         public int ClassId { get; set; } // Foreign Key
         public Class Class { get; set; } // Navigation Property
 
-        public int StudentDetailsId { get; set; } // Foreign Key
         public StudentDetails StudentDetails { get; set; } // Navigation Property
 
         public ICollection<StudentAbsence> StudentAbsences { get; set; }
@@ -33,6 +32,7 @@ namespace SchoolSystemTask.Models
         public int Id { get; set; } // Primary Key
 
         public int GradeId { get; set; } // Foreign Key
+
         public Grade Grade { get; set; } // Navigation Property
 
         public int SectionId { get; set; } // Foreign Key
@@ -41,6 +41,7 @@ namespace SchoolSystemTask.Models
         public ICollection<Student> Students { get; set; }
         public ICollection<ClassSubject> ClassSubjects { get; set; }
         public ICollection<StudentClass> StudentClasses { get; set; }
+        public ICollection<Exam> Exams { get; set; }
     }
     public class StudentClass
     {
@@ -100,7 +101,19 @@ namespace SchoolSystemTask.Models
         public int Id { get; set; } // Primary Key
 
         public int TeacherSubjectId { get; set; } // Foreign Key
+        [ForeignKey("Class")]
+        public int ClassId { get; set; } // Foreign Key
+        public Class Class { get; set; } // Navigation Property
         public TeacherSubject TeacherSubject { get; set; } // Navigation Property
+
+        public DateTime ExamStartDate { get; set; }
+        public string Detailes { get; set; } // Exam details (Material and other things)
+
+        // Exam duration
+        public TimeSpan ExamDuration { get; set; }
+        public bool IsVisible { get; set; } // Wither the student can see the exam or not
+
+        public bool MarkPublished { get; set; }
 
         public string ExamType { get; set; } // Not Null
 
@@ -157,6 +170,9 @@ namespace SchoolSystemTask.Models
     public class StudentDetails
     {
         public int Id { get; set; } // Primary Key
+
+        [ForeignKey("Student")]
+        public int StudentId { get; set; }
 
         public string Email { get; set; } // Not Null
 
