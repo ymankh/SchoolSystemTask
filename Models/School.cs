@@ -34,6 +34,11 @@ namespace SchoolSystemTask.Models
 
         public int GradeId { get; set; } // Foreign Key
 
+        [ForeignKey("Teacher")]
+        public int TeacherId { get; set; }
+
+        public Teacher Teacher { get; set; }
+
         public Grade Grade { get; set; } // Navigation Property
 
         public int SectionId { get; set; } // Foreign Key
@@ -170,6 +175,8 @@ namespace SchoolSystemTask.Models
         public string? ThirdName { get; set; } // Not Null
         public string LastName { get; set; } // Not Null
 
+
+        public ICollection<Class> Classes { get; set; }
         public ICollection<TeacherSubject> TeacherSubjects { get; set; }
         public ICollection<StudentNote> StudentNotes { get; set; }
     }
