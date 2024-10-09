@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 
 namespace SchoolSystemTask.Models
 {
-
     public class Student
     {
         public int Id { get; set; } // Primary Key
@@ -26,7 +25,6 @@ namespace SchoolSystemTask.Models
         public ICollection<StudentAbsence> StudentAbsences { get; set; }
         public ICollection<ExamMark> ExamMarks { get; set; }
         public ICollection<StudentNote> StudentNotes { get; set; }
-        public ICollection<StudentClass> StudentClasses { get; set; }
     }
     public class Class
     {
@@ -117,12 +115,14 @@ namespace SchoolSystemTask.Models
         public Class Class { get; set; } // Navigation Property
         public TeacherSubject TeacherSubject { get; set; } // Navigation Property
 
+        public int MaxMark { get; set; }
+
         public DateTime ExamStartDate { get; set; }
-        public string Detailes { get; set; } // Exam details (Material and other things)
+        public string Details { get; set; } // Exam details (Material and other things)
 
         // Exam duration
         public TimeSpan ExamDuration { get; set; }
-        public bool IsVisible { get; set; } // Wither the student can see the exam or not
+        public bool IsVisible { get; set; } // Either the student can see the exam or not
 
         public bool MarkPublished { get; set; }
 
@@ -180,6 +180,7 @@ namespace SchoolSystemTask.Models
         public ICollection<TeacherSubject> TeacherSubjects { get; set; }
         public ICollection<StudentNote> StudentNotes { get; set; }
     }
+
     public class StudentDetails
     {
         public int Id { get; set; } // Primary Key

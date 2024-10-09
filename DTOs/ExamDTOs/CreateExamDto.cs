@@ -7,13 +7,13 @@ namespace SchoolSystemTask.DTOs.ExamDTOs
 {
     public class CreateExamDto
     {
-        public int Id { get; set; } // Primary Key
 
         public int TeacherSubjectId { get; set; } // Foreign Key
         public int ClassId { get; set; } // Foreign Key
 
         public DateTime ExamStartDate { get; set; }
         public string Detailes { get; set; } // Exam details (Material and other things)
+        public int MaxMark { get; set; }
 
         // Exam duration
         public TimeSpan ExamDuration { get; set; }

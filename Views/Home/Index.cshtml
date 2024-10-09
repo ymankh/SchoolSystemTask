@@ -135,9 +135,16 @@
                                             </div>
                                         </td>
                                         <td>
-                                            @foreach (var subject in student.Class.ClassSubjects)
+                                            @if (student.Class.ClassSubjects.Any())
                                             {
-                                                <span>@subject.Class.Grade.Name, @subject.Class.Section.Name </span>
+                                                foreach (var subject in student.Class.ClassSubjects)
+                                                {
+                                                    <span>@subject.TeacherSubject.Subject.Name </span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>no subjects</span>
                                             }
                                         </td>
                                         <td class="align-middle text-center text-sm">

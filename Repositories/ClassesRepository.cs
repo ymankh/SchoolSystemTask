@@ -23,9 +23,10 @@ namespace SchoolSystemTask.Repositories
                 Classes = context.Classes.
                     Include(c => c.ClassSubjects).
                     ThenInclude(c => c.TeacherSubject).
-                    Where(c => c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).
+                    Where(c => c.TeacherId == teacherId || c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).
                     ToList(),
                 Subjects = context.Subjects.ToList(),
+                Sections = context.Sections.ToList(),
                 Grades = context.Grades.ToList()
             };
         }
@@ -46,6 +47,40 @@ namespace SchoolSystemTask.Repositories
             context.Classes.Add(newClass);
             context.SaveChanges();
             return newClass;
+        }
+
+        public TeacherClassesDto CreateSubject(AddSubjectToClassDto addSubjectDto, int teacherId)
+        {
+            var oldClassSubject =
+                context.ClassSubjects.FirstOrDefault(cs => cs.TeacherSubject.SubjectId == addSubjectDto.SubjectId);
+            if (oldClassSubject != null)
+                return GetClasses(teacherId);
+
+            // Get or create teacher subject
+            var teacherSubject = context.TeacherSubjects.FirstOrDefault(ts => ts.SubjectId == addSubjectDto.SubjectId && ts.TeacherId == teacherId);
+            if (teacherSubject == null)
+            {
+                teacherSubject = new TeacherSubject
+                {
+                    SubjectId = addSubjectDto.SubjectId,
+                    TeacherId = teacherId
+                };
+                context.TeacherSubjects.Add(teacherSubject);
+                context.SaveChanges();
+            }
+            var classSubject = new ClassSubject
+            {
+                ClassId = addSubjectDto.ClassId,
+                TeacherSubjectId = teacherSubject.Id
+            };
+            context.ClassSubjects.Add(classSubject);
+            context.SaveChanges();
+            return GetClasses(teacherId);
+        }
+
+        public List<ClassSubject> GetClassSubjects(int id)
+        {
+            return context.ClassSubjects.Where(cs => cs.ClassId == id).ToList();
         }
     }
 }

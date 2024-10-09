@@ -13,6 +13,7 @@ namespace SchoolSystemTask.Models
         public DbSet<StudentClass> StudentClasses { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<ClassSubject> ClassSubjects { get; set; }
+        public DbSet<TeacherSubject> TeacherSubjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<UserTeacher> UserTeachers { get; set; }
 

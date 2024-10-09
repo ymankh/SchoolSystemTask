@@ -11,7 +11,7 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241009112405_init")]
+    [Migration("20241009155244_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -525,7 +525,7 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeacherSubject");
+                    b.ToTable("TeacherSubjects");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.UserTeacher", b =>

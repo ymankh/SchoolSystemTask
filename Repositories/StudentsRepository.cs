@@ -8,12 +8,15 @@ namespace SchoolSystemTask.Repositories
     {
         public IEnumerable<Student> All()
         {
-            return context.Students
-                .Include(s => s.StudentAbsences)
-                .Include(s => s.Class).
+            return context.Students.
+                Include(s => s.StudentAbsences).
+                Include(s => s.Class).
                 ThenInclude(c => c.ClassSubjects).
                 ThenInclude(cs => cs.TeacherSubject).
-                ThenInclude(ts => ts.Subject).ToList();
+                ThenInclude(ts => ts.Subject).
+                Include(s => s.Class).
+                ThenInclude(c => c.Section).
+                ToList();
 
         }
 

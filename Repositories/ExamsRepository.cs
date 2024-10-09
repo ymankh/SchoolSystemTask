@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SchoolSystemTask.DTOs.ExamDTOs;
 using SchoolSystemTask.Models;
 
 namespace SchoolSystemTask.Repositories
@@ -18,6 +19,14 @@ namespace SchoolSystemTask.Repositories
         }
 
 
+        public void AddExam(CreateExamDto createExamDto)
+        {
+            var exam = new Exam()
+            {
 
+            };
+            context.Exams.Add(exam);
+            context.SaveChanges();
+        }
     }
 }

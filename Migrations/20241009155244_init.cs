@@ -115,7 +115,7 @@ namespace SchoolSystemTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeacherSubject",
+                name: "TeacherSubjects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -125,15 +125,15 @@ namespace SchoolSystemTask.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherSubject", x => x.Id);
+                    table.PrimaryKey("PK_TeacherSubjects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeacherSubject_Subjects_SubjectId",
+                        name: "FK_TeacherSubjects_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeacherSubject_Teachers_TeacherId",
+                        name: "FK_TeacherSubjects_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
@@ -213,9 +213,9 @@ namespace SchoolSystemTask.Migrations
                         principalTable: "Subjects",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ClassSubjects_TeacherSubject_TeacherSubjectId",
+                        name: "FK_ClassSubjects_TeacherSubjects_TeacherSubjectId",
                         column: x => x.TeacherSubjectId,
-                        principalTable: "TeacherSubject",
+                        principalTable: "TeacherSubjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -245,9 +245,9 @@ namespace SchoolSystemTask.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Exams_TeacherSubject_TeacherSubjectId",
+                        name: "FK_Exams_TeacherSubjects_TeacherSubjectId",
                         column: x => x.TeacherSubjectId,
-                        principalTable: "TeacherSubject",
+                        principalTable: "TeacherSubjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -272,9 +272,9 @@ namespace SchoolSystemTask.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentAbsence_TeacherSubject_TeacherSubjectId",
+                        name: "FK_StudentAbsence_TeacherSubjects_TeacherSubjectId",
                         column: x => x.TeacherSubjectId,
-                        principalTable: "TeacherSubject",
+                        principalTable: "TeacherSubjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -522,13 +522,13 @@ namespace SchoolSystemTask.Migrations
                 column: "ClassId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherSubject_SubjectId",
-                table: "TeacherSubject",
+                name: "IX_TeacherSubjects_SubjectId",
+                table: "TeacherSubjects",
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherSubject_TeacherId",
-                table: "TeacherSubject",
+                name: "IX_TeacherSubjects_TeacherId",
+                table: "TeacherSubjects",
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
@@ -571,7 +571,7 @@ namespace SchoolSystemTask.Migrations
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "TeacherSubject");
+                name: "TeacherSubjects");
 
             migrationBuilder.DropTable(
                 name: "Classes");

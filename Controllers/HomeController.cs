@@ -134,24 +134,25 @@ namespace SchoolSystemTask.Controllers
             var user = GetUser();
             var data = new ExamViewModel
             {
-                Classes = classesRepository.GetClasses(user.TeacherId),
-                Exams = examsRepository.TeacherExams(user.TeacherId)
+                Classes = classesRepository.GetClasses(user!.TeacherId),
+                Exams = examsRepository.TeacherExams(user!.TeacherId)
             };
-            return View();
+            return View(data);
         }
 
         // For Adding an Exam 
         [HttpPost]
         public IActionResult Exams([FromForm] CreateExamDto createExamDto)
         {
-
+            examsRepository.AddExam(createExamDto);
             return Redirect(nameof(Exam));
         }
         [Authorize]
         public IActionResult Classes()
         {
             var user = GetUser();
-            var classes = classesRepository.GetClasses();
+            var classes = classesRepository.GetClasses(user!.TeacherId);
+
             return View(classes);
         }
 
@@ -160,9 +161,18 @@ namespace SchoolSystemTask.Controllers
         public IActionResult Classes([FromForm] AddClassDto addClassDto)
         {
             var user = GetUser();
-            var newClass = classesRepository.CreateClass(addClassDto, user!.TeacherId);
+            classesRepository.CreateClass(addClassDto, user!.TeacherId);
+            return Classes();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddSubject([FromForm] AddSubjectToClassDto addSubjectDto)
+        {
+            var user = GetUser();
+            var newSubject = classesRepository.CreateSubject(addSubjectDto, user!.TeacherId);
             var classes = classesRepository.GetClasses();
-            return View(classes);
+            return Redirect(nameof(Classes));
         }
         public IActionResult Chat()
         {

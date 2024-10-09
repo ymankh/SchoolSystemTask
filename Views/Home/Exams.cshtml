@@ -21,7 +21,6 @@
                     <div class="row">
                         <div class="col-lg-6 col-7">
                             <h6>Exams</h6>
-                            using SchoolSystemTask.ViewModels;
                             <p class="text-sm mb-0">
                                 <i class="fa fa-multiply text-danger" aria-hidden="true"></i>
                                 <span class="font-weight-bold ms-1">2 Has not been marked yet.</span>
@@ -65,176 +64,62 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">First Exam</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs">6th grade Math</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs"> 11/6/2024 </span>
-                                    </td>
-                                    <td class="text-xs text-center">30</td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                   checked disabled />
-                                        </div>
-                                    </td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value checked
-                                                   id="fcustomCheck1" disabled />
-                                        </div>
-                                    </td>
+                                @if (Model.Exams.Any())
+                                {
+                                    @foreach (var exam in Model.Exams)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">First Exam</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-xs">6th grade Math</td>
+                                            <td class="align-middle text-center text-sm">
+                                                <span class="text-xs"> 11/6/2024 </span>
+                                            </td>
+                                            <td class="text-xs text-center">30</td>
+                                            <td class="text-xs text-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                           checked disabled />
+                                                </div>
+                                            </td>
+                                            <td class="text-xs text-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value checked
+                                                           id="fcustomCheck1" disabled />
+                                                </div>
+                                            </td>
 
-                                    <td class="align-middle">
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Edit" data-container="body" data-animation="true">
-                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                               data-bs-target="#examModal" onclick="addDeleteButton()">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Add marks" data-container="body" data-animation="true">
-                                            <a href="singleExam.html" class="btn btn-link p-1">
-                                                <i class="fa-solid fa-clipboard-check"></i>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Second Exam</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs">6th grade Math</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs"> 18/12/2024 </span>
-                                    </td>
-                                    <td class="text-xs text-center">30</td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                   checked disabled />
-                                        </div>
-                                    </td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                   disabled />
-                                        </div>
-                                    </td>
-
-                                    <td class="align-middle">
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Edit" data-container="body" data-animation="true">
-                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                               data-bs-target="#examModal" onclick="addDeleteButton()">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Add marks" data-container="body" data-animation="true">
-                                            <a href="singleExam.html" class="btn btn-link p-1">
-                                                <i class="fa-solid fa-clipboard-check"></i>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">First Exam</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs">6th grade Science</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs"> 20/6/2024 </span>
-                                    </td>
-                                    <td class="text-xs text-center">30</td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                   checked disabled />
-                                        </div>
-                                    </td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value checked
-                                                   id="fcustomCheck1" disabled />
-                                        </div>
-                                    </td>
-
-                                    <td class="align-middle">
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Edit" data-container="body" data-animation="true">
-                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                               data-bs-target="#examModal" onclick="addDeleteButton()">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Add marks" data-container="body" data-animation="true">
-                                            <a href="singleExam.html" class="btn btn-link p-1">
-                                                <i class="fa-solid fa-clipboard-check"></i>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">First Exam</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs">7th grade Math</td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs"> 30/12/2024 </span>
-                                    </td>
-                                    <td class="text-xs text-center">30</td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                   disabled />
-                                        </div>
-                                    </td>
-                                    <td class="text-xs text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                   disabled />
-                                        </div>
-                                    </td>
-
-                                    <td class="align-middle">
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Edit" data-container="body" data-animation="true">
-                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                               data-bs-target="#examModal" onclick="addDeleteButton()">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Add marks" data-container="body" data-animation="true">
-                                            <a href="singleExam.html" class="btn btn-link p-1">
-                                                <i class="fa-solid fa-clipboard-check"></i>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
+                                            <td class="align-middle">
+                                                <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                      title="Edit" data-container="body" data-animation="true">
+                                                    <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                       data-bs-target="#examModal" onclick="addDeleteButton()">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </a>
+                                                </span>
+                                                <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                      title="Add marks" data-container="body" data-animation="true">
+                                                    <a href="singleExam.html" class="btn btn-link p-1">
+                                                        <i class="fa-solid fa-clipboard-check"></i>
+                                                    </a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7">
+                                            <h6>There are no  Exams yet</h6>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -354,7 +239,7 @@
 
 @section Modals
 {
-    <!-- Add/Edit Exam Modal -->
+    <!-- Add Exam Modal -->
     <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -363,11 +248,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="examForm">
+                    <form id="examForm" method="post">
                         <!-- Exam Type -->
                         <div class="mb-3">
                             <label for="examType" class="form-label">Exam Type</label>
-                            <select class="form-select" id="examType" name="examType" required>
+                            <select class="form-select" id="examType" name="ExamType" required>
                                 <option value="" disabled selected>Select Exam Type</option>
                                 <option value="first">First</option>
                                 <option value="second">Second</option>
@@ -382,26 +267,39 @@
                         <!-- Class -->
                         <div class="mb-3">
                             <label for="examClass" class="form-label">Class</label>
-                            <select class="form-select" id="examClass" name="examClass" required>
-                                @*
-                            @foreach (var _class in Model.Classes.Classes)
-                            {
-                            <option value="@_class.Id">@_class.ClassName()</option>
-                            }
-                            *@
+                            <select class="form-select" id="examClass" name="ClassId" required>
+
+                                @foreach (var _class in Model.Classes.Classes)
+                                {
+                                    <option value="@_class.Id">@_class.ClassName()</option>
+                                }
+
                             </select>
                         </div>
 
                         <!-- Exam Date -->
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="examDate" class="form-label">Exam Date</label>
+                                <input type="date" class="form-control" id="examDate" name="ExamStartDate" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="examDuration" class="form-label">Exam Duration</label>
+
+                                <input class="form-control" id="examDuration" name="examDuration" required type="text" required
+                                       pattern="[0-9]{2}:[0-9]{2}" value="01:00" title="Write a duration in the format hh:mm">
+
+                            </div>
+                        </div>
                         <div class="mb-3">
-                            <label for="examDate" class="form-label">Exam Date</label>
-                            <input type="date" class="form-control" id="examDate" name="examDate" required />
+                            <label for="ExamDetails">Exam Details</label>
+                            <textarea name="Details" id="ExamDetails" class="form-control"></textarea>
                         </div>
 
                         <!-- Maximum Mark -->
                         <div class="mb-3">
                             <label for="examMark" class="form-label">Mark</label>
-                            <input type="number" class="form-control" id="examMark" name="examMark"
+                            <input type="number" class="form-control" id="examMark" name="MaxMark"
                                    placeholder="Enter Maximum Mark" required />
                         </div>
 
