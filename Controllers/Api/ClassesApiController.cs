@@ -18,7 +18,7 @@ namespace SchoolSystemTask.Controllers.Api
         [HttpGet("id:int")]
         public IActionResult GetClassSubjects(int id)
         {
-            return Ok(classesRepository.GetClassSubjects(id))
+            return Ok(classesRepository.GetClassSubjects(id));
         }
     }
 }
