@@ -19,5 +19,6 @@ namespace SchoolSystemTask.Controllers.Api
             var newClass = classesRepository.CreateClass(addClassDto);
             return Ok(newClass);
         }
+
     }
 }

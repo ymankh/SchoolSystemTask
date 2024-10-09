@@ -21,7 +21,8 @@ namespace SchoolSystemTask.Controllers
     UserRepository userRepository,
     TeacherRepository teacherRepository,
     ClassesRepository classesRepository,
-    StudentsRepository studentsRepository
+    StudentsRepository studentsRepository,
+    ExamsRepository examsRepository
     ) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
@@ -127,10 +128,15 @@ namespace SchoolSystemTask.Controllers
 
             return Redirect(nameof(Students));
         }
-
+        [Authorize]
         public IActionResult Exams()
         {
-            
+            var user = GetUser();
+            var data = new ExamViewModel
+            {
+                Classes = classesRepository.GetClasses(user.TeacherId),
+                Exams = examsRepository.TeacherExams(user.TeacherId)
+            };
             return View();
         }
 
@@ -139,7 +145,7 @@ namespace SchoolSystemTask.Controllers
         public IActionResult Exams([FromForm] CreateExamDto createExamDto)
         {
 
-            return View();
+            return Redirect(nameof(Exam));
         }
         [Authorize]
         public IActionResult Classes()

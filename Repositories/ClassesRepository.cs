@@ -14,7 +14,6 @@ namespace SchoolSystemTask.Repositories
                 Subjects = context.Subjects.ToList(),
                 Grades = context.Grades.ToList(),
                 Sections = context.Sections.ToList()
-
             };
         }
         public TeacherClassesDto GetClasses(int teacherId)

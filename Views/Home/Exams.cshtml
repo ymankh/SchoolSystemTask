@@ -1,15 +1,15 @@
-﻿@{
+﻿@using SchoolSystemTask.ViewModels
+@model ExamViewModel;
+@{
     ViewData["Title"] = "Exams";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
 
+
 <div class="container-fluid py-4">
     <h3 class="mb-4">Manage Exams</h3>
     <div>
-        <button class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#examModal"
-                id="add-exam-button">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examModal" id="add-exam-button">
             <i class="fa fa-plus me-1" aria-hidden="true"></i>Add Exam
         </button>
     </div>
@@ -21,9 +21,9 @@
                     <div class="row">
                         <div class="col-lg-6 col-7">
                             <h6>Exams</h6>
+                            using SchoolSystemTask.ViewModels;
                             <p class="text-sm mb-0">
-                                <i class="fa fa-multiply text-danger"
-                                   aria-hidden="true"></i>
+                                <i class="fa fa-multiply text-danger" aria-hidden="true"></i>
                                 <span class="font-weight-bold ms-1">2 Has not been marked yet.</span>
                             </p>
                         </div>
@@ -38,33 +38,28 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Type
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Class
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         date
                                     </th>
                                     <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top"
-                                        title="Exam out of how many marks?"
-                                        data-container="body"
-                                        data-animation="true">
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Exam out of how many marks?" data-container="body" data-animation="true">
                                         mark
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top"
-                                        title="Will the exam appear on the students' calendar?"
-                                        data-container="body"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Will the exam appear on the students' calendar?" data-container="body"
                                         data-animation="true">
                                         visibility
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top"
-                                        title="Can students see there marks?"
-                                        data-container="body"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Can students see there marks?" data-container="body"
                                         data-animation="true">
                                         published
                                     </th>
@@ -87,46 +82,27 @@
                                     <td class="text-xs text-center">30</td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   id="fcustomCheck1"
-                                                   checked
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                checked disabled />
                                         </div>
                                     </td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   checked
-                                                   id="fcustomCheck1"
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value checked
+                                                id="fcustomCheck1" disabled />
                                         </div>
                                     </td>
 
                                     <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Edit"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="javascript:;"
-                                               class="btn btn-link p-1"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#examModal"
-                                               onclick="addDeleteButton()">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Edit" data-container="body" data-animation="true">
+                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                data-bs-target="#examModal" onclick="addDeleteButton()">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                         </span>
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add marks"
-                                              data-container="body"
-                                              data-animation="true">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Add marks" data-container="body" data-animation="true">
                                             <a href="singleExam.html" class="btn btn-link p-1">
                                                 <i class="fa-solid fa-clipboard-check"></i>
                                             </a>
@@ -149,45 +125,27 @@
                                     <td class="text-xs text-center">30</td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   id="fcustomCheck1"
-                                                   checked
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                checked disabled />
                                         </div>
                                     </td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   id="fcustomCheck1"
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                disabled />
                                         </div>
                                     </td>
 
                                     <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Edit"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="javascript:;"
-                                               class="btn btn-link p-1"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#examModal"
-                                               onclick="addDeleteButton()">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Edit" data-container="body" data-animation="true">
+                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                data-bs-target="#examModal" onclick="addDeleteButton()">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                         </span>
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add marks"
-                                              data-container="body"
-                                              data-animation="true">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Add marks" data-container="body" data-animation="true">
                                             <a href="singleExam.html" class="btn btn-link p-1">
                                                 <i class="fa-solid fa-clipboard-check"></i>
                                             </a>
@@ -209,46 +167,27 @@
                                     <td class="text-xs text-center">30</td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   id="fcustomCheck1"
-                                                   checked
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                checked disabled />
                                         </div>
                                     </td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   checked
-                                                   id="fcustomCheck1"
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value checked
+                                                id="fcustomCheck1" disabled />
                                         </div>
                                     </td>
 
                                     <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Edit"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="javascript:;"
-                                               class="btn btn-link p-1"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#examModal"
-                                               onclick="addDeleteButton()">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Edit" data-container="body" data-animation="true">
+                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                data-bs-target="#examModal" onclick="addDeleteButton()">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                         </span>
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add marks"
-                                              data-container="body"
-                                              data-animation="true">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Add marks" data-container="body" data-animation="true">
                                             <a href="singleExam.html" class="btn btn-link p-1">
                                                 <i class="fa-solid fa-clipboard-check"></i>
                                             </a>
@@ -271,44 +210,27 @@
                                     <td class="text-xs text-center">30</td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   id="fcustomCheck1"
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                disabled />
                                         </div>
                                     </td>
                                     <td class="text-xs text-center">
                                         <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value
-                                                   id="fcustomCheck1"
-                                                   disabled />
+                                            <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
+                                                disabled />
                                         </div>
                                     </td>
 
                                     <td class="align-middle">
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Edit"
-                                              data-container="body"
-                                              data-animation="true">
-                                            <a href="javascript:;"
-                                               class="btn btn-link p-1"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#examModal"
-                                               onclick="addDeleteButton()">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Edit" data-container="body" data-animation="true">
+                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                data-bs-target="#examModal" onclick="addDeleteButton()">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                         </span>
-                                        <span class="d-inline-block"
-                                              data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              title="Add marks"
-                                              data-container="body"
-                                              data-animation="true">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Add marks" data-container="body" data-animation="true">
                                             <a href="singleExam.html" class="btn btn-link p-1">
                                                 <i class="fa-solid fa-clipboard-check"></i>
                                             </a>
@@ -435,29 +357,19 @@
 @section Modals
 {
     <!-- Add/Edit Exam Modal -->
-    <div class="modal fade"
-         id="examModal"
-         tabindex="-1"
-         aria-labelledby="examModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="examModalLabel">Add/Edit Exam</h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="examForm">
                         <!-- Exam Type -->
                         <div class="mb-3">
                             <label for="examType" class="form-label">Exam Type</label>
-                            <select class="form-select"
-                                    id="examType"
-                                    name="examType"
-                                    required>
+                            <select class="form-select" id="examType" name="examType" required>
                                 <option value="" disabled selected>Select Exam Type</option>
                                 <option value="first">First</option>
                                 <option value="second">Second</option>
@@ -472,74 +384,45 @@
                         <!-- Class -->
                         <div class="mb-3">
                             <label for="examClass" class="form-label">Class</label>
-                            <select class="form-select"
-                                    id="examClass"
-                                    name="examClass"
-                                    required>
-                                <option disabled selected>Select Class</option>
-
-                                <optgroup label="6th Grade">
-                                    <option value="Class 1">Math</option>
-                                    <option value="Class 1">Science</option>
-                                </optgroup>
-                                <optgroup label="7th Grade">
-                                    <option value="Class 2">Science</option>
-                                    <option value="Class 2">English</option>
-                                </optgroup>
-
-                                <optgroup label="8th Grade">
-                                    <option value="Class 3">Math</option>
-                                </optgroup>
+                            <select class="form-select" id="examClass" name="examClass" required>
+                                @foreach (var teacherClass in Model.Classes)
+                                {
+                                    <option value="@teacherClass.Id">@teacherClass.Grade.Name, @teacherClass.Section.Name
+                                    </option>
+                                }
                             </select>
                         </div>
 
                         <!-- Exam Date -->
                         <div class="mb-3">
                             <label for="examDate" class="form-label">Exam Date</label>
-                            <input type="date"
-                                   class="form-control"
-                                   id="examDate"
-                                   name="examDate"
-                                   required />
+                            <input type="date" class="form-control" id="examDate" name="examDate" required />
                         </div>
 
                         <!-- Maximum Mark -->
                         <div class="mb-3">
                             <label for="examMark" class="form-label">Mark</label>
-                            <input type="number"
-                                   class="form-control"
-                                   id="examMark"
-                                   name="examMark"
-                                   placeholder="Enter Maximum Mark"
-                                   required />
+                            <input type="number" class="form-control" id="examMark" name="examMark"
+                                placeholder="Enter Maximum Mark" required />
                         </div>
 
                         <!-- Visibility -->
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       value=""
-                                       id="fcustomCheck1"
-                                       checked="" />
+                                <input class="form-check-input" type="checkbox" value="" id="fcustomCheck1" checked="" />
                                 <label class="custom-control-label" for="customCheck1">Visibility</label>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" form="examForm" class="btn btn-primary">
                         Save Exam
                     </button>
-                    <button id="delete-exam-button"
-                            type="submit"
-                            form="examForm"
-                            class="btn btn-danger d-none">
+                    <button id="delete-exam-button" type="submit" form="examForm" class="btn btn-danger d-none">
                         Delete
                     </button>
                 </div>

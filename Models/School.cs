@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 
 namespace SchoolSystemTask.Models
 {
@@ -42,6 +43,11 @@ namespace SchoolSystemTask.Models
         public ICollection<ClassSubject> ClassSubjects { get; set; }
         public ICollection<StudentClass> StudentClasses { get; set; }
         public ICollection<Exam> Exams { get; set; }
+
+        public string ClassName()
+        {
+            return this.Grade.Name + ", " + this.Section.Name;
+        }
     }
     public class StudentClass
     {
