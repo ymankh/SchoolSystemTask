@@ -32,8 +32,8 @@ namespace SchoolSystemTask.Models
             modelBuilder.Entity<StudentClass>()
                 .HasKey(sc => new { sc.StudentId, sc.ClassId });
 
-            modelBuilder.Entity<ClassSubject>()
-                .HasKey(cs => new { cs.ClassId, cs.TeacherSubjectId });
+            //modelBuilder.Entity<ClassSubject>()
+            //    .HasKey(cs => new { cs.ClassId, cs.TeacherSubjectId });
         }
     }
 

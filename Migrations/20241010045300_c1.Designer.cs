@@ -11,8 +11,8 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241009155244_init")]
-    partial class init
+    [Migration("20241010045300_c1")]
+    partial class c1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,16 +48,22 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.ClassSubject", b =>
                 {
-                    b.Property<int>("ClassId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeacherSubjectId")
+                    b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("SubjectId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ClassId", "TeacherSubjectId");
+                    b.Property<int>("TeacherSubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.HasIndex("SubjectId");
 
@@ -75,7 +81,7 @@ namespace SchoolSystemTask.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Detailes")
+                    b.Property<string>("Details")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -93,6 +99,9 @@ namespace SchoolSystemTask.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("MarkPublished")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MaxMark")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TeacherSubjectId")
@@ -686,7 +695,7 @@ namespace SchoolSystemTask.Migrations
                         .IsRequired();
 
                     b.HasOne("SchoolSystemTask.Models.Student", "Student")
-                        .WithMany("StudentClasses")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -800,8 +809,6 @@ namespace SchoolSystemTask.Migrations
                     b.Navigation("ExamMarks");
 
                     b.Navigation("StudentAbsences");
-
-                    b.Navigation("StudentClasses");
 
                     b.Navigation("StudentDetails")
                         .IsRequired();

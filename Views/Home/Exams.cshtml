@@ -267,13 +267,19 @@
                         <!-- Class -->
                         <div class="mb-3">
                             <label for="examClass" class="form-label">Class</label>
-                            <select class="form-select" id="examClass" name="ClassId" required>
+                            <select class="form-select" onchange="handleSelection()" id="examClass" name="ClassId" required>
 
                                 @foreach (var _class in Model.Classes.Classes)
                                 {
                                     <option value="@_class.Id">@_class.ClassName()</option>
                                 }
 
+                            </select>
+                        </div>
+                        <!-- Select subject after selecting a class -->
+                        <div class="mb-3">
+                            <label for="ClassSubjectId" class="form-label">Subject</label>
+                            <select class="form-select" disabled id="ClassSubjectId" name="ClassSubjectId" required>
                             </select>
                         </div>
 
@@ -342,5 +348,43 @@
             deleteExamButton.classList.remove("d-none");
             examModalLabel.textContent = "Edit Exam";
         }
+        function handleSelection() {
+            let select = document.getElementById("examClass")
+            getSubjects(select.value)
+        }
+        async function getSubjects(id) {
+            document.getElementById("ClassSubjectId").innerHTML = ""
+            let response = await fetch(`/api/ClassesApi/${id}`);
+            let data = await response.json();
+            let classSelect = document.getElementById("ClassSubjectId");
+            for (let classSubject of data) {
+                let option = document.createElement("option")
+                option.value = classSubject.id
+                option.innerText =
+                    classSelect.appendChild(option)
+            }
+            classSelect.disabled = false
+
+        }
     </script>
+}
+{
+"id": 1,
+"classId": 1,
+"class": null,
+"teacherSubjectId": 1,
+"teacherSubject": {
+"id": 1,
+"teacherId": 1,
+"teacher": null,
+"subjectId": 1,
+"subject": {
+"id": 1,
+"name": "Mathematics",
+"teacherSubjects": [],
+"classSubjects": null
+},
+"studentAbsences": null,
+"exams": null
+}
 }

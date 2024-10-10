@@ -109,11 +109,10 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        public int TeacherSubjectId { get; set; } // Foreign Key
-        [ForeignKey("Class")]
-        public int ClassId { get; set; } // Foreign Key
-        public Class Class { get; set; } // Navigation Property
-        public TeacherSubject TeacherSubject { get; set; } // Navigation Property
+        [ForeignKey("ClassSubject")]
+        public int ClassSubjectId { get; set; }
+
+        public ClassSubject ClassSubject { get; set; }
 
         public int MaxMark { get; set; }
 
@@ -149,11 +148,13 @@ namespace SchoolSystemTask.Models
 
     public class ClassSubject
     {
-        public int ClassId { get; set; } // Composite Primary Key
+        [Key]
+        public int Id { get; set; }
+        public int ClassId { get; set; }
         public Class Class { get; set; } // Navigation Property
 
         [ForeignKey("TeacherSubject")]
-        public int TeacherSubjectId { get; set; } // Composite Primary Key
+        public int TeacherSubjectId { get; set; }
         public TeacherSubject TeacherSubject { get; set; } // Navigation Property
     }
 

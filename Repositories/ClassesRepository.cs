@@ -80,7 +80,7 @@ namespace SchoolSystemTask.Repositories
 
         public List<ClassSubject> GetClassSubjects(int id)
         {
-            return context.ClassSubjects.Where(cs => cs.ClassId == id).ToList();
+            return context.ClassSubjects.Include(cs => cs.TeacherSubject.Subject).Where(cs => cs.ClassId == id).ToList();
         }
     }
 }

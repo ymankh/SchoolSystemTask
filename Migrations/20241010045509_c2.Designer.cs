@@ -11,8 +11,8 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241009210713_updateExamTable")]
-    partial class updateExamTable
+    [Migration("20241010045509_c2")]
+    partial class c2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,16 +48,22 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.ClassSubject", b =>
                 {
-                    b.Property<int>("ClassId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeacherSubjectId")
+                    b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("SubjectId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ClassId", "TeacherSubjectId");
+                    b.Property<int>("TeacherSubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.HasIndex("SubjectId");
 
@@ -72,10 +78,13 @@ namespace SchoolSystemTask.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Detailes")
+                    b.Property<int>("ClassSubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Details")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -98,12 +107,14 @@ namespace SchoolSystemTask.Migrations
                     b.Property<int>("MaxMark")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeacherSubjectId")
+                    b.Property<int?>("TeacherSubjectId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("ClassSubjectId");
 
                     b.HasIndex("TeacherSubjectId");
 
@@ -614,21 +625,21 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.Exam", b =>
                 {
-                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
+                    b.HasOne("SchoolSystemTask.Models.Class", null)
                         .WithMany("Exams")
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("SchoolSystemTask.Models.ClassSubject", "ClassSubject")
+                        .WithMany()
+                        .HasForeignKey("ClassSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", "TeacherSubject")
+                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", null)
                         .WithMany("Exams")
-                        .HasForeignKey("TeacherSubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherSubjectId");
 
-                    b.Navigation("Class");
-
-                    b.Navigation("TeacherSubject");
+                    b.Navigation("ClassSubject");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.ExamMark", b =>

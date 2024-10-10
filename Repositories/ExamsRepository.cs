@@ -13,8 +13,8 @@ namespace SchoolSystemTask.Repositories
 
         public List<Exam> TeacherExams(int teacherId)
         {
-            return context.Exams.Include(e => e.Class).ThenInclude(c => c.ClassSubjects).
-            Where(e => e.Class.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId))
+            return context.Exams.Include(e => e.ClassSubject).
+            Where(e => e.ClassSubject.TeacherSubject.Id == teacherId)
             .ToList();
         }
 

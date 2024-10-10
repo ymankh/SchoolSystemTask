@@ -15,7 +15,7 @@ namespace SchoolSystemTask.Controllers.Api
         //    var newClass = classesRepository.CreateClass(addClassDto);
         //    return Ok(newClass);
         //}
-        [HttpGet("id:int")]
+        [HttpGet("{id:int}")]
         public IActionResult GetClassSubjects(int id)
         {
             return Ok(classesRepository.GetClassSubjects(id));

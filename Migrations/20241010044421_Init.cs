@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SchoolSystemTask.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -194,13 +194,15 @@ namespace SchoolSystemTask.Migrations
                 name: "ClassSubjects",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     ClassId = table.Column<int>(type: "INTEGER", nullable: false),
                     TeacherSubjectId = table.Column<int>(type: "INTEGER", nullable: false),
                     SubjectId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassSubjects", x => new { x.ClassId, x.TeacherSubjectId });
+                    table.PrimaryKey("PK_ClassSubjects", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClassSubjects_Classes_ClassId",
                         column: x => x.ClassId,
@@ -228,8 +230,9 @@ namespace SchoolSystemTask.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TeacherSubjectId = table.Column<int>(type: "INTEGER", nullable: false),
                     ClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaxMark = table.Column<int>(type: "INTEGER", nullable: false),
                     ExamStartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Detailes = table.Column<string>(type: "TEXT", nullable: false),
+                    Details = table.Column<string>(type: "TEXT", nullable: false),
                     ExamDuration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     IsVisible = table.Column<bool>(type: "INTEGER", nullable: false),
                     MarkPublished = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -449,6 +452,11 @@ namespace SchoolSystemTask.Migrations
                 name: "IX_Classes_TeacherId",
                 table: "Classes",
                 column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassSubjects_ClassId",
+                table: "ClassSubjects",
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassSubjects_SubjectId",
