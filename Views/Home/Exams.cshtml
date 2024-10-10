@@ -312,7 +312,7 @@
                         <!-- Visibility -->
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="fcustomCheck1" checked="" />
+                                <input class="form-check-input" type="checkbox" value="true" name="IsVisible" value="" id="fcustomCheck1" checked />
                                 <label class="custom-control-label" for="customCheck1">Visibility</label>
                             </div>
                         </div>
@@ -360,8 +360,8 @@
             for (let classSubject of data) {
                 let option = document.createElement("option")
                 option.value = classSubject.id
-                option.innerText =
-                    classSelect.appendChild(option)
+                option.innerText = classSubject.teacherSubject.subject.name;
+                classSelect.appendChild(option)
             }
             classSelect.disabled = false
 

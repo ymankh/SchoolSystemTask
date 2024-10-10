@@ -1,5 +1,7 @@
+using SchoolSystemTask.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,16 +10,16 @@ namespace SchoolSystemTask.DTOs.ExamDTOs
     public class CreateExamDto
     {
 
-        public int TeacherSubjectId { get; set; } // Foreign Key
-        public int ClassId { get; set; } // Foreign Key
+        public int ClassSubjectId { get; set; }
+
+        public int MaxMark { get; set; }
 
         public DateTime ExamStartDate { get; set; }
-        public string Detailes { get; set; } // Exam details (Material and other things)
-        public int MaxMark { get; set; }
+        public string Details { get; set; } // Exam details (Material and other things)
 
         // Exam duration
         public TimeSpan ExamDuration { get; set; }
-        public bool IsVisible { get; set; } // Wither the student can see the exam or not
+        public bool IsVisible { get; set; } // The student can see the exam or not
 
         public bool MarkPublished { get; set; }
 

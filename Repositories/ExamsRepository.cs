@@ -23,7 +23,14 @@ namespace SchoolSystemTask.Repositories
         {
             var exam = new Exam()
             {
-
+                ClassSubjectId = createExamDto.ClassSubjectId,
+                Details = createExamDto.Details,
+                IsVisible = createExamDto.IsVisible,
+                ExamType = createExamDto.ExamType,
+                ExamDuration = createExamDto.ExamDuration,
+                ExamStartDate = createExamDto.ExamStartDate,
+                MaxMark = createExamDto.MaxMark,
+                MarkPublished = false
             };
             context.Exams.Add(exam);
             context.SaveChanges();

@@ -145,7 +145,7 @@ namespace SchoolSystemTask.Controllers
         public IActionResult Exams([FromForm] CreateExamDto createExamDto)
         {
             examsRepository.AddExam(createExamDto);
-            return Redirect(nameof(Exam));
+            return Redirect(nameof(Exams));
         }
         [Authorize]
         public IActionResult Classes()
