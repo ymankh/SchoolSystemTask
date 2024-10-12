@@ -72,24 +72,24 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">First Exam</h6>
+                                                        <h6 class="mb-0 text-sm">@exam.ExamType</h6>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-xs">6th grade Math</td>
+                                            <td class="text-xs">@exam.ClassSubject.TeacherSubject.Subject.Name, @exam.ClassSubject.Class.ClassName()</td>
                                             <td class="align-middle text-center text-sm">
-                                                <span class="text-xs"> 11/6/2024 </span>
+                                                <span class="text-xs"> @exam.ExamStartDate </span>
                                             </td>
-                                            <td class="text-xs text-center">30</td>
+                                            <td class="text-xs text-center">@exam.MaxMark</td>
                                             <td class="text-xs text-center">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value id="fcustomCheck1"
-                                                           checked disabled />
+                                                    @(exam.IsVisible ? "checked" : "") disabled />
                                                 </div>
                                             </td>
                                             <td class="text-xs text-center">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value checked
+                                                    <input class="form-check-input" type="checkbox" value @(exam.MarkPublished ? "checked" : "")
                                                            id="fcustomCheck1" disabled />
                                                 </div>
                                             </td>

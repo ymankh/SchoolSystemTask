@@ -16,6 +16,8 @@ namespace SchoolSystemTask.Models
         public DbSet<TeacherSubject> TeacherSubjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<UserTeacher> UserTeachers { get; set; }
+        public DbSet<StudentNote> StudentNotes { get; set; }
+        public DbSet<NoteType> NoteTypes { get; set; }
 
         public DbSet<Exam> Exams { get; set; }
 

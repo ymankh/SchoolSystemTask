@@ -24,7 +24,7 @@ namespace SchoolSystemTask
 
 
             // Register Swagger services
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
 
             // Add session services
             builder.Services.AddSession(options =>
@@ -55,6 +55,7 @@ namespace SchoolSystemTask
             builder.Services.AddScoped<ClassesRepository>();
             builder.Services.AddScoped<StudentsRepository>();
             builder.Services.AddScoped<ExamsRepository>();
+            builder.Services.AddScoped<StudentNoteRepository>();
 
             // Solve possible object cycle was detected
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -76,15 +77,15 @@ namespace SchoolSystemTask
 
             app.UseHttpsRedirection();
             // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
+            //app.UseSwagger();
 
             //Enable middleware to serve swagger - ui(HTML, JS, CSS, etc.)
             // Specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "School System Task API V1");
-                c.RoutePrefix = string.Empty; // This serves Swagger UI at the root (e.g., https://localhost:{port}/)
-            });
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "School System Task API V1");
+            //    c.RoutePrefix = string.Empty; // This serves Swagger UI at the root (e.g., https://localhost:{port}/)
+            //});
             app.UseStaticFiles();
 
             // Enable middleware for authentication and authorization

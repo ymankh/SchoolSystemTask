@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.DTOs.StudentsDTOs;
 using SchoolSystemTask.DTOs.ExamDTOs;
+using SchoolSystemTask.DTOs.StudentNoteDTOs;
 
 namespace SchoolSystemTask.Controllers
 {
@@ -22,7 +23,8 @@ namespace SchoolSystemTask.Controllers
     TeacherRepository teacherRepository,
     ClassesRepository classesRepository,
     StudentsRepository studentsRepository,
-    ExamsRepository examsRepository
+    ExamsRepository examsRepository,
+    StudentNoteRepository studentNoteRepository
     ) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
@@ -118,6 +120,15 @@ namespace SchoolSystemTask.Controllers
             };
             var students = studentsRepository.All();
             return View(data);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddStudentNote(CreateStudentNoteDto newNote)
+        {
+            var user = GetUser();
+            studentNoteRepository.AddStudentNote(newNote, user!.TeacherId);
+            return Redirect(nameof(Students));
         }
 
         [HttpPost]
