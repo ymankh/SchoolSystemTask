@@ -173,7 +173,7 @@ namespace SchoolSystemTask.Controllers
         {
             var user = GetUser();
             classesRepository.CreateClass(addClassDto, user!.TeacherId);
-            return Classes();
+            return Redirect(nameof(Classes));
         }
 
         [Authorize]
@@ -182,7 +182,6 @@ namespace SchoolSystemTask.Controllers
         {
             var user = GetUser();
             var newSubject = classesRepository.CreateSubject(addSubjectDto, user!.TeacherId);
-            var classes = classesRepository.GetClasses();
             return Redirect(nameof(Classes));
         }
         public IActionResult Chat()

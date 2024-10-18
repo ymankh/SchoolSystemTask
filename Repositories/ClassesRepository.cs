@@ -51,8 +51,11 @@ namespace SchoolSystemTask.Repositories
 
         public TeacherClassesDto CreateSubject(AddSubjectToClassDto addSubjectDto, int teacherId)
         {
+            // Check wether the class subject already exists or not.
+
             var oldClassSubject =
-                context.ClassSubjects.FirstOrDefault(cs => cs.TeacherSubject.SubjectId == addSubjectDto.SubjectId);
+                context.ClassSubjects.
+                FirstOrDefault(cs => cs.TeacherSubject.SubjectId == addSubjectDto.SubjectId && cs.ClassId == addSubjectDto.ClassId);
             if (oldClassSubject != null)
                 return GetClasses(teacherId);
 

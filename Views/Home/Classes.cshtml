@@ -42,7 +42,8 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Subject
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Grade
                                     </th>
                                     <th></th>
@@ -80,25 +81,25 @@
 
                                         <td class="align-middle">
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                  title="Edit" data-container="body" data-animation="true">
+                                                title="Edit" data-container="body" data-animation="true">
                                                 <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                                   data-bs-target="#examModal" onclick="addDeleteButton()">
+                                                    data-bs-target="#examModal" onclick="addDeleteButton()">
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                             </span>
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                  title="Enrolled students" data-container="body" data-animation="true">
+                                                title="Enrolled students" data-container="body" data-animation="true">
                                                 <a href="@Url.Action("Students", "Home", new {classId = _class.Id})" )
-                                                   class="btn btn-link p-1">
+                                                    class="btn btn-link p-1">
                                                     <i class="fa-solid fa-clipboard-check"></i>
                                                 </a>
                                             </span>
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                  title="Add Subject" data-container="body" data-animation="true">
+                                                title="Add Subject" data-container="body" data-animation="true">
                                                 <a href="javascript:;" lass="btn btn-link p-1" data-bs-toggle="modal"
-                                                   data-bs-target="#addSubject"
-                                                   onclick="addSubject('@_class.ClassName()','@_class.Id')"
-                                                   class="btn btn-link p-1">
+                                                    data-bs-target="#addSubject"
+                                                    onclick="addSubject('@_class.ClassName()','@_class.Id')"
+                                                    class="btn btn-link p-1">
                                                     <!-- add subject fa icon -->
                                                     <i class="fa-solid fa-plus"></i>
                                                 </a>
@@ -312,11 +313,6 @@
             deleteExamButton.classList.remove("d-none");
             examModalLabel.textContent = "Edit Class";
         }
-        // async function addClass() {
-        //     event.preventDefault()
-        //     let form = document.getElementById("classForm")
-        //     form.submit()
-        // }
         let selectdClasslassId;
         // Add subject
         function addSubject(className, classId) {
