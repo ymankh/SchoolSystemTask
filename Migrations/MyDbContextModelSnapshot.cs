@@ -139,7 +139,7 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("ExamMark");
+                    b.ToTable("ExamMarks");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Grade", b =>

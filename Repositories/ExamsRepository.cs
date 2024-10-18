@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.DTOs.ExamDTOs;
 using SchoolSystemTask.Models;
+using SchoolSystemTask.ViewModels;
 
 namespace SchoolSystemTask.Repositories
 {
@@ -36,16 +37,18 @@ namespace SchoolSystemTask.Repositories
             context.SaveChanges();
         }
 
-        public List<Student>? GetExamMarks(int examId, int teacherId)
+        public ExamMarksViewModel? GetExamMarks(int examId, int teacherId)
         {
-            var exam = context.Exams.Find(examId);
-            if (exam == null)
-                return null;
-            var studentClass = context.Classes.
-            Include(sc => sc.Students).
+            var exam = context.Exams.
+            Include(e => e.ClassSubject.TeacherSubject.Subject).
+            Include(e => e.ClassSubject.Class.Section).
+            Include(e => e.ClassSubject.Class.Grade).
+            Include(e => e.ClassSubject.Class.Students).
             ThenInclude(s => s.ExamMarks).
-            FirstOrDefault(c => c.Exams.Any(ex => ex.Id == examId));
-            var students = studentClass.Students.ToList();
+            FirstOrDefault(e => e.Id == examId);
+            if (exam == null || exam.ClassSubject.TeacherSubject.TeacherId != teacherId)
+                return null;
+            var students = exam.ClassSubject.Class.Students.ToList();
             foreach (var student in students)
             {
                 var examMark = student.ExamMarks.FirstOrDefault(em => em.ExamId == examId);
@@ -61,7 +64,12 @@ namespace SchoolSystemTask.Repositories
                     context.SaveChanges();
                 }
             }
-            return studentClass.Students.ToList();
+            return new ExamMarksViewModel
+            {
+                Students = students,
+                Class = exam.ClassSubject.Class,
+                Exam = exam
+            };
         }
     }
 }

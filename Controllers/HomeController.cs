@@ -207,12 +207,12 @@ namespace SchoolSystemTask.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public IActionResult ExamMarks(int examId)
+        [HttpGet("Home/ExamMarks/{examId:int}")]
+        public IActionResult ExamMarks([FromRoute] int examId)
         {
             var user = GetUser()!;
-            examsRepository.GetExamMarks(examId, user.TeacherId);
-            return View();
+            var examMarks = examsRepository.GetExamMarks(examId, user.TeacherId);
+            return View(examMarks);
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SchoolSystemTask.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +27,7 @@ namespace SchoolSystemTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NoteType",
+                name: "NoteTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -36,7 +36,7 @@ namespace SchoolSystemTask.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoteType", x => x.Id);
+                    table.PrimaryKey("PK_NoteTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -223,39 +223,6 @@ namespace SchoolSystemTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exams",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TeacherSubjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaxMark = table.Column<int>(type: "INTEGER", nullable: false),
-                    ExamStartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Details = table.Column<string>(type: "TEXT", nullable: false),
-                    ExamDuration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
-                    IsVisible = table.Column<bool>(type: "INTEGER", nullable: false),
-                    MarkPublished = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ExamType = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Exams", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Exams_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Exams_TeacherSubjects_TeacherSubjectId",
-                        column: x => x.TeacherSubjectId,
-                        principalTable: "TeacherSubjects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StudentAbsence",
                 columns: table => new
                 {
@@ -327,7 +294,7 @@ namespace SchoolSystemTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentNote",
+                name: "StudentNotes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -339,21 +306,21 @@ namespace SchoolSystemTask.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentNote", x => x.Id);
+                    table.PrimaryKey("PK_StudentNotes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentNote_NoteType_NoteTypeId",
+                        name: "FK_StudentNotes_NoteTypes_NoteTypeId",
                         column: x => x.NoteTypeId,
-                        principalTable: "NoteType",
+                        principalTable: "NoteTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentNote_Students_StudentId",
+                        name: "FK_StudentNotes_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentNote_Teachers_TeacherId",
+                        name: "FK_StudentNotes_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
@@ -361,7 +328,45 @@ namespace SchoolSystemTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExamMark",
+                name: "Exams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClassSubjectId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaxMark = table.Column<int>(type: "INTEGER", nullable: false),
+                    ExamStartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Details = table.Column<string>(type: "TEXT", nullable: false),
+                    ExamDuration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    IsVisible = table.Column<bool>(type: "INTEGER", nullable: false),
+                    MarkPublished = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ExamType = table.Column<string>(type: "TEXT", nullable: false),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: true),
+                    TeacherSubjectId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Exams_ClassSubjects_ClassSubjectId",
+                        column: x => x.ClassSubjectId,
+                        principalTable: "ClassSubjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Exams_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Exams_TeacherSubjects_TeacherSubjectId",
+                        column: x => x.TeacherSubjectId,
+                        principalTable: "TeacherSubjects",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExamMarks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -372,15 +377,15 @@ namespace SchoolSystemTask.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExamMark", x => x.Id);
+                    table.PrimaryKey("PK_ExamMarks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExamMark_Exams_ExamId",
+                        name: "FK_ExamMarks_Exams_ExamId",
                         column: x => x.ExamId,
                         principalTable: "Exams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExamMark_Students_StudentId",
+                        name: "FK_ExamMarks_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -469,19 +474,24 @@ namespace SchoolSystemTask.Migrations
                 column: "TeacherSubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExamMark_ExamId",
-                table: "ExamMark",
+                name: "IX_ExamMarks_ExamId",
+                table: "ExamMarks",
                 column: "ExamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExamMark_StudentId",
-                table: "ExamMark",
+                name: "IX_ExamMarks_StudentId",
+                table: "ExamMarks",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exams_ClassId",
                 table: "Exams",
                 column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exams_ClassSubjectId",
+                table: "Exams",
+                column: "ClassSubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exams_TeacherSubjectId",
@@ -510,18 +520,18 @@ namespace SchoolSystemTask.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentNote_NoteTypeId",
-                table: "StudentNote",
+                name: "IX_StudentNotes_NoteTypeId",
+                table: "StudentNotes",
                 column: "NoteTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentNote_StudentId",
-                table: "StudentNote",
+                name: "IX_StudentNotes_StudentId",
+                table: "StudentNotes",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentNote_TeacherId",
-                table: "StudentNote",
+                name: "IX_StudentNotes_TeacherId",
+                table: "StudentNotes",
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
@@ -549,10 +559,7 @@ namespace SchoolSystemTask.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClassSubjects");
-
-            migrationBuilder.DropTable(
-                name: "ExamMark");
+                name: "ExamMarks");
 
             migrationBuilder.DropTable(
                 name: "StudentAbsence");
@@ -564,7 +571,7 @@ namespace SchoolSystemTask.Migrations
                 name: "StudentDetails");
 
             migrationBuilder.DropTable(
-                name: "StudentNote");
+                name: "StudentNotes");
 
             migrationBuilder.DropTable(
                 name: "UserTeachers");
@@ -573,25 +580,28 @@ namespace SchoolSystemTask.Migrations
                 name: "Exams");
 
             migrationBuilder.DropTable(
-                name: "NoteType");
+                name: "NoteTypes");
 
             migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "TeacherSubjects");
+                name: "ClassSubjects");
 
             migrationBuilder.DropTable(
                 name: "Classes");
 
             migrationBuilder.DropTable(
-                name: "Subjects");
+                name: "TeacherSubjects");
 
             migrationBuilder.DropTable(
                 name: "Grades");
 
             migrationBuilder.DropTable(
                 name: "Sections");
+
+            migrationBuilder.DropTable(
+                name: "Subjects");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

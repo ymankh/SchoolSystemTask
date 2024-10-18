@@ -11,8 +11,8 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241010045300_c1")]
-    partial class c1
+    [Migration("20241018165031_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,7 +78,10 @@ namespace SchoolSystemTask.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClassSubjectId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Details")
@@ -104,12 +107,14 @@ namespace SchoolSystemTask.Migrations
                     b.Property<int>("MaxMark")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeacherSubjectId")
+                    b.Property<int?>("TeacherSubjectId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("ClassSubjectId");
 
                     b.HasIndex("TeacherSubjectId");
 
@@ -137,7 +142,7 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("ExamMark");
+                    b.ToTable("ExamMarks");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Grade", b =>
@@ -229,7 +234,7 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NoteType");
+                    b.ToTable("NoteTypes");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Section", b =>
@@ -421,7 +426,7 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("StudentNote");
+                    b.ToTable("StudentNotes");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Subject", b =>
@@ -620,21 +625,21 @@ namespace SchoolSystemTask.Migrations
 
             modelBuilder.Entity("SchoolSystemTask.Models.Exam", b =>
                 {
-                    b.HasOne("SchoolSystemTask.Models.Class", "Class")
+                    b.HasOne("SchoolSystemTask.Models.Class", null)
                         .WithMany("Exams")
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("SchoolSystemTask.Models.ClassSubject", "ClassSubject")
+                        .WithMany()
+                        .HasForeignKey("ClassSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", "TeacherSubject")
+                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", null)
                         .WithMany("Exams")
-                        .HasForeignKey("TeacherSubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherSubjectId");
 
-                    b.Navigation("Class");
-
-                    b.Navigation("TeacherSubject");
+                    b.Navigation("ClassSubject");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.ExamMark", b =>
