@@ -5,16 +5,16 @@ namespace SchoolSystemTask.Models
 {
     public class UserTeacher
     {
+        [Key]
         public int UserTeacherId { get; set; }
         [EmailAddress]
-
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public string Salt { get; set; }
+        required public string Email { get; set; }
+        required public string PasswordHash { get; set; }
+        required public string Salt { get; set; }
         public string? Role { get; set; }
-        
+
         [ForeignKey("Teacher")]
-        public int TeacherId;
+        required public int TeacherId { get; set; }
 
         public Teacher Teacher { get; set; }
 

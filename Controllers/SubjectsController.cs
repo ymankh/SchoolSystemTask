@@ -4,7 +4,7 @@ using SchoolSystemTask.Repositories;
 
 namespace SchoolSystemTask.Controllers
 {
-    public class SubjectsController(MyDbContext contextm, ClassesRepository classesRepository) : Controller
+    public class SubjectsController(ClassesRepository classesRepository) : Controller
     {
         [HttpGet]
         public IActionResult Index()

@@ -37,10 +37,7 @@ namespace SchoolSystemTask.Repositories
             };
             context.Students.Add(student);
             context.SaveChanges();
-            return new Student
-            {
-                ClassId = studentDto.ClassId
-            };
+            return student;
         }
         private static string[] SplitFullName(string fullName)
         {

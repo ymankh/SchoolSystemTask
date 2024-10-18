@@ -35,5 +35,33 @@ namespace SchoolSystemTask.Repositories
             context.Exams.Add(exam);
             context.SaveChanges();
         }
+
+        public List<Student>? GetExamMarks(int examId, int teacherId)
+        {
+            var exam = context.Exams.Find(examId);
+            if (exam == null)
+                return null;
+            var studentClass = context.Classes.
+            Include(sc => sc.Students).
+            ThenInclude(s => s.ExamMarks).
+            FirstOrDefault(c => c.Exams.Any(ex => ex.Id == examId));
+            var students = studentClass.Students.ToList();
+            foreach (var student in students)
+            {
+                var examMark = student.ExamMarks.FirstOrDefault(em => em.ExamId == examId);
+                if (examMark == null)
+                {
+                    var newExamMark = new ExamMark
+                    {
+                        ExamId = examId,
+                        StudentId = student.Id,
+                        Mark = 0
+                    };
+                    context.ExamMarks.Add(newExamMark);
+                    context.SaveChanges();
+                }
+            }
+            return studentClass.Students.ToList();
+        }
     }
 }

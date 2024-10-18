@@ -205,5 +205,14 @@ namespace SchoolSystemTask.Controllers
             var user = context.UserTeachers.Find(id);
             return user;
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ExamMarks(int examId)
+        {
+            var user = GetUser()!;
+            examsRepository.GetExamMarks(examId, user.TeacherId);
+            return View();
+        }
     }
 }

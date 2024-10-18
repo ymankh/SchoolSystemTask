@@ -5,8 +5,8 @@ namespace SchoolSystemTask.ViewModels
 {
     public class ExamViewModel
     {
-        public List<Exam> Exams;
-        public TeacherClassesDto Classes;
+        required public List<Exam> Exams;
+        required public TeacherClassesDto Classes;
 
     }
 }

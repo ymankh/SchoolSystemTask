@@ -8,10 +8,10 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        public string FirstName { get; set; } // Not Null
-        public string SecondName { get; set; } // Not Null
-        public string ThirdName { get; set; } // Not Null
-        public string LastName { get; set; } // Not Null
+        required public string FirstName { get; set; } // Not Null
+        public string SecondName { get; set; } = string.Empty; // Not Null
+        public string ThirdName { get; set; } = string.Empty; // Not Null
+        public string LastName { get; set; } = string.Empty; // Not Null
         public string? ParentContact { get; set; }
         public string? Address { get; set; }
         public DateOnly? BirthDate { get; set; }
@@ -171,10 +171,10 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        public string FirstName { get; set; } // Not Null
+        required public string FirstName { get; set; } // Not Null
         public string? SecondName { get; set; } // Not Null
         public string? ThirdName { get; set; } // Not Null
-        public string LastName { get; set; } // Not Null
+        required public string LastName { get; set; } // Not Null
 
 
         public ICollection<Class> Classes { get; set; }

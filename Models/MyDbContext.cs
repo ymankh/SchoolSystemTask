@@ -21,6 +21,8 @@ namespace SchoolSystemTask.Models
 
         public DbSet<Exam> Exams { get; set; }
 
+        public DbSet<ExamMark> ExamMarks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

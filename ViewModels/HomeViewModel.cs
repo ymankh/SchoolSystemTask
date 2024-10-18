@@ -4,6 +4,6 @@ namespace SchoolSystemTask.ViewModels
 {
     public class HomeViewModel
     {
-        public IEnumerable<Student> Students { get; set; }
+        required public IEnumerable<Student> Students { get; set; }
     }
 }
