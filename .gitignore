@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 # SQLite
 *.db
+dev_schoolmanagement.db

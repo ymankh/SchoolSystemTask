@@ -268,7 +268,7 @@
                         <div class="mb-3">
                             <label for="examClass" class="form-label">Class</label>
                             <select class="form-select" onchange="handleSelection()" id="examClass" name="ClassId" required>
-
+                                <option disabled selected >Choose a class</option>
                                 @foreach (var _class in Model.Classes.Classes)
                                 {
                                     <option value="@_class.Id">@_class.ClassName()</option>
@@ -368,23 +368,4 @@
         }
     </script>
 }
-{
-"id": 1,
-"classId": 1,
-"class": null,
-"teacherSubjectId": 1,
-"teacherSubject": {
-"id": 1,
-"teacherId": 1,
-"teacher": null,
-"subjectId": 1,
-"subject": {
-"id": 1,
-"name": "Mathematics",
-"teacherSubjects": [],
-"classSubjects": null
-},
-"studentAbsences": null,
-"exams": null
-}
-}
+
