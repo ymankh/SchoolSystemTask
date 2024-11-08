@@ -73,5 +73,28 @@ namespace SchoolSystemTask.Models
                 );
             }
         }
+        public class NoteTypeConfiguration : IEntityTypeConfiguration<NoteType>
+        {
+            public void Configure(EntityTypeBuilder<NoteType> builder)
+            {
+                builder.HasData(
+            new NoteType { Id = 1, NoteTypeName = "Positive" },
+            new NoteType { Id = 2, NoteTypeName = "Warning" },
+            new NoteType { Id = 3, NoteTypeName = "Improvement Needed" },
+            new NoteType { Id = 4, NoteTypeName = "Attendance" },
+            new NoteType { Id = 5, NoteTypeName = "Behavior" },
+            new NoteType { Id = 6, NoteTypeName = "Academic Performance" },
+            new NoteType { Id = 7, NoteTypeName = "Participation" },
+            new NoteType { Id = 8, NoteTypeName = "Homework Submission" },
+            new NoteType { Id = 9, NoteTypeName = "Punctuality" },
+            new NoteType { Id = 10, NoteTypeName = "Effort" },
+            new NoteType { Id = 11, NoteTypeName = "Teamwork" },
+            new NoteType { Id = 12, NoteTypeName = "Creativity" },
+            new NoteType { Id = 13, NoteTypeName = "Respect" },
+            new NoteType { Id = 14, NoteTypeName = "Leadership" },
+            new NoteType { Id = 15, NoteTypeName = "Organization" }
+            );
+            }
+        }
     }
 }

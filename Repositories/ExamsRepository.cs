@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.DTOs.ExamDTOs;
+using SchoolSystemTask.DTOs.ExamMarksDTOs;
 using SchoolSystemTask.Models;
 using SchoolSystemTask.ViewModels;
 
@@ -64,12 +65,48 @@ namespace SchoolSystemTask.Repositories
                     context.SaveChanges();
                 }
             }
+            var examWithMarks = new List<AddExamMarkDto>();
+            foreach (var student in students)
+            {
+                AddExamMarkDto newExamMark = new AddExamMarkDto
+                {
+                    Id = student.ExamMarks.First(e => e.ExamId == examId).Id,
+                    Mark = student.ExamMarks.First(e => e.ExamId == examId).Mark
+                };
+                examWithMarks.Add(newExamMark);
+            }
             return new ExamMarksViewModel
             {
                 Students = students,
                 Class = exam.ClassSubject.Class,
-                Exam = exam
+                Exam = exam,
+                ExamWithMarks = examWithMarks
             };
+        }
+
+        internal void UpdateExamMarks(string[] examWithMark)
+        {
+            foreach (var mark in examWithMark)
+            {
+                var examMarkId = Convert.ToInt32(mark.Split(',')[0]);
+                var examMark = Convert.ToInt32(mark.Split(',')[1]);
+                context.ExamMarks.Update(new ExamMark
+                {
+                    Mark = examMark,
+                    ExamId = examMarkId
+                });
+            }
+        }
+
+        internal void UpdateExamMark(AddExamMarkDto[] examMarksDto)
+        {
+            foreach (var mark in examMarksDto)
+            {
+                var examMark = context.ExamMarks.Find(mark.Id);
+                examMark.Mark = mark.Mark;
+                context.ExamMarks.Update(examMark);
+            }
+            context.SaveChanges();
         }
     }
 }

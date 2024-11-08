@@ -11,7 +11,7 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241018165031_init")]
+    [Migration("20241106171922_init")]
     partial class init
     {
         /// <inheritdoc />

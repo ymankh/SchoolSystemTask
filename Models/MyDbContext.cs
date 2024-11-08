@@ -31,6 +31,8 @@ namespace SchoolSystemTask.Models
             modelBuilder.ApplyConfiguration(new EntityConfiguration.GradeConfiguration());
             modelBuilder.ApplyConfiguration(new EntityConfiguration.SectionConfiguration());
             modelBuilder.ApplyConfiguration(new EntityConfiguration.SubjectConfiguration());
+            modelBuilder.ApplyConfiguration(new EntityConfiguration.NoteTypeConfiguration());
+
 
             // Configure composite keys
             modelBuilder.Entity<StudentClass>()

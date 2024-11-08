@@ -17,7 +17,6 @@ namespace SchoolSystemTask.Repositories
                 Include(s => s.Class).
                 ThenInclude(c => c.Section).
                 ToList();
-
         }
 
         public Student Add(AddStudentDto studentDto)

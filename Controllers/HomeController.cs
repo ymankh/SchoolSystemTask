@@ -118,7 +118,6 @@ namespace SchoolSystemTask.Controllers
                 Students = studentsRepository.All(),
                 Classes = classesRepository.GetClasses().Classes
             };
-            var students = studentsRepository.All();
             return View(data);
         }
 
@@ -213,6 +212,14 @@ namespace SchoolSystemTask.Controllers
             var user = GetUser()!;
             var examMarks = examsRepository.GetExamMarks(examId, user.TeacherId);
             return View(examMarks);
+        }
+
+        [Authorize]
+        [HttpPost("Home/ExamMarks/{examId:int}")]
+        public IActionResult ExamMarks([FromRoute] int examId, [FromForm] string[] examWithMark)
+        {
+            examsRepository.UpdateExamMarks(examWithMark);
+            return Redirect(nameof(ExamMarks));
         }
     }
 }

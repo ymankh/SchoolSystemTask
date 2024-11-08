@@ -283,21 +283,18 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
+                    <form method="post" action="@Url.Action("AddStudentNote","Home")">
                         <div class="input-group input-group-outline my-3">
-                            <select class="form-control" required name="FullName">
+                            <select class="form-control" required name="noteType">
                                 <option disabled selected>Note Type</option>
-                                <option value="Positive Action">Positive Action</option>
-                                <option value="Bad Behavior">Bad Behavior</option>
-                                <option value="Participation">Participation</option>
-                                <option value="Late Submission">Late Submission</option>
-                                <option value="Improvement">Improvement</option>
+                                
                             </select>
                         </div>
 
                         <div class="input-group input-group-outline my-3">
                             <textarea class="form-control"
                                       rows="4"
+                                      name="note"
                                       placeholder="Enter the note details here..."
                                       required></textarea>
                         </div>

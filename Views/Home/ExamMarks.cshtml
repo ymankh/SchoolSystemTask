@@ -21,54 +21,61 @@
                 </div>
 
                 <!-- Table Section -->
-                <div class="card-body px-0 pb-2">
-                    <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-10">
-                                        Name
-                                    </th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
-                                        Grade
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var student in Model.Students)
-                                {
+                <form method="post" onsubmit="submitExamMarks(event)">
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/new/profile-user.svg" class="avatar avatar-sm me-3"
-                                                        alt="Ahmad Abdul-Mahdi" />
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@student.FirstName @student.LastName</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td class="align-middle">
-                                            <div class="input-group input-group-dynamic mb-4">
-                                                <input type="text" class="form-control" placeholder="Grade"
-                                                    aria-label="Grade" aria-describedby="basic-addon2"
-                                                    value="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Mark" />
-                                                <span class="input-group-text" id="basic-addon2">/20</span>
-                                            </div>
-                                        </td>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-10">
+                                            Name
+                                        </th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
+                                            Grade
+                                        </th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                        <div class="ms-4 mt-4">
-                            <button class="btn btn-primary">Save</button>
+                                </thead>
+                                <tbody>
+                                    @foreach (var student in Model.Students)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="/assets/new/profile-user.svg"
+                                                            class="avatar avatar-sm me-3"
+                                                            alt="@student.FirstName @student.LastName" />
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">@student.FirstName @student.LastName</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="align-middle">
+                                                <div class="input-group input-group-dynamic mb-4">
+                                                    <input type="number" min="0" max="@Model.Exam.MaxMark"
+                                                        class="form-control" placeholder="Grade" aria-label="Grade"
+                                                        onchange="addStudentMark(event)"
+                                                        id="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Id"
+                                                        aria-describedby="basic-addon2"
+                                                        value="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Mark" />
+                                                    <span class="input-group-text"
+                                                        id="basic-addon2">/@Model.Exam.MaxMark</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="ms-4 mt-4">
+                                <button class="btn btn-primary">Save</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
@@ -165,167 +172,26 @@
             </div>
         </div>
     </div>
-    <footer class="footer py-4">
-        <div class="container-fluid">
-            <div class="row align-items-center justify-content-lg-between">
-                <div class="col-lg-4 mb-lg-0 mb-4">
-                    <div class="copyright text-center text-sm text-muted text-lg-start">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script>
-                        , TaleamPro
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 @section Modals {
-    <!-- Student Note form -->
-    <div class="modal fade" id="AddNoteModal" tabindex="-1" role="dialog" aria-labelledby="AddNoteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title font-weight-normal" id="AddNoteModal">
-                        Add a student note
-                    </h5>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post">
-                        <div class="input-group input-group-outline my-3">
-                            <select class="form-control" required name="FullName">
-                                <option disabled selected>Note Type</option>
-                                <option value="Positive Action">Positive Action</option>
-                                <option value="Bad Behavior">Bad Behavior</option>
-                                <option value="Participation">Participation</option>
-                                <option value="Late Submission">Late Submission</option>
-                                <option value="Improvement">Improvement</option>
-                            </select>
-                        </div>
-
-                        <div class="input-group input-group-outline my-3">
-                            <textarea class="form-control" rows="4" placeholder="Enter the note details here..."
-                                required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit Note</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Add student form -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title font-weight-normal" id="exampleModalLabel">
-                        Add Student
-                    </h5>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Student Full Name</label>
-                                    <input type="text" class="form-control" required name="FullName" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">National ID</label>
-                                    <input type="text" class="form-control" required name="NationalId" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <select class="form-control" required name="classId">
-                                        <option disabled selected>Select Class</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static my-3">
-                                    <label>Date of Birth</label>
-                                    <input type="date" class="form-control" required name="BirthDate" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Parent Contact</label>
-                                    <input type="tel" class="form-control" required name="ParentContact" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" required name="Address" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-12">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" required name="Email" />
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Student</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 }
 
 @section Scripts {
+
     <script>
-        // This script for taking attendance.
-        const takeAttendanceButton = document.getElementById(
-            "take-attendance-button"
-        );
-        const attendanceButtons = document.getElementById("attendance-buttons");
-        const SaveAttendanceButton = document.getElementById(
-            "save-attendance-button"
-        );
-        const addNoteButtons = document.getElementsByClassName("add-note-btn");
-        const absenceCheckboxes =
-            document.getElementsByClassName("absence-checkbox");
-        takeAttendanceButton.addEventListener("click", () => {
-            if (takeAttendanceButton.textContent.includes("Take Attendance")) {
-                takeAttendanceButton.textContent = "Cancel";
-            } else {
-                takeAttendanceButton.innerText = "Take Attendance";
-            }
-            attendanceButtons.classList.toggle("btn-group");
-            SaveAttendanceButton.classList.toggle("d-none");
-            takeAttendanceButton.classList.toggle("btn-primary");
-            takeAttendanceButton.classList.toggle("btn-secondary");
-            takeAttendanceButton.classList.toggle("w-100");
-            takeAttendanceButton.classList.toggle("w-50");
+        let examMarks = @Html.Raw(Json.Serialize(Model.ExamWithMarks));
+        examMarks = examMarks.map(e => ({ id: +e.id, mark: +e.mark }))
+        console.log(examMarks)
+        function addStudentMark(event) {
+            examMarks = examMarks.map(e => +event.target.id == e.id ? { id: e.id, mark: +event.target.value } : e)
+            console.log(examMarks);
+        }
 
-            for (let index = 0; index < absenceCheckboxes.length; index++) {
-                absenceCheckboxes[index].classList.toggle("d-none");
-                addNoteButtons[index].classList.toggle("d-none");
-            }
-        });
+        function submitExamMarks(event) {
+            event.preventDefault();
+            // post the array to the api
+            fetch("http://localhost:5243/api/ExamApi", { method: "post", body: JSON.stringify(examMarks) })
+        }
     </script>
-
 }
