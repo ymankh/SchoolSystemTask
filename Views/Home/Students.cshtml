@@ -8,9 +8,7 @@
 <div class="container-fluid py-4">
     <h3 class="mb-4">Manage Students</h3>
     <div>
-        <button class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fa fa-plus me-1" aria-hidden="true"></i> Add Student
         </button>
     </div>
@@ -44,19 +42,14 @@
                                     {
                                         <option>@_class.Grade.Name, @_class.Section.Name</option>
                                     }
-
                                 </select>
-
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex align-items-center"
-                             id="attendance-buttons">
-                            <button class="btn btn-primary d-none w-50"
-                                    id="save-attendance-button">
+                        <div class="col-md-4 d-flex align-items-center" id="attendance-buttons">
+                            <button class="btn btn-primary d-none w-50" id="save-attendance-button">
                                 Save
                             </button>
-                            <button class="btn btn-primary w-100"
-                                    id="take-attendance-button">
+                            <button class="btn btn-primary w-100" id="take-attendance-button">
                                 Take Attendance
                             </button>
                         </div>
@@ -72,19 +65,18 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Name
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Classes
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Absences
                                     </th>
                                     <th class="align-middle">
                                         <div class="form-check d-none absence-checkbox mx-auto">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value="1"
-                                                   checked=""
-                                                   name="Absences" />
+                                            <input class="form-check-input" type="checkbox" value="1" checked=""
+                                                name="Absences" />
                                         </div>
                                     </th>
                                 </tr>
@@ -96,9 +88,8 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/assets/new/profile-user.svg"
-                                                         class="avatar avatar-sm me-3"
-                                                         alt="@student.FirstName @student.LastName" />
+                                                    <img src="/assets/new/profile-user.svg" class="avatar avatar-sm me-3"
+                                                        alt="@student.FirstName @student.LastName" />
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">@student.FirstName @student.LastName</h6>
@@ -118,31 +109,21 @@
                                             <span class="text-xs font-weight-bold"> @student.StudentAbsences.Count </span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class="d-inline-block"
-                                                  data-bs-toggle="tooltip"
-                                                  data-bs-placement="top"
-                                                  title="Add note"
-                                                  data-container="body"
-                                                  data-animation="true">
-                                                <a href="javascript:;"
-                                                   class="btn btn-link add-note-btn"
-                                                   data-bs-toggle="modal"
-                                                   data-bs-target="#AddNoteModal">
+                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="Add note" data-container="body" data-animation="true">
+                                                <a href="javascript:;" class="btn btn-link add-note-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#AddNoteModal"
+                                                    onclick="addStudentIdToNoteModel(@student.Id)">
                                                     <i class="fa-solid fa-notes-medical ms-1"></i>
                                                 </a>
                                             </span>
                                             <div class="form-check d-none absence-checkbox">
-                                                <input class="form-check-input"
-                                                       type="checkbox"
-                                                       value="1"
-                                                       checked=""
-                                                       name="Absences" />
+                                                <input class="form-check-input" type="checkbox" value="1" checked=""
+                                                    name="Absences" />
                                             </div>
                                         </td>
                                     </tr>
                                 }
-
-
                                 <!-- Repeat for other students -->
                             </tbody>
                         </table>
@@ -263,40 +244,32 @@
 
 @section Modals {
     <!-- Student Note form -->
-    <div class="modal fade"
-         id="AddNoteModal"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="AddNoteModal"
-         aria-hidden="true">
+    <div class="modal fade" id="AddNoteModal" tabindex="-1" role="dialog" aria-labelledby="AddNoteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title font-weight-normal" id="AddNoteModal">
                         Add a student note
                     </h5>
-                    <button type="button"
-                            class="btn-close text-dark"
-                            data-bs-dismiss="modal"
-                            aria-label="Close">
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form method="post" action="@Url.Action("AddStudentNote","Home")">
                         <div class="input-group input-group-outline my-3">
-                            <select class="form-control" required name="noteType">
+                            <select class="form-control" required name="noteTypeId">
                                 <option disabled selected>Note Type</option>
-                                
+                                @foreach (var noteType in Model.NoteTypes)
+                                {
+                                    <option value="@noteType.Id">@noteType.NoteTypeName</option>
+                                }
                             </select>
                         </div>
-
+                        <input type="text" class="d-none" name="studentId" id="addStudentNoteStudentId">
                         <div class="input-group input-group-outline my-3">
-                            <textarea class="form-control"
-                                      rows="4"
-                                      name="note"
-                                      placeholder="Enter the note details here..."
-                                      required></textarea>
+                            <textarea class="form-control" rows="4" name="note" placeholder="Enter the note details here..."
+                                required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit Note</button>
                     </form>
@@ -305,22 +278,15 @@
         </div>
     </div>
     <!-- Add student form -->
-    <div class="modal fade"
-         id="exampleModal"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title font-weight-normal" id="exampleModalLabel">
                         Add Student
                     </h5>
-                    <button type="button"
-                            class="btn-close text-dark"
-                            data-bs-dismiss="modal"
-                            aria-label="Close">
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -422,6 +388,9 @@
                 addNoteButtons[index].classList.toggle("d-none");
             }
         });
+        function addStudentIdToNoteModel(studentId) {
+            document.getElementById("addStudentNoteStudentId").value = studentId;
+        }
     </script>
 
 }

@@ -6,5 +6,6 @@ namespace SchoolSystemTask.ViewModels
     {
         required public IEnumerable<Student> Students { get; set; }
         required public IEnumerable<Class> Classes { get; set; }
+        required public IEnumerable<NoteType> NoteTypes { get; set; }
     }
 }
