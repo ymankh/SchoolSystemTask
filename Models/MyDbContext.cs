@@ -33,6 +33,47 @@ namespace SchoolSystemTask.Models
             modelBuilder.ApplyConfiguration(new EntityConfiguration.SubjectConfiguration());
             modelBuilder.ApplyConfiguration(new EntityConfiguration.NoteTypeConfiguration());
 
+            // Configure cascade delete behavior for Exam -> ExamMarks
+            modelBuilder.Entity<Exam>()
+                .HasMany(e => e.ExamMarks)
+                .WithOne(em => em.Exam)
+                .HasForeignKey(em => em.ExamId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure cascade delete behavior for Student -> ExamMarks
+            modelBuilder.Entity<Student>()
+                .HasMany(s => s.ExamMarks)
+                .WithOne(em => em.Student)
+                .HasForeignKey(em => em.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure cascade delete behavior for Student -> StudentAbsences
+            modelBuilder.Entity<Student>()
+                .HasMany(s => s.StudentAbsences)
+                .WithOne(sa => sa.Student)
+                .HasForeignKey(sa => sa.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure cascade delete behavior for Student -> StudentNotes
+            modelBuilder.Entity<Student>()
+                .HasMany(s => s.StudentNotes)
+                .WithOne(sn => sn.Student)
+                .HasForeignKey(sn => sn.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure cascade delete behavior for Class -> Students
+            modelBuilder.Entity<Class>()
+                .HasMany(c => c.Students)
+                .WithOne(s => s.Class)
+                .HasForeignKey(s => s.ClassId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure cascade delete behavior for TeacherSubject -> Exams
+            modelBuilder.Entity<Exam>()
+                .HasOne(e => e.ClassSubject)
+                .WithMany(cs => cs.Exams)
+                .HasForeignKey(e => e.ClassSubjectId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configure composite keys
             modelBuilder.Entity<StudentClass>()
