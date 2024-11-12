@@ -227,5 +227,13 @@ namespace SchoolSystemTask.Controllers
             examsRepository.UpdateExamMarks(examWithMark);
             return Redirect(nameof(ExamMarks));
         }
+        [Authorize]
+        [HttpGet("studentNote")]
+        public IActionResult StudentNote()
+        {
+            var user = GetUser();
+            var studentNotes = studentNoteRepository.GetTeacherStudentNotes(user!.TeacherId);
+            return View(studentNotes);
+        }
     }
 }

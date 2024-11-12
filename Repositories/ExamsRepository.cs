@@ -108,5 +108,12 @@ namespace SchoolSystemTask.Repositories
             }
             context.SaveChanges();
         }
+
+        public void DeleteExam(int id)
+        {
+            var exam = context.Exams.Find(id) ?? throw new KeyNotFoundException("Exam not found");
+            context.Exams.Remove(exam);
+            context.SaveChanges();
+        }
     }
 }

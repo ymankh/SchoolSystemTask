@@ -1,12 +1,13 @@
-﻿@using SchoolSystemTask.ViewModels
+﻿@model dynamic
+
 @{
-    ViewData["Title"] = "Students";
-    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-    ViewData["Thin"] = "Students";
+    ViewBag.Title = "Students Notes";
+    Layout = "_TeacherLayout";
 }
-@model StudentsViewModel;
+
+
 <div class="container-fluid py-4">
-    <h3 class="mb-4">Student notes</h3>
+    <h3 class="mb-4">Manage Students</h3>
     <div>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fa fa-plus me-1" aria-hidden="true"></i> Add Student
