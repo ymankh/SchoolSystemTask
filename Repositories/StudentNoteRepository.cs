@@ -1,4 +1,5 @@
-﻿using SchoolSystemTask.DTOs.StudentNoteDTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolSystemTask.DTOs.StudentNoteDTOs;
 using SchoolSystemTask.Models;
 
 namespace SchoolSystemTask.Repositories
@@ -7,7 +8,10 @@ namespace SchoolSystemTask.Repositories
     {
         public List<StudentNote> GetTeacherStudentNotes(int teacherId)
         {
-            return context.StudentNotes.Where(s => s.TeacherId == teacherId).ToList();
+            return context.StudentNotes.Where(s => s.TeacherId == teacherId).Include(sn => sn.NoteType)
+                .Include(s => s.Student.Class.ClassSubjects)
+                .ThenInclude(classSubject => classSubject.TeacherSubject.Subject)
+                .ToList();
         }
 
         public List<StudentNote> GetStudentNotes(int studentId)

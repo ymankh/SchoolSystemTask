@@ -8,8 +8,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [Required]
-        public string FirstName { get; set; } = string.Empty; // Not Null
+        [Required] public string FirstName { get; set; } = string.Empty; // Not Null
 
         public string SecondName { get; set; } = string.Empty; // Not Null
         public string ThirdName { get; set; } = string.Empty; // Not Null
@@ -20,8 +19,7 @@ namespace SchoolSystemTask.Models
         public DateOnly? BirthDate { get; set; }
         public string? NationalId { get; set; }
 
-        [ForeignKey("Class")]
-        public int ClassId { get; set; } // Foreign Key
+        [ForeignKey("Class")] public int ClassId { get; set; } // Foreign Key
 
         public Class Class { get; set; } = null!; // Navigation Property
         public StudentDetails StudentDetails { get; set; } = null!; // Navigation Property
@@ -35,16 +33,13 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [ForeignKey("Grade")]
-        public int GradeId { get; set; } // Foreign Key
+        [ForeignKey("Grade")] public int GradeId { get; set; } // Foreign Key
         public Grade Grade { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("Teacher")]
-        public int TeacherId { get; set; } // Foreign Key
+        [ForeignKey("Teacher")] public int TeacherId { get; set; } // Foreign Key
         public Teacher Teacher { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("Section")]
-        public int SectionId { get; set; } // Foreign Key
+        [ForeignKey("Section")] public int SectionId { get; set; } // Foreign Key
         public Section Section { get; set; } = null!; // Navigation Property
 
         public ICollection<Student> Students { get; set; } = new List<Student>();
@@ -57,15 +52,11 @@ namespace SchoolSystemTask.Models
 
     public class StudentClass
     {
-        [Key]
-        [Column(Order = 1)]
-        public int StudentId { get; set; } // Composite Primary Key
+        [Key] [Column(Order = 1)] public int StudentId { get; set; } // Composite Primary Key
 
         public Student Student { get; set; } = null!; // Navigation Property
 
-        [Key]
-        [Column(Order = 2)]
-        public int ClassId { get; set; } // Composite Primary Key
+        [Key] [Column(Order = 2)] public int ClassId { get; set; } // Composite Primary Key
 
         public Class Class { get; set; } = null!; // Navigation Property
     }
@@ -76,13 +67,11 @@ namespace SchoolSystemTask.Models
 
         public DateTime DateTime { get; set; } // Not Null
 
-        [ForeignKey("TeacherSubject")]
-        public int TeacherSubjectId { get; set; } // Foreign Key
+        [ForeignKey("TeacherSubject")] public int TeacherSubjectId { get; set; } // Foreign Key
 
         public TeacherSubject TeacherSubject { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("Student")]
-        public int StudentId { get; set; } // Foreign Key
+        [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
 
         public Student Student { get; set; } = null!; // Navigation Property
     }
@@ -91,15 +80,13 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [ForeignKey("Student")]
-        public int StudentId { get; set; } // Foreign Key
+        [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
 
         public Student Student { get; set; } = null!; // Navigation Property
 
         public int Mark { get; set; } // Not Null
 
-        [ForeignKey("Exam")]
-        public int ExamId { get; set; } // Foreign Key
+        [ForeignKey("Exam")] public int ExamId { get; set; } // Foreign Key
 
         public Exam Exam { get; set; } = null!; // Navigation Property
     }
@@ -108,8 +95,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [Required]
-        public string NoteTypeName { get; set; } = string.Empty; // Not Null
+        [Required] public string NoteTypeName { get; set; } = string.Empty; // Not Null
 
         public ICollection<StudentNote> StudentNotes { get; set; } = new List<StudentNote>();
     }
@@ -118,8 +104,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [Required]
-        public string Name { get; set; } = string.Empty; // Not Null
+        [Required] public string Name { get; set; } = string.Empty; // Not Null
 
         public ICollection<TeacherSubject> TeacherSubjects { get; set; } = new List<TeacherSubject>();
         public ICollection<ClassSubject> ClassSubjects { get; set; } = new List<ClassSubject>();
@@ -129,8 +114,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [ForeignKey("ClassSubject")]
-        public int ClassSubjectId { get; set; }
+        [ForeignKey("ClassSubject")] public int ClassSubjectId { get; set; }
 
         public ClassSubject ClassSubject { get; set; } = null!; // Navigation Property
 
@@ -138,15 +122,13 @@ namespace SchoolSystemTask.Models
 
         public DateTime ExamStartDate { get; set; }
 
-        [Required]
-        public string Details { get; set; } = string.Empty; // Exam details
+        [Required] public string Details { get; set; } = string.Empty; // Exam details
 
         public TimeSpan ExamDuration { get; set; }
         public bool IsVisible { get; set; } = false; // Default: not visible
         public bool MarkPublished { get; set; } = false; // Default: not published
 
-        [Required]
-        public string ExamType { get; set; } = string.Empty; // Not Null
+        [Required] public string ExamType { get; set; } = string.Empty; // Not Null
 
         public ICollection<ExamMark> ExamMarks { get; set; } = new List<ExamMark>();
     }
@@ -155,36 +137,32 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [Required]
-        public string Note { get; set; } = string.Empty; // Not Null
+        [Required] public string Note { get; set; } = string.Empty; // Not Null
 
-        [ForeignKey("NoteType")]
-        public int NoteTypeId { get; set; } // Foreign Key
+        public DateTime DateTime { get; set; } = DateTime.Now;
+        [ForeignKey("NoteType")] public int NoteTypeId { get; set; } // Foreign Key
 
         public NoteType NoteType { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("Student")]
-        public int StudentId { get; set; } // Foreign Key
+        [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
 
         public Student Student { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("Teacher")]
-        public int TeacherId { get; set; } // Foreign Key
+        [ForeignKey("Teacher")] public int TeacherId { get; set; } // Foreign Key
 
         public Teacher Teacher { get; set; } = null!; // Navigation Property
+
     }
 
     public class ClassSubject
     {
         public int Id { get; set; } // Primary Key
 
-        [ForeignKey("Class")]
-        public int ClassId { get; set; } // Foreign Key
+        [ForeignKey("Class")] public int ClassId { get; set; } // Foreign Key
 
         public Class Class { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("TeacherSubject")]
-        public int TeacherSubjectId { get; set; } // Foreign Key
+        [ForeignKey("TeacherSubject")] public int TeacherSubjectId { get; set; } // Foreign Key
 
         public TeacherSubject TeacherSubject { get; set; } = null!; // Navigation Property
 
@@ -195,8 +173,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [Required]
-        public string Name { get; set; } = string.Empty; // Not Null
+        [Required] public string Name { get; set; } = string.Empty; // Not Null
 
         public ICollection<Class> Classes { get; set; } = new List<Class>();
     }
@@ -205,14 +182,12 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [Required]
-        public string FirstName { get; set; } = string.Empty; // Not Null
+        [Required] public string FirstName { get; set; } = string.Empty; // Not Null
 
         public string? SecondName { get; set; } // Nullable
         public string? ThirdName { get; set; } // Nullable
 
-        [Required]
-        public string LastName { get; set; } = string.Empty; // Not Null
+        [Required] public string LastName { get; set; } = string.Empty; // Not Null
 
         public ICollection<Class> Classes { get; set; } = new List<Class>();
         public ICollection<TeacherSubject> TeacherSubjects { get; set; } = new List<TeacherSubject>();
@@ -223,12 +198,9 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [ForeignKey("Student")]
-        public int StudentId { get; set; } // Foreign Key
+        [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
 
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty; // Not Null
+        [Required] [EmailAddress] public string Email { get; set; } = string.Empty; // Not Null
 
         public Student Student { get; set; } = null!; // Navigation Property
     }
@@ -237,13 +209,11 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [ForeignKey("Teacher")]
-        public int TeacherId { get; set; } // Foreign Key
+        [ForeignKey("Teacher")] public int TeacherId { get; set; } // Foreign Key
 
         public Teacher Teacher { get; set; } = null!; // Navigation Property
 
-        [ForeignKey("Subject")]
-        public int SubjectId { get; set; } // Foreign Key
+        [ForeignKey("Subject")] public int SubjectId { get; set; } // Foreign Key
 
         public Subject Subject { get; set; } = null!; // Navigation Property
 
@@ -255,9 +225,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [MaxLength(255)]
-        [Required]
-        public string Name { get; set; } = string.Empty; // Not Null
+        [MaxLength(255)] [Required] public string Name { get; set; } = string.Empty; // Not Null
 
         public ICollection<Class> Classes { get; set; } = new List<Class>();
     }
