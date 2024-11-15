@@ -38,177 +38,86 @@
                         <table class="table align-items-center mb-0">
                             <thead>
 
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Subject
-                                    </th>
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Grade
-                                    </th>
-                                    <th></th>
-                                </tr>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Subject
+                                </th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Grade
+                                </th>
+                                <th></th>
+                            </tr>
 
                             </thead>
                             <tbody>
-                                @foreach (var _class in Model.Classes)
-                                {
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6>
+                            @foreach (var _class in Model.Classes)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6>
 
-                                                        @if (_class.ClassSubjects.Any())
+                                                    @if (_class.ClassSubjects.Any())
+                                                    {
+                                                        foreach (var subject in _class.ClassSubjects)
                                                         {
-                                                            foreach (var subject in _class.ClassSubjects)
-                                                            {
-                                                                <span>@subject.TeacherSubject.Subject.Name ,</span>
-                                                            }
+                                                            <span>@subject.TeacherSubject.Subject.Name ,</span>
                                                         }
-                                                        else
-                                                        {
-                                                            <span>No Subjects</span>
-                                                        }
-                                                    </h6>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No Subjects</span>
+                                                    }
+                                                </h6>
 
-                                                </div>
                                             </div>
-                                        </td>
-                                        <td class="text-xs">
-                                            @_class.Grade.Name, section @_class.Section.Name
-                                        </td>
+                                        </div>
+                                    </td>
+                                    <td class="text-xs">
+                                        @_class.Grade.Name, section @_class.Section.Name
+                                    </td>
 
-                                        <td class="align-middle">
-                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="Edit" data-container="body" data-animation="true">
-                                                <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                                    data-bs-target="#examModal" onclick="addDeleteButton()">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </a>
-                                            </span>
-                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="Enrolled students" data-container="body" data-animation="true">
-                                                <a href="@Url.Action("Students", "Home", new {classId = _class.Id})" )
-                                                    class="btn btn-link p-1">
-                                                    <i class="fa-solid fa-clipboard-check"></i>
-                                                </a>
-                                            </span>
-                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="Add Subject" data-container="body" data-animation="true">
-                                                <a href="javascript:;" lass="btn btn-link p-1" data-bs-toggle="modal"
-                                                    data-bs-target="#addSubject"
-                                                    onclick="addSubject('@_class.ClassName','@_class.Id')"
-                                                    class="btn btn-link p-1">
-                                                    <!-- add subject fa icon -->
-                                                    <i class="fa-solid fa-plus"></i>
-                                                </a>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                }
+                                    <td class="align-middle">
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                              title="Edit" data-container="body" data-animation="true">
+                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                               data-bs-target="#examModal" onclick="addDeleteButton()">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                        </span>
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                              title="Enrolled students" data-container="body" data-animation="true">
+                                            <a href="@Url.Action("Students", "Home", new { classId = _class.Id })" )
+                                               class="btn btn-link p-1">
+                                                <i class="fa-solid fa-clipboard-check"></i>
+                                            </a>
+                                        </span>
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                              title="Add Subject" data-container="body" data-animation="true">
+                                            <a href="javascript:;" lass="btn btn-link p-1" data-bs-toggle="modal"
+                                               data-bs-target="#addSubject"
+                                               onclick="addSubject('@_class.ClassName','@_class.Id')"
+                                               class="btn btn-link p-1">
+                                                <!-- add subject fa icon -->
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100">
-                <div class="card-header pb-0">
-                    <h6>Latest Updates</h6>
-                    <p class="text-sm">
-                        <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-                        <span class="font-weight-bold">24</span> this week
-                    </p>
-                </div>
-                <div class="card-body p-3">
-                    <div class="timeline timeline-one-side">
-                        <div class="timeline-block mb-3">
-                            <span class="timeline-step">
-                                <i class="material-icons text-success text-gradient">assignment</i>
-                            </span>
-                            <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    A new assignment has been added
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    22 DEC 7:20 PM
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-block mb-3">
-                            <span class="timeline-step">
-                                <i class="material-icons text-danger text-gradient">calendar_today</i>
-                            </span>
-                            <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Absence request
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    21 DEC 11 PM
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-block mb-3">
-                            <span class="timeline-step">
-                                <i class="material-icons text-info text-gradient">assignment</i>
-                            </span>
-                            <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Homework submission created
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    21 DEC 9:34 PM
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-block mb-3">
-                            <span class="timeline-step">
-                                <i class="material-icons text-warning text-gradient">note</i>
-                            </span>
-                            <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Note has been add to student.
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    20 DEC 2:20 AM
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-block mb-3">
-                            <span class="timeline-step">
-                                <i class="material-icons text-primary text-gradient">calendar_today</i>
-                            </span>
-                            <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Exam date has been set.
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    18 DEC 4:54 AM
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-block">
-                            <span class="timeline-step">
-                                <i class="material-icons text-dark text-gradient">person</i>
-                            </span>
-                            <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                    Student has been added.
-                                </h6>
-                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    17 DEC
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <partial name="_LatestUpdates"/>
     </div>
 
 </div>
+
 @section Modals
 {
     <!-- Add/Edit Classes Modal -->
@@ -264,7 +173,7 @@
                     <h5 class="modal-title" id="addSubjectLabel">Add Subject</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="addSubjectForm" method="post" action="@Url.Action("AddSubject","Home")">
+                <form id="addSubjectForm" method="post" action="@Url.Action("AddSubject", "Home")">
                     <div class="modal-body">
                         <div class="input-group input-group-static mb-4">
                             <label for="GradeInput" class="ms-0">Select Grade</label>

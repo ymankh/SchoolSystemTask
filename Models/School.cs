@@ -27,6 +27,11 @@ namespace SchoolSystemTask.Models
         public ICollection<StudentAbsence> StudentAbsences { get; set; } = new List<StudentAbsence>();
         public ICollection<ExamMark> ExamMarks { get; set; } = new List<ExamMark>();
         public ICollection<StudentNote> StudentNotes { get; set; } = new List<StudentNote>();
+
+        public string StudentName()
+        {
+            return FirstName + " " + SecondName;
+        }
     }
 
     public class Class
@@ -151,7 +156,6 @@ namespace SchoolSystemTask.Models
         [ForeignKey("Teacher")] public int TeacherId { get; set; } // Foreign Key
 
         public Teacher Teacher { get; set; } = null!; // Navigation Property
-
     }
 
     public class ClassSubject

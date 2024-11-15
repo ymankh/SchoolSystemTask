@@ -26,29 +26,17 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Student Name
-                                </th>
-                                <th
-                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                    Student Note
-                                </th>
-                                <th
-                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Note Type
-                                </th>
-                                <th class="align-middle">
-                                    <div class="form-check d-none absence-checkbox mx-auto">
-                                        <input class="form-check-input" type="checkbox" value="1" checked=""
-                                               name="Absences"/>
-                                    </div>
-                                </th>
+                                <th> Student Name </th>
+                                <th> Note </th>
+                                <th> Type </th>
+                                <th> date </th>
+                                <th> </th>
                             </tr>
                             </thead>
                             <tbody>
                             @if (!Model.Any())
                             {
-                                <td>There are no students notes yet.</td>
+                                <td colspan="5">There are no students notes yet.</td>
                             }
                             else
                             {
@@ -62,16 +50,22 @@
                                                          alt="@studentNote.Student.FirstName @studentNote.Student.LastName"/>
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@studentNote.Student.FirstName @studentNote.Student.LastName</h6>
+                                                    <h6 class="mb-0 text-sm">
+                                                        @studentNote.Student.FirstName
+                                                        @studentNote.Student.LastName
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        <td>
                                             <span class="text-xs font-weight-bold">@studentNote.Note</span>
                                         </td>
 
                                         <td>
                                             <span>@studentNote.NoteType.NoteTypeName</span>
+                                        </td>
+                                        <td>
+                                            <span>@studentNote.DateTime.</span>
                                         </td>
                                         <td class="align-middle">
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -99,7 +93,7 @@
                 </div>
             </div>
         </div>
-       <partial name="_LatestUpdates" />
+        <partial name="_LatestUpdates"/>
 
 
     </div>

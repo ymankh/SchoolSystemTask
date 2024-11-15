@@ -16,20 +16,18 @@ using SchoolSystemTask.DTOs.StudentNoteDTOs;
 namespace SchoolSystemTask.Controllers
 {
     public class HomeController(
-    ILogger<HomeController> logger,
-    MyDbContext context,
-    // Repositories
-    UserRepository userRepository,
-    TeacherRepository teacherRepository,
-    ClassesRepository classesRepository,
-    StudentsRepository studentsRepository,
-    ExamsRepository examsRepository,
-    StudentNoteRepository studentNoteRepository,
-    NoteTypesRepository noteTypesRepository
+        ILogger<HomeController> logger,
+        MyDbContext context,
+        // Repositories
+        UserRepository userRepository,
+        TeacherRepository teacherRepository,
+        ClassesRepository classesRepository,
+        StudentsRepository studentsRepository,
+        ExamsRepository examsRepository,
+        StudentNoteRepository studentNoteRepository,
+        NoteTypesRepository noteTypesRepository
     ) : Controller
     {
-        private readonly ILogger<HomeController> _logger = logger;
-
         [Authorize]
         public IActionResult Index()
         {
@@ -62,6 +60,7 @@ namespace SchoolSystemTask.Controllers
                 ViewBag.Message = "Bad credentials";
                 return View();
             }
+
             // Create claims based on user data
             var claims = new List<Claim>
             {
@@ -82,7 +81,6 @@ namespace SchoolSystemTask.Controllers
                 new ClaimsPrincipal(claimsIdentity), authProperties);
 
             return RedirectToAction(nameof(Index));
-
         }
 
         public async Task<IActionResult> Logout()
@@ -97,7 +95,8 @@ namespace SchoolSystemTask.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterPage([FromForm] string firstName, [FromForm] string lastName, [FromForm] string password, [FromForm] string email)
+        public IActionResult RegisterPage([FromForm] string firstName, [FromForm] string lastName,
+            [FromForm] string password, [FromForm] string email)
         {
             // Check if email has a user
             var oldUser = userRepository.GetUserByEmail(email);
@@ -108,7 +107,7 @@ namespace SchoolSystemTask.Controllers
             }
 
             var newTeacher = teacherRepository.CreateTeacher(firstName, lastName);
-            var newUser = userRepository.Register(newTeacher, email, password, "teacher");
+            userRepository.Register(newTeacher, email, password, "teacher");
             return Redirect(nameof(LoginPage));
         }
 
@@ -118,7 +117,7 @@ namespace SchoolSystemTask.Controllers
             {
                 Students = studentsRepository.All(),
                 Classes = classesRepository.GetClasses().Classes,
-                NoteTypes= noteTypesRepository.GetNoteTypes()
+                NoteTypes = noteTypesRepository.GetNoteTypes()
             };
             return View(data);
         }
@@ -140,6 +139,7 @@ namespace SchoolSystemTask.Controllers
 
             return Redirect(nameof(Students));
         }
+
         [Authorize]
         public IActionResult Exams()
         {
@@ -148,10 +148,11 @@ namespace SchoolSystemTask.Controllers
             {
                 return RedirectToAction(nameof(HomePage));
             }
+
             var data = new ExamViewModel
             {
-                Classes = classesRepository.GetClasses(user!.TeacherId),
-                Exams = examsRepository.TeacherExams(user!.TeacherId)
+                Classes = classesRepository.GetClasses(user.TeacherId),
+                Exams = examsRepository.TeacherExams(user.TeacherId)
             };
             return View(data);
         }
@@ -163,6 +164,7 @@ namespace SchoolSystemTask.Controllers
             examsRepository.AddExam(createExamDto);
             return Redirect(nameof(Exams));
         }
+
         [Authorize]
         public IActionResult Classes()
         {
@@ -186,13 +188,15 @@ namespace SchoolSystemTask.Controllers
         public IActionResult AddSubject([FromForm] AddSubjectToClassDto addSubjectDto)
         {
             var user = GetUser();
-            var newSubject = classesRepository.CreateSubject(addSubjectDto, user!.TeacherId);
+            classesRepository.CreateSubject(addSubjectDto, user!.TeacherId);
             return Redirect(nameof(Classes));
         }
+
         public IActionResult Chat()
         {
             return View();
         }
+
         public IActionResult Profile()
         {
             return View();
@@ -203,6 +207,7 @@ namespace SchoolSystemTask.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         // Only use after authentication
         private UserTeacher? GetUser()
         {
@@ -227,6 +232,7 @@ namespace SchoolSystemTask.Controllers
             examsRepository.UpdateExamMarks(examWithMark);
             return Redirect(nameof(ExamMarks));
         }
+
         [Authorize]
         [HttpGet("studentNote")]
         public IActionResult StudentNote()
