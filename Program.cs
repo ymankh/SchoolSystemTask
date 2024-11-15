@@ -89,15 +89,15 @@ namespace SchoolSystemTask
             });
             app.UseStaticFiles();
 
-            // Enable middleware for authentication and authorization
-            app.UseAuthentication();
-            app.UseAuthorization();
+
 
             app.UseRouting();
 
             // Enable session middleware in the request pipeline
             app.UseSession();
 
+            // Enable middleware for authentication and authorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

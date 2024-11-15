@@ -4,7 +4,7 @@ namespace SchoolSystemTask.Controllers;
 
 public class StudentController : Controller
 {
-    // GET
+    [HttpGet]
     public IActionResult Index()
     {
         return View();

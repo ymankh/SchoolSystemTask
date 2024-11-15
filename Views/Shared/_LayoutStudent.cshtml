@@ -2,79 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link
-        rel="apple-touch-icon"
-        sizes="76x76"
-        href="~/assets/img/apple-icon.png"/>
-    <link rel="icon" type="image/png" href="~/assets/img/favicon.png"/>
-    <title>@ViewBag.Title - TaleamPro</title>
-    <!-- Fonts and icons -->
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
-    <link href="~/assets/css/nucleo-icons.css" rel="stylesheet"/>
-    <link href="~/assets/css/nucleo-svg.css" rel="stylesheet"/>
-    <script
-        src="https://kit.fontawesome.com/42d5adcbca.js"
-        crossorigin="anonymous"></script>
-    <link
-        href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
-        rel="stylesheet"/>
-    <link id="pagestyle" href="~/assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>@ViewBag.Title</title>
+    <!-- Add your CSS and script links here -->
+    <link href="~/assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet"/>
     <link rel="stylesheet" href="~/assets/new/css/chatBox.css"/>
-    <style>
-      .notification-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 100%;
-        overflow: hidden;
-        align-content: center;
-      }
-    </style>
+    <!-- Additional CSS files -->
+    @await RenderSectionAsync("style")
 </head>
-
 <body class="g-sidenav-show bg-gray-200">
-<aside
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
-    id="sidenav-main">
-    <!-- Sidebar content goes here -->
-    @await RenderSectionAsync("_StudentSideBar", required: false)
-</aside>
-
+<partial name="_StudentSideBar"/>
 <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
-    <!-- Navbar -->
-    @await RenderSectionAsync("_StudentNavbar", required: false)
-    <!-- End Navbar -->
-
+    <partial name="_StudentNavbar"/>
     <div class="container-fluid px-2 px-md-4">
         @RenderBody()
     </div>
-
-    <footer class="footer py-4">
-        <div class="container-fluid">
-            <div class="row align-items-center justify-content-lg-between">
-                <div class="col-lg-6 mb-lg-0 mb-4">
-                    <div class="copyright text-center text-sm text-muted text-lg-start">
-                        © 2024, TaleamPro
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <partial name="_StudentFooter"/>
+    @await RenderSectionAsync("Model")
 </div>
-
-<!-- Chat box -->
-@await RenderSectionAsync("_StudentChatBox", required: false)
-
-<!-- Core JS Files -->
+<partial name="_StudentChatBox"/>
+<!-- Add your JavaScript links here -->
 <script src="~/assets/js/core/popper.min.js"></script>
 <script src="~/assets/js/core/bootstrap.min.js"></script>
-<script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
-<script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="~/assets/js/material-dashboard.min.js?v=3.0.0"></script>
+@await RenderSectionAsync("scripts")
 </body>
 </html>
