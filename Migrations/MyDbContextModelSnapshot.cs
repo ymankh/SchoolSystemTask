@@ -425,7 +425,7 @@ namespace SchoolSystemTask.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeacherSubjectId")
+                    b.Property<int?>("TeacherSubjectId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -434,7 +434,7 @@ namespace SchoolSystemTask.Migrations
 
                     b.HasIndex("TeacherSubjectId");
 
-                    b.ToTable("StudentAbsence");
+                    b.ToTable("StudentAbsences");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.StudentClass", b =>
@@ -759,15 +759,11 @@ namespace SchoolSystemTask.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", "TeacherSubject")
+                    b.HasOne("SchoolSystemTask.Models.TeacherSubject", null)
                         .WithMany("StudentAbsences")
-                        .HasForeignKey("TeacherSubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherSubjectId");
 
                     b.Navigation("Student");
-
-                    b.Navigation("TeacherSubject");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.StudentClass", b =>

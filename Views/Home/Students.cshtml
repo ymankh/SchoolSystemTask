@@ -300,9 +300,40 @@
 		function addStudentIdToNoteModel(studentId) {
 			document.getElementById("addStudentNoteStudentId").value = studentId;
 		}
-		function SaveAttendance(){
-			let attendanceCheckboxs = document.querySelector(".absence-checkbox-box");
-			console.log(attendanceCheckboxs);
+		async function SaveAttendance() {
+			let attendanceCheckboxes = document.querySelectorAll(".absence-checkbox-box");
+			let studentAbsences = [];
+
+			for (let studentBox of attendanceCheckboxes) {
+				studentAbsences.push({
+					studentId: studentBox.getAttribute("studentid"),
+					isAbsent: studentBox.checked
+				});
+			}
+
+			let jsonResult = JSON.stringify(studentAbsences);
+
+			try {
+				// Sending the JSON data to the server using async/await
+				let response = await fetch('/api/Absence', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: jsonResult
+				});
+
+				// Await the response and parse it as JSON
+				let data = await response.json();
+				console.log('Success:', data);
+						iziToast.success({
+			title: 'Absences Saved',
+			message: 'The absence has been successfully recorded in the database!',
+		});
+
+			} catch (error) {
+				console.error('Error:', error);
+			}
 		}
 		SaveAttendanceButton.addEventListener("click", SaveAttendance)
 	</script>

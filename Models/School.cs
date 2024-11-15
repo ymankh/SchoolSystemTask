@@ -57,11 +57,11 @@ namespace SchoolSystemTask.Models
 
     public class StudentClass
     {
-        [Key] [Column(Order = 1)] public int StudentId { get; set; } // Composite Primary Key
+        [Key][Column(Order = 1)] public int StudentId { get; set; } // Composite Primary Key
 
         public Student Student { get; set; } = null!; // Navigation Property
 
-        [Key] [Column(Order = 2)] public int ClassId { get; set; } // Composite Primary Key
+        [Key][Column(Order = 2)] public int ClassId { get; set; } // Composite Primary Key
 
         public Class Class { get; set; } = null!; // Navigation Property
     }
@@ -72,13 +72,9 @@ namespace SchoolSystemTask.Models
 
         public DateTime DateTime { get; set; } // Not Null
 
-        [ForeignKey("TeacherSubject")] public int TeacherSubjectId { get; set; } // Foreign Key
-
-        public TeacherSubject TeacherSubject { get; set; } = null!; // Navigation Property
-
         [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
 
-        public Student Student { get; set; } = null!; // Navigation Property
+        public Student Student { get; set; } // Navigation Property
     }
 
     public class ExamMark
@@ -204,7 +200,7 @@ namespace SchoolSystemTask.Models
 
         [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
 
-        [Required] [EmailAddress] public string Email { get; set; } = string.Empty; // Not Null
+        [Required][EmailAddress] public string Email { get; set; } = string.Empty; // Not Null
 
         public Student Student { get; set; } = null!; // Navigation Property
     }
@@ -229,7 +225,7 @@ namespace SchoolSystemTask.Models
     {
         public int Id { get; set; } // Primary Key
 
-        [MaxLength(255)] [Required] public string Name { get; set; } = string.Empty; // Not Null
+        [MaxLength(255)][Required] public string Name { get; set; } = string.Empty; // Not Null
 
         public ICollection<Class> Classes { get; set; } = new List<Class>();
     }
