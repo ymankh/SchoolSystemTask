@@ -235,5 +235,14 @@ namespace SchoolSystemTask.Controllers
             var studentNotes = studentNoteRepository.GetTeacherStudentNotes(user!.TeacherId);
             return View(studentNotes);
         }
+
+        [Authorize]
+        [HttpDelete("studentNote/{id}")]
+        public IActionResult DeleteStudentNote(int id)
+        {
+            var user = GetUser();
+            studentNoteRepository.DeleteStudentNote(id, user!.TeacherId);
+            return Redirect(nameof(StudentNote));
+        }
     }
 }

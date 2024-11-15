@@ -32,5 +32,16 @@ namespace SchoolSystemTask.Repositories
             context.SaveChanges();
             return studentNote;
         }
+
+        internal void DeleteStudentNote(int id, int teacherId)
+        {
+            var studentNote = context.StudentNotes.Find(id);
+            if (studentNote == null)
+                return;
+
+            studentNote.TeacherId = teacherId;
+            context.StudentNotes.Remove(studentNote);
+            context.SaveChanges();
+        }
     }
 }
