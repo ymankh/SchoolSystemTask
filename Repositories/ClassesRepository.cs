@@ -16,28 +16,30 @@ namespace SchoolSystemTask.Repositories
                 Sections = context.Sections.ToList()
             };
         }
+
         public TeacherClassesDto GetClasses(int teacherId)
         {
             return new TeacherClassesDto
             {
-                Classes = context.Classes.
-                    Include(c => c.ClassSubjects).
-                    ThenInclude(c => c.TeacherSubject).
-                    Where(c => c.TeacherId == teacherId || c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).
-                    ToList(),
+                Classes = context.Classes.Include(c => c.ClassSubjects).ThenInclude(c => c.TeacherSubject.Subject).
+                    // Get the teacher classes or any classes that the take a subject with that teacher.
+                    Where(c => c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).ToList(),
                 Subjects = context.Subjects.ToList(),
                 Sections = context.Sections.ToList(),
                 Grades = context.Grades.ToList()
             };
         }
+
         public Class CreateClass(AddClassDto addClassDto, int teacherId)
         {
             var oldClass = context.Classes.FirstOrDefault(
-                c => c.GradeId == addClassDto.GradeId && c.SectionId == addClassDto.SectionId && c.TeacherId == teacherId);
+                c => c.GradeId == addClassDto.GradeId && c.SectionId == addClassDto.SectionId &&
+                     c.TeacherId == teacherId);
             if (oldClass != null)
             {
                 return oldClass;
             }
+
             var newClass = new Class
             {
                 GradeId = addClassDto.GradeId,
@@ -54,13 +56,14 @@ namespace SchoolSystemTask.Repositories
             // Check wether the class subject already exists or not.
 
             var oldClassSubject =
-                context.ClassSubjects.
-                FirstOrDefault(cs => cs.TeacherSubject.SubjectId == addSubjectDto.SubjectId && cs.ClassId == addSubjectDto.ClassId);
+                context.ClassSubjects.FirstOrDefault(cs =>
+                    cs.TeacherSubject.SubjectId == addSubjectDto.SubjectId && cs.ClassId == addSubjectDto.ClassId);
             if (oldClassSubject != null)
                 return GetClasses(teacherId);
 
             // Get or create teacher subject
-            var teacherSubject = context.TeacherSubjects.FirstOrDefault(ts => ts.SubjectId == addSubjectDto.SubjectId && ts.TeacherId == teacherId);
+            var teacherSubject = context.TeacherSubjects.FirstOrDefault(ts =>
+                ts.SubjectId == addSubjectDto.SubjectId && ts.TeacherId == teacherId);
             if (teacherSubject == null)
             {
                 teacherSubject = new TeacherSubject
@@ -71,6 +74,7 @@ namespace SchoolSystemTask.Repositories
                 context.TeacherSubjects.Add(teacherSubject);
                 context.SaveChanges();
             }
+
             var classSubject = new ClassSubject
             {
                 ClassId = addSubjectDto.ClassId,
@@ -83,7 +87,8 @@ namespace SchoolSystemTask.Repositories
 
         public List<ClassSubject> GetClassSubjects(int id)
         {
-            return context.ClassSubjects.Include(cs => cs.TeacherSubject.Subject).Where(cs => cs.ClassId == id).ToList();
+            return context.ClassSubjects.Include(cs => cs.TeacherSubject.Subject).Where(cs => cs.ClassId == id)
+                .ToList();
         }
     }
 }

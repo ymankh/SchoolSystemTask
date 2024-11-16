@@ -33,7 +33,7 @@ namespace SchoolSystemTask.Repositories
             return studentNote;
         }
 
-        internal void DeleteStudentNote(int id, int teacherId)
+        public void DeleteTeacherStudentNote(int id, int teacherId)
         {
             var studentNote = context.StudentNotes.Find(id);
             if (studentNote == null)
@@ -42,6 +42,31 @@ namespace SchoolSystemTask.Repositories
             studentNote.TeacherId = teacherId;
             context.StudentNotes.Remove(studentNote);
             context.SaveChanges();
+        }
+
+        public StudentNote? DeleteStudentNote(int id)
+        {
+            var studentNote = context.StudentNotes.Find(id);
+            if (studentNote != null)
+            {
+                context.StudentNotes.Remove(studentNote);
+                context.SaveChanges();
+            }
+            return studentNote;
+        }
+
+        public List<NoteType> GetNoteTypes() => context.NoteTypes.ToList();
+
+        internal StudentNote EditNote(EditStudentNoteDto editStudentNoteDto)
+        {
+            var note = context.StudentNotes.Find(editStudentNoteDto.StudentNoteId);
+            if (note == null)
+                throw new Exception("Coudln't find the student note with the given Id");
+            note.NoteTypeId = editStudentNoteDto.NoteTypeId;
+            note.Note = editStudentNoteDto.Note;
+            context.StudentNotes.Update(note);
+            context.SaveChanges();
+            return note;
         }
     }
 }

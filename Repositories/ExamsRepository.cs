@@ -32,7 +32,7 @@ namespace SchoolSystemTask.Repositories
                 ExamDuration = createExamDto.ExamDuration,
                 ExamStartDate = createExamDto.ExamStartDate,
                 MaxMark = createExamDto.MaxMark,
-                MarkPublished = false
+                MarkPublished = false,
             };
             context.Exams.Add(exam);
             context.SaveChanges();

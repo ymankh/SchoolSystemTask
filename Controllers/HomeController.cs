@@ -12,6 +12,7 @@ using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.DTOs.StudentsDTOs;
 using SchoolSystemTask.DTOs.ExamDTOs;
 using SchoolSystemTask.DTOs.StudentNoteDTOs;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace SchoolSystemTask.Controllers
 {
@@ -161,7 +162,16 @@ namespace SchoolSystemTask.Controllers
         [HttpPost]
         public IActionResult Exams([FromForm] CreateExamDto createExamDto)
         {
+            var user = GetUser();
             examsRepository.AddExam(createExamDto);
+            return Redirect(nameof(Exams));
+        }
+
+        [HttpDelete("DeleteExam/{id:int}")]
+        public IActionResult DeleteExam(int id)
+        {
+            var user = GetUser();
+            examsRepository.DeleteExam(id);
             return Redirect(nameof(Exams));
         }
 
@@ -234,20 +244,23 @@ namespace SchoolSystemTask.Controllers
         }
 
         [Authorize]
-        [HttpGet("studentNote")]
+        [HttpGet]
         public IActionResult StudentNote()
         {
             var user = GetUser();
-            var studentNotes = studentNoteRepository.GetTeacherStudentNotes(user!.TeacherId);
-            return View(studentNotes);
+            var data = new StudentNoteViewModel
+            {
+                StudentNotes = studentNoteRepository.GetTeacherStudentNotes(user!.TeacherId),
+                NoteTypes = studentNoteRepository.GetNoteTypes()
+            };
+            return View(data);
         }
 
         [Authorize]
-        [HttpDelete("studentNote/{id}")]
-        public IActionResult DeleteStudentNote(int id)
+        [HttpPost]
+        public IActionResult EditStudentNote(EditStudentNoteDto editStudentNoteDto)
         {
-            var user = GetUser();
-            studentNoteRepository.DeleteStudentNote(id, user!.TeacherId);
+            studentNoteRepository.EditNote(editStudentNoteDto);
             return Redirect(nameof(StudentNote));
         }
     }

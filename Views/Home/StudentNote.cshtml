@@ -1,4 +1,5 @@
-﻿@model List<StudentNote>
+﻿@using SchoolSystemTask.ViewModels
+@model StudentNoteViewModel;
 
 @{
     ViewBag.Title = "Students Notes";
@@ -34,13 +35,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if (!Model.Any())
+                            @if (!Model.StudentNotes.Any())
                             {
-                                <td colspan="5">There are no students notes yet.</td>
+                                <tr>
+                                    <td colspan="5">There are no students notes yet.</td>
+                                </tr>
                             }
                             else
                             {
-                                @foreach (var studentNote in Model)
+                                @foreach (var studentNote in Model.StudentNotes)
                                 {
                                     <tr>
                                         <td>
@@ -70,18 +73,16 @@
                                         <td class="align-middle">
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
                                                   title="Edit note" data-container="body" data-animation="true">
-                                                <a href="javascript:" class="btn btn-link edit-note-btn"
-                                                   data-bs-toggle="modal" data-bs-target="#EditNoteModal"
-                                                   onclick="editStudentNoteModel(@studentNote.Id)">
-                                                    <i class="fa-solid fa-edit ms-1"></i>
+                                                <a href="javascript:" class="btn btn-link p-1"
+                                                   onclick="setNoteModelData(@studentNote.Id, @studentNote.NoteType.Id, '@studentNote.Note')"
+                                                   data-bs-toggle="modal" data-bs-target="#EditNoteModal">
+                                                    <i class="fa-solid fa-edit"></i>
                                                 </a>
                                             </span>
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
                                                   title="Delete Note" data-container="body" data-animation="true">
-                                                <a href="javascript:" class="btn btn-link edit-note-btn"
-                                                   data-bs-toggle="modal" data-bs-target="#EditNoteModal"
-                                                   onclick="editStudentNoteModel(@studentNote.Id)">
-                                                    <i class="fa-solid fa-trash ms-1"></i>
+                                                <a href="javascript:" class="btn btn-link p-1">
+                                                    <i class="fa-solid fa-trash"></i>
                                                 </a>
                                             </span>
                                         </td>
@@ -94,9 +95,8 @@
             </div>
         </div>
         <partial name="_LatestUpdates"/>
-
-
     </div>
+
     <footer class="footer py-4">
         <div class="container-fluid">
             <div class="row align-items-center justify-content-lg-between">
@@ -104,8 +104,8 @@
                     <div class="copyright text-center text-sm text-muted text-lg-start">
                         ©
                         <script>
-                            document.write(new Date().getFullYear());
-                        </script>
+							document.write(new Date().getFullYear());
+						</script>
                         , TaleamPro
                     </div>
                 </div>
@@ -116,104 +116,34 @@
 
 @section Modals {
     <!-- Student Note form -->
-    <div class="modal fade" id="AddNoteModal" tabindex="-1" role="dialog" aria-labelledby="AddNoteModal" aria-hidden="true">
+    <div class="modal fade" id="EditNoteModal" tabindex="-1" role="dialog" aria-labelledby="EditNoteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title font-weight-normal">
-                        Add a student note
+                        Edit Note
                     </h5>
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="@Url.Action("AddStudentNote", "Home")">
+                    <form method="post" action="@Url.Action("EditStudentNote", "Home")">
                         <div class="input-group input-group-outline my-3">
-                            <select class="form-control" required name="noteTypeId">
+                            <select class="form-control" required name="noteTypeId" id="noteTypeSelect">
                                 <option disabled selected>Note Type</option>
+                                @foreach (var noteType in Model.NoteTypes)
+                                {
+                                    <option value="@noteType.Id">@noteType.NoteTypeName</option>
+                                }
                             </select>
                         </div>
-                        <input type="text" class="d-none" name="studentId" id="addStudentNoteStudentId">
                         <div class="input-group input-group-outline my-3">
-                            <textarea class="form-control" rows="4" name="note" placeholder="Enter the note details here..."
-                                required></textarea>
+                            <textarea id="noteContentTextArea" class="form-control" rows="4" name="note" placeholder="Enter the note details here..."
+									  required></textarea>
                         </div>
+                        <input type="number" name="studentNoteId" class="d-none" id="studentNoteId"/>
                         <button type="submit" class="btn btn-primary">Submit Note</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Add student form -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title font-weight-normal" id="exampleModalLabel">
-                        Add Student Note
-                    </h5>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Student Full Name</label>
-                                    <input type="text" class="form-control" required name="FullName"/>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">National ID</label>
-                                    <input type="text" class="form-control" required name="NationalId"/>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <select class="form-control" required name="classId">
-                                        <option disabled selected>Select Class</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static my-3">
-                                    <label>Date of Birth</label>
-                                    <input type="date" class="form-control" required name="BirthDate"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Parent Contact</label>
-                                    <input type="tel" class="form-control" required name="ParentContact"/>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" required name="Address"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-12">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" required name="Email"/>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Student</button>
                     </form>
                 </div>
             </div>
@@ -223,38 +153,49 @@
 
 @section Scripts {
     <script>
-        // This script for taking attendance.
-        const takeAttendanceButton = document.getElementById(
-            "take-attendance-button"
-        );
-        const attendanceButtons = document.getElementById("attendance-buttons");
-        const SaveAttendanceButton = document.getElementById(
-            "save-attendance-button"
-        );
-        const addNoteButtons = document.getElementsByClassName("add-note-btn");
-        const absenceCheckboxes =
-            document.getElementsByClassName("absence-checkbox");
-        takeAttendanceButton.addEventListener("click", () => {
-            if (takeAttendanceButton.textContent.includes("Take Attendance")) {
-                takeAttendanceButton.textContent = "Cancel";
-            } else {
-                takeAttendanceButton.innerText = "Take Attendance";
-            }
-            attendanceButtons.classList.toggle("btn-group");
-            SaveAttendanceButton.classList.toggle("d-none");
-            takeAttendanceButton.classList.toggle("btn-primary");
-            takeAttendanceButton.classList.toggle("btn-secondary");
-            takeAttendanceButton.classList.toggle("w-100");
-            takeAttendanceButton.classList.toggle("w-50");
+		function fireDeleteStudentNote(id) {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!",
+			}).then((result) => {
+				if (result.isConfirmed)
+					deleteStudentNote(id)
+			});
+		}
+		async function deleteStudentNote(id) {
+			const response = await fetch(`/api/StudentNote/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			if (response.ok) {
+				window.location.reload()
+				// Handle success, such as updating the UI
+			} else {
+				// Handle other errors
+				console.error("Network error:", error);
+				Swal.fire({
+					icon: "error",
+					title: "Oops...",
+					text: "Something went wrong!",
+					footer: 'note has not been deleted!'
+				});
+			}
+		}
+	</script>
 
-            for (let index = 0; index < absenceCheckboxes.length; index++) {
-                absenceCheckboxes[index].classList.toggle("d-none");
-                addNoteButtons[index].classList.toggle("d-none");
-            }
-        });
-        function addStudentIdToNoteModel(studentId) {
-            document.getElementById("addStudentNoteStudentId").value = studentId;
-        }
-    </script>
+    <script>
+		function setNoteModelData(studentNoteId, noteTypeId, noteText) {
+			document.getElementById("noteTypeSelect").value = noteTypeId;
+			document.getElementById("noteContentTextArea").value = noteText;
+			document.getElementById("studentNoteId").value = studentNoteId;
+		}
+	</script>
 
 }

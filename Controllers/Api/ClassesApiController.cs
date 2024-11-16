@@ -7,7 +7,7 @@ namespace SchoolSystemTask.Controllers.Api
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClassesApiController(MyDbContext context, ClassesRepository classesRepository) : ControllerBase
+    public class ClassesApiController(ClassesRepository classesRepository) : ControllerBase
     {
         //[HttpPost]
         //public IActionResult AddSubject([FromBody] AddSubjectToClassDto subject)

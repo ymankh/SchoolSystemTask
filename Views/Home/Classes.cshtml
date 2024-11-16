@@ -51,62 +51,72 @@
 
                             </thead>
                             <tbody>
-                            @foreach (var _class in Model.Classes)
+                            @if (Model.Classes.Any())
+                            {
+                                @foreach (var _class in Model.Classes)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6>
+
+                                                        @if (_class.ClassSubjects.Any())
+                                                        {
+                                                            foreach (var subject in _class.ClassSubjects)
+                                                            {
+                                                                <span>@subject.TeacherSubject.Subject.Name ,</span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>No Subjects</span>
+                                                        }
+                                                    </h6>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-xs">
+                                            @_class.Grade.Name, section @_class.Section.Name
+                                        </td>
+
+                                        <td class="align-middle">
+                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                  title="Edit" data-container="body" data-animation="true">
+                                                <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
+                                                   data-bs-target="#examModal" onclick="addDeleteButton()">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                            </span>
+                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                  title="Enrolled students" data-container="body" data-animation="true">
+                                                <a href="@Url.Action("Students", "Home", new { classId = _class.Id })" )
+                                                   class="btn btn-link p-1">
+                                                    <i class="fa-solid fa-clipboard-check"></i>
+                                                </a>
+                                            </span>
+                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                  title="Add Subject" data-container="body" data-animation="true">
+                                                <a href="javascript:;" lass="btn btn-link p-1" data-bs-toggle="modal"
+                                                   data-bs-target="#addSubject"
+                                                   onclick="addSubject('@_class.ClassName','@_class.Id')"
+                                                   class="btn btn-link p-1">
+                                                    <!-- add subject fa icon -->
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6>
-
-                                                    @if (_class.ClassSubjects.Any())
-                                                    {
-                                                        foreach (var subject in _class.ClassSubjects)
-                                                        {
-                                                            <span>@subject.TeacherSubject.Subject.Name ,</span>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>No Subjects</span>
-                                                    }
-                                                </h6>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs">
-                                        @_class.Grade.Name, section @_class.Section.Name
-                                    </td>
-
-                                    <td class="align-middle">
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Edit" data-container="body" data-animation="true">
-                                            <a href="javascript:;" class="btn btn-link p-1" data-bs-toggle="modal"
-                                               data-bs-target="#examModal" onclick="addDeleteButton()">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Enrolled students" data-container="body" data-animation="true">
-                                            <a href="@Url.Action("Students", "Home", new { classId = _class.Id })" )
-                                               class="btn btn-link p-1">
-                                                <i class="fa-solid fa-clipboard-check"></i>
-                                            </a>
-                                        </span>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              title="Add Subject" data-container="body" data-animation="true">
-                                            <a href="javascript:;" lass="btn btn-link p-1" data-bs-toggle="modal"
-                                               data-bs-target="#addSubject"
-                                               onclick="addSubject('@_class.ClassName','@_class.Id')"
-                                               class="btn btn-link p-1">
-                                                <!-- add subject fa icon -->
-                                                <i class="fa-solid fa-plus"></i>
-                                            </a>
-                                        </span>
-                                    </td>
+                                    <td colspan="4">There are no register classes.</td>
                                 </tr>
                             }
+
                             </tbody>
                         </table>
                     </div>
