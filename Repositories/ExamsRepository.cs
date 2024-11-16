@@ -15,8 +15,8 @@ namespace SchoolSystemTask.Repositories
 
         public List<Exam> TeacherExams(int teacherId)
         {
-            return context.Exams.Include(e => e.ClassSubject).
-            Where(e => e.ClassSubject.TeacherSubject.Id == teacherId)
+            return context.Exams.Include(e => e.ClassSubject.TeacherSubject).
+            Where(e => e.ClassSubject.TeacherSubject.TeacherId == teacherId)
             .ToList();
         }
 

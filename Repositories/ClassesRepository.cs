@@ -23,7 +23,7 @@ namespace SchoolSystemTask.Repositories
             {
                 Classes = context.Classes.Include(c => c.ClassSubjects).ThenInclude(c => c.TeacherSubject.Subject).
                     // Get the teacher classes or any classes that the take a subject with that teacher.
-                    Where(c => c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).ToList(),
+                    Where(c => c.TeacherId == teacherId || c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).ToList(),
                 Subjects = context.Subjects.ToList(),
                 Sections = context.Sections.ToList(),
                 Grades = context.Grades.ToList()
