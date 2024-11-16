@@ -79,7 +79,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var student in Model.Students)
+                            @if(Model.Students.Any()){
+                                @foreach (var student in Model.Students)
                             {
                                 <tr>
                                     <td>
@@ -122,6 +123,12 @@
                                                    name="Absences"/>
                                         </div>
                                     </td>
+                                </tr>
+                            }
+                            }
+                            else {
+                                <tr>
+                                    <td colspan="4">There are no students yet</td>
                                 </tr>
                             }
                             <!-- Repeat for other students -->

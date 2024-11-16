@@ -25,9 +25,7 @@ namespace SchoolSystemTask.Controllers
         ClassesRepository classesRepository,
         StudentsRepository studentsRepository,
         ExamsRepository examsRepository,
-        StudentNoteRepository studentNoteRepository,
-        NoteTypesRepository noteTypesRepository
-    ) : Controller
+        StudentNoteRepository studentNoteRepository) : Controller
     {
         [Authorize]
         public IActionResult Index()
@@ -111,14 +109,19 @@ namespace SchoolSystemTask.Controllers
             userRepository.Register(newTeacher, email, password, "teacher");
             return Redirect(nameof(LoginPage));
         }
-
+        [Authorize]
         public IActionResult Students()
         {
+            var user = GetUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(HomePage));
+            }
             var data = new StudentsViewModel
             {
-                Students = studentsRepository.All(),
-                Classes = classesRepository.GetClasses().Classes,
-                NoteTypes = noteTypesRepository.GetNoteTypes()
+                Students = studentsRepository.TeacherStudents(user.TeacherId),
+                Classes = classesRepository.GetClasses(user.TeacherId).Classes,
+                NoteTypes = studentNoteRepository.GetNoteTypes()
             };
             return View(data);
         }

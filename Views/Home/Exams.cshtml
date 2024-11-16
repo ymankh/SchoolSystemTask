@@ -91,13 +91,13 @@
                                         </td>
 
                                         <td class="align-middle">
-                                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            @* <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
                                                   title="Edit" data-container="body" data-animation="true">
                                                 <a href="javascript:" class="btn btn-link p-1" data-bs-toggle="modal"
                                                    data-bs-target="#examModal" onclick="addDeleteButton()">
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
-                                            </span>
+                                            </span> *@
                                             <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
                                                   title="Add marks" data-container="body" data-animation="true">
                                                 <a href='@Url.Action("ExamMarks", "Home", new { id = exam.Id })' class="btn btn-link p-1">

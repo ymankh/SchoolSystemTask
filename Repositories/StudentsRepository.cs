@@ -6,6 +6,17 @@ namespace SchoolSystemTask.Repositories
 {
     public class StudentsRepository(MyDbContext context)
     {
+
+        public List<Student> TeacherStudents(int teacherId)
+        {
+            return context.Students.Include(s => s.Class.ClassSubjects).
+                ThenInclude(cs => cs.TeacherSubject.Subject).
+                Include(s => s.Class.Section).
+                Include(s => s.StudentAbsences).
+                Where(s => s.Class.TeacherId == teacherId ||
+                            s.Class.ClassSubjects.Any(cs => cs.TeacherSubject.TeacherId == teacherId))
+                .ToList();
+        }
         public IEnumerable<Student> All()
         {
             return context.Students.
