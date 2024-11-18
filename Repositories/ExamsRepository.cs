@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.DTOs.ExamDTOs;
 using SchoolSystemTask.DTOs.ExamMarksDTOs;
 using SchoolSystemTask.Models;
+using SchoolSystemTask.Models.StaticData;
 using SchoolSystemTask.ViewModels;
 
 
@@ -15,7 +16,7 @@ public class ExamsRepository(MyDbContext context)
     }
 
     public List<Exam> TeacherExams(int teacherId)
-    {   
+    {
         return context.Exams.Include(e => e.ClassSubject.TeacherSubject).
         Where(e => e.ClassSubject.TeacherSubject.TeacherId == teacherId)
         .ToList();
@@ -38,9 +39,9 @@ public class ExamsRepository(MyDbContext context)
         context.Exams.Add(exam);
         context.ActionHistories.Add(new ActionHistory
         {
-            Name = "Add Exam",
-            Description = "Added a new exam",
-            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.)),
+            Name = ActionNames.CreateExam,
+            Description = "Added a new exam.",
+            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == createExamDto.ClassSubjectId))).Id,
         });
         context.SaveChanges();
     }
@@ -91,20 +92,6 @@ public class ExamsRepository(MyDbContext context)
         };
     }
 
-    internal void UpdateExamMarks(string[] examWithMark)
-    {
-        foreach (var mark in examWithMark)
-        {
-            var examMarkId = Convert.ToInt32(mark.Split(',')[0]);
-            var examMark = Convert.ToInt32(mark.Split(',')[1]);
-            context.ExamMarks.Update(new ExamMark
-            {
-                Mark = examMark,
-                ExamId = examMarkId
-            });
-        }
-    }
-
     internal void UpdateExamMark(AddExamMarkDto[] examMarksDto)
     {
         foreach (var mark in examMarksDto)
@@ -113,6 +100,12 @@ public class ExamsRepository(MyDbContext context)
             examMark.Mark = mark.Mark;
             context.ExamMarks.Update(examMark);
         }
+        context.ActionHistories.Add(new ActionHistory
+        {
+            Name = ActionNames.UpdateExamMark,
+            Description = "Updated exam marks.",
+            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == examMarksDto[0].Id))).Id,
+        });
         context.SaveChanges();
     }
 
@@ -120,6 +113,13 @@ public class ExamsRepository(MyDbContext context)
     {
         var exam = context.Exams.Find(id) ?? throw new KeyNotFoundException("Exam not found");
         context.Exams.Remove(exam);
+        context.ActionHistories.Add(new ActionHistory { Name = "DeleteExam", Id = exam.Id });
+        context.ActionHistories.Add(new ActionHistory
+        {
+            Name = ActionNames.DeleteExam,
+            Description = "Deleted an exam.",
+            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == id))).Id,
+        });
         context.SaveChanges();
     }
 }

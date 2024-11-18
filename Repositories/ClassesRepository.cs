@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.Models;
+using SchoolSystemTask.Models.StaticData;
 
 namespace SchoolSystemTask.Repositories
 {
@@ -47,6 +49,12 @@ namespace SchoolSystemTask.Repositories
                 TeacherId = teacherId
             };
             context.Classes.Add(newClass);
+            context.ActionHistories.Add(new ActionHistory
+            {
+                Name = ActionNames.CreateClass,
+                Description = "Added a new class.",
+                UserId = context.UserTeachers.First(u => u.TeacherId == teacherId).UserTeacherId,
+            });
             context.SaveChanges();
             return newClass;
         }
@@ -81,6 +89,12 @@ namespace SchoolSystemTask.Repositories
                 TeacherSubjectId = teacherSubject.Id
             };
             context.ClassSubjects.Add(classSubject);
+            context.ActionHistories.Add(new ActionHistory
+            {
+                Name = ActionNames.CreateClassSubject,
+                Description = "Added a new class subject.",
+                UserId = context.UserTeachers.First(u => u.TeacherId == teacherId).UserTeacherId
+            });
             context.SaveChanges();
             return GetClasses(teacherId);
         }

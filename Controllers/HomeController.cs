@@ -245,6 +245,20 @@ namespace SchoolSystemTask.Controllers
             return View(examMarks);
         }
 
+        /// <summary>
+        /// Updates the marks of the exams for the given exam ID.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint is protected and requires authorization. It expects the exam ID as a route parameter
+        /// and an array of exam marks as form data. Each string in the array should be formatted as "ExamId,Mark".
+        /// </remarks>
+        /// <param name="examId">The ID of the exam whose marks are to be updated.</param>
+        /// <param name="examWithMark">
+        /// An array of strings provided as form data, where each string contains an ExamId and a Mark, separated by a comma.
+        /// </param>
+        /// <returns>
+        /// A redirect result to the ExamMarks view after updating the exam marks.
+        /// </returns>
         [Authorize]
         [HttpPost("Home/ExamMarks/{examId:int}")]
         public IActionResult ExamMarks([FromRoute] int examId, [FromForm] string[] examWithMark)
@@ -252,6 +266,7 @@ namespace SchoolSystemTask.Controllers
             examsRepository.UpdateExamMarks(examWithMark);
             return Redirect(nameof(ExamMarks));
         }
+
 
         [Authorize]
         [HttpGet]

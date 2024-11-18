@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using SchoolSystemTask.DTOs.StudentAbsenceDTOs;
 using SchoolSystemTask.Models;
+using SchoolSystemTask.Models.StaticData;
 
 namespace SchoolSystemTask.Repositories
 {
@@ -30,10 +31,14 @@ namespace SchoolSystemTask.Repositories
                     context.StudentAbsences.Remove(existingAbsence);
                 }
             }
+            context.ActionHistories.Add(new ActionHistory
+            {
+                Name = ActionNames.CreateStudentAbsence,
+                Description = "Added or removed absences.",
+                UserId = context.UserTeachers.First(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == absences[0].StudentId))).UserTeacherId,
+            });
             context.SaveChanges();
             return context.StudentAbsences.ToList();
         }
-
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.DTOs.StudentsDTOs;
 using SchoolSystemTask.Models;
+using SchoolSystemTask.Models.StaticData;
 
 namespace SchoolSystemTask.Repositories
 {
@@ -47,6 +48,12 @@ namespace SchoolSystemTask.Repositories
                 NationalId = studentDto.NationalId
             };
             context.Students.Add(student);
+            context.ActionHistories.Add(new ActionHistory
+            {
+                Name = ActionNames.CreateStudent,
+                Description = "Added a new student.",
+                UserId = context.UserTeachers.First(u => u.Teacher.Classes.Any(u => u.Id == studentDto.ClassId)).UserTeacherId,
+            });
             context.SaveChanges();
             return student;
         }

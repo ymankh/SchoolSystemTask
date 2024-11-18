@@ -219,7 +219,7 @@ public class TeacherSubject
     public ICollection<StudentAbsence> StudentAbsences { get; set; } = new List<StudentAbsence>();
     public ICollection<Exam> Exams { get; set; } = new List<Exam>();
 
-    public ICollection<TeacherSubject> TeacherSubjects { get; set; }
+    public ICollection<ClassSubject> ClassSubjects { get; set; }
 }
 
 public class Section

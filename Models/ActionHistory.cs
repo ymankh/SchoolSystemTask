@@ -1,7 +1,6 @@
 namespace SchoolSystemTask.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 public class ActionHistory
 {
     public int Id { get; set; }
