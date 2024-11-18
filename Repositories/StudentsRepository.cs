@@ -13,6 +13,7 @@ namespace SchoolSystemTask.Repositories
                 ThenInclude(cs => cs.TeacherSubject.Subject).
                 Include(s => s.Class.Section).
                 Include(s => s.StudentAbsences).
+                Include(s => s.Class.Grade).
                 Where(s => s.Class.TeacherId == teacherId ||
                             s.Class.ClassSubjects.Any(cs => cs.TeacherSubject.TeacherId == teacherId))
                 .ToList();

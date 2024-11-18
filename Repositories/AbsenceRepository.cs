@@ -4,7 +4,7 @@ using SchoolSystemTask.Models;
 
 namespace SchoolSystemTask.Repositories
 {
-    public class AbsenceRebasatory(MyDbContext context)
+    public class AbsenceRepository(MyDbContext context)
     {
         public List<StudentAbsence> AddAbsences(CreateStudentAbsenceDto[] absences)
         {

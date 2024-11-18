@@ -7,7 +7,7 @@ namespace SchoolSystemTask.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AbsenceController(AbsenceRebasatory absenceRebasatory) : ControllerBase
+    public class AbsenceController(AbsenceRepository absenceRebasatory) : ControllerBase
     {
         [HttpPost]
         public IActionResult SaveAbcences([FromBody] CreateStudentAbsenceDto[] absences)

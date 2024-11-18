@@ -229,4 +229,35 @@ namespace SchoolSystemTask.Models
 
         public ICollection<Class> Classes { get; set; } = new List<Class>();
     }
+
+    public class Assignment
+    {
+        public int Id { get; set; } // Primary Key
+
+        [ForeignKey("ClassSubject")] public int ClassSubjectId { get; set; }
+
+        public ClassSubject ClassSubject { get; set; } = null!; // Navigation Property
+
+        public DateTime DueDate { get; set; }
+
+        [Required] public string Details { get; set; } = string.Empty; // Exam details
+        public bool IsVisible { get; set; } = false; // Default: not visible
+    }
+
+    public class AssignmentSubmission
+    {
+        public int Id { get; set; } // Primary Key
+
+        [ForeignKey("Student")] public int StudentId { get; set; } // Foreign Key
+
+        public Student Student { get; set; } = null!; // Navigation Property
+
+        [ForeignKey("Assignment")] public int AssignmentId { get; set; } // Foreign Key
+
+        public Assignment Assignment { get; set; } = null!; // Navigation Property
+
+        public DateTime DateTime { get; set; } = DateTime.Now;
+
+        [Required] public string Submission { get; set; } = string.Empty; // Not Null
+    }
 }

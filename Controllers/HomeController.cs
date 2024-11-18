@@ -12,7 +12,6 @@ using SchoolSystemTask.DTOs.ClassesDTOs;
 using SchoolSystemTask.DTOs.StudentsDTOs;
 using SchoolSystemTask.DTOs.ExamDTOs;
 using SchoolSystemTask.DTOs.StudentNoteDTOs;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace SchoolSystemTask.Controllers
 {
@@ -25,15 +24,23 @@ namespace SchoolSystemTask.Controllers
         ClassesRepository classesRepository,
         StudentsRepository studentsRepository,
         ExamsRepository examsRepository,
-        StudentNoteRepository studentNoteRepository) : Controller
+        StudentNoteRepository studentNoteRepository,
+        AssignmentSubmissionRepository assignmentSubmissionRepository) : Controller
     {
         [Authorize]
         public IActionResult Index()
         {
-            var students = studentsRepository.All();
+            var user = GetUser();
+            if (user == null)
+                return RedirectToAction(nameof(HomePage));
+
+            var students = studentsRepository.TeacherStudents(user.TeacherId);
             var data = new HomeViewModel
             {
                 Students = students,
+                StudentNotes = studentNoteRepository.GetTeacherStudentNotes(user.TeacherId),
+                AbsencesCount = students.Count(s => s.StudentAbsences.Any(a => a.DateTime.Date == DateTime.Today)),
+                AssignmentCount = assignmentSubmissionRepository.SubmissionsCount(user.TeacherId)
             };
             return View(data);
         }

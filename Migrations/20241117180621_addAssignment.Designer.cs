@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolSystemTask.Models;
 
@@ -10,36 +11,14 @@ using SchoolSystemTask.Models;
 namespace SchoolSystemTask.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117180621_addAssignment")]
+    partial class addAssignment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
-
-            modelBuilder.Entity("SchoolSystemTask.Models.ActionHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ActionHistories");
-                });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Assignment", b =>
                 {
@@ -65,34 +44,6 @@ namespace SchoolSystemTask.Migrations
                     b.HasIndex("ClassSubjectId");
 
                     b.ToTable("Assignments");
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.AssignmentSubmission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AssignmentId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Submission")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignmentId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("AssignmentSubmissions");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Class", b =>
@@ -730,17 +681,6 @@ namespace SchoolSystemTask.Migrations
                     b.ToTable("UserTeachers");
                 });
 
-            modelBuilder.Entity("SchoolSystemTask.Models.ActionHistory", b =>
-                {
-                    b.HasOne("SchoolSystemTask.Models.UserTeacher", "UserTeacher")
-                        .WithMany("ActionHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserTeacher");
-                });
-
             modelBuilder.Entity("SchoolSystemTask.Models.Assignment", b =>
                 {
                     b.HasOne("SchoolSystemTask.Models.ClassSubject", "ClassSubject")
@@ -750,25 +690,6 @@ namespace SchoolSystemTask.Migrations
                         .IsRequired();
 
                     b.Navigation("ClassSubject");
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.AssignmentSubmission", b =>
-                {
-                    b.HasOne("SchoolSystemTask.Models.Assignment", "Assignment")
-                        .WithMany()
-                        .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolSystemTask.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Assignment");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SchoolSystemTask.Models.Class", b =>
@@ -1041,11 +962,6 @@ namespace SchoolSystemTask.Migrations
                     b.Navigation("Exams");
 
                     b.Navigation("StudentAbsences");
-                });
-
-            modelBuilder.Entity("SchoolSystemTask.Models.UserTeacher", b =>
-                {
-                    b.Navigation("ActionHistories");
                 });
 #pragma warning restore 612, 618
         }

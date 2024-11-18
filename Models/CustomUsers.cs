@@ -17,6 +17,7 @@ namespace SchoolSystemTask.Models
         required public int TeacherId { get; set; }
 
         public Teacher Teacher { get; set; }
+        public ICollection<ActionHistory> ActionHistories { get; set; }
 
     }
 }

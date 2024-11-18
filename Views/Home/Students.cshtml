@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Students";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-    ViewData["Thin"] = "Students";
 }
 @model StudentsViewModel;
 <div class="container-fluid py-4">
@@ -95,12 +94,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @foreach (var classSubject in @student.Class.ClassSubjects)
-                                        {
-                                            <span>
-                                                @classSubject.TeacherSubject.Subject.Name
-                                            </span>
-                                        }
+                                        @student.Class.ClassName
                                     </td>
 
                                     <td class="align-middle text-center text-sm">
@@ -328,7 +322,6 @@
 					},
 					body: jsonResult
 				});
-
 				// Await the response and parse it as JSON
 				let data = await response.json();
 				console.log('Success:', data);
@@ -343,5 +336,4 @@
 		}
 		SaveAttendanceButton.addEventListener("click", SaveAttendance)
 	</script>
-
 }

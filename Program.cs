@@ -57,7 +57,8 @@ namespace SchoolSystemTask
             builder.Services.AddScoped<ExamsRepository>();
             builder.Services.AddScoped<StudentNoteRepository>();
             builder.Services.AddScoped<NoteTypesRepository>();
-            builder.Services.AddScoped<AbsenceRebasatory>();
+            builder.Services.AddScoped<AbsenceRepository>();
+            builder.Services.AddScoped<AssignmentSubmissionRepository>();
 
             // Solve possible object cycle was detected
             builder.Services.AddControllers().AddNewtonsoftJson(options =>

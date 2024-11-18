@@ -2,6 +2,7 @@
 namespace SchoolSystemTask.Models
 {
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
     {
@@ -24,6 +25,10 @@ namespace SchoolSystemTask.Models
         public DbSet<ExamMark> ExamMarks { get; set; }
 
         public DbSet<StudentAbsence> StudentAbsences { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
+        public DbSet<ActionHistory> ActionHistories { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,8 +86,11 @@ namespace SchoolSystemTask.Models
             modelBuilder.Entity<StudentClass>()
                 .HasKey(sc => new { sc.StudentId, sc.ClassId });
 
-            //modelBuilder.Entity<ClassSubject>()
-            //    .HasKey(cs => new { cs.ClassId, cs.TeacherSubjectId });
+            modelBuilder.Entity<ActionHistory>()
+                .HasOne(a => a.UserTeacher).
+                WithMany(ut => ut.ActionHistories).
+                OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 
