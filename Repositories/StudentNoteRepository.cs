@@ -57,7 +57,7 @@ public class StudentNoteRepository(MyDbContext context)
         context.SaveChanges();
     }
 
-    public StudentNote? DeleteStudentNote(int id)
+    public StudentNote? DeleteStudentNote(int id, int userId)
     {
         var studentNote = context.StudentNotes.Find(id);
         if (studentNote != null)
@@ -69,14 +69,14 @@ public class StudentNoteRepository(MyDbContext context)
         {
             Name = ActionNames.DeleteStudentNote,
             Description = "Deleted a student note.",
-            UserId = context.UserTeachers.First(u => u.TeacherId == studentNote!.TeacherId).UserTeacherId
+            UserId = userId
         });
         return studentNote;
     }
 
     public List<NoteType> GetNoteTypes() => context.NoteTypes.ToList();
 
-    internal StudentNote EditNote(EditStudentNoteDto editStudentNoteDto)
+    internal StudentNote EditNote(EditStudentNoteDto editStudentNoteDto, int userId)
     {
         var note = context.StudentNotes.Find(editStudentNoteDto.StudentNoteId);
         if (note == null)
@@ -88,7 +88,7 @@ public class StudentNoteRepository(MyDbContext context)
         {
             Name = ActionNames.UpdateStudentNote,
             Description = "Updated a student note.",
-            UserId = context.UserTeachers.First(u => u.TeacherId == note.TeacherId).UserTeacherId
+            UserId = userId
         });
         context.SaveChanges();
         return note;

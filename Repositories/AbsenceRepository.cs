@@ -7,7 +7,7 @@ namespace SchoolSystemTask.Repositories
 {
     public class AbsenceRepository(MyDbContext context)
     {
-        public List<StudentAbsence> AddAbsences(CreateStudentAbsenceDto[] absences)
+        public List<StudentAbsence> AddAbsences(CreateStudentAbsenceDto[] absences, int userId)
         {
             var today = DateTime.Now.Date;
 
@@ -35,7 +35,7 @@ namespace SchoolSystemTask.Repositories
             {
                 Name = ActionNames.CreateStudentAbsence,
                 Description = "Added or removed absences.",
-                UserId = context.UserTeachers.First(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == absences[0].StudentId))).UserTeacherId,
+                UserId = userId,
             });
             context.SaveChanges();
             return context.StudentAbsences.ToList();

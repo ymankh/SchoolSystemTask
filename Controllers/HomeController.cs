@@ -144,10 +144,11 @@ public class HomeController(
         return Redirect(nameof(Students));
     }
 
+    [Authorize]
     [HttpPost]
     public IActionResult Students([FromForm] AddStudentDto addStudentDto)
     {
-        studentsRepository.Add(addStudentDto);
+        studentsRepository.Add(addStudentDto, GetUser()!.UserTeacherId);
         ViewBag.Message = "Student has been added successfully";
 
         return Redirect(nameof(Students));
@@ -174,16 +175,16 @@ public class HomeController(
     [HttpPost]
     public IActionResult Exams([FromForm] CreateExamDto createExamDto)
     {
-        var user = GetUser();
-        examsRepository.AddExam(createExamDto);
+        var user = GetUser()!;
+        examsRepository.AddExam(createExamDto, user.UserTeacherId);
         return Redirect(nameof(Exams));
     }
 
     [HttpDelete("DeleteExam/{id:int}")]
     public IActionResult DeleteExam(int id)
     {
-        var user = GetUser();
-        examsRepository.DeleteExam(id);
+        var user = GetUser()!;
+        examsRepository.DeleteExam(id, user.UserTeacherId);
         return Redirect(nameof(Exams));
     }
 
@@ -264,7 +265,7 @@ public class HomeController(
     [HttpPost]
     public IActionResult EditStudentNote(EditStudentNoteDto editStudentNoteDto)
     {
-        studentNoteRepository.EditNote(editStudentNoteDto);
+        studentNoteRepository.EditNote(editStudentNoteDto, GetUser()!.UserTeacherId);
         return Redirect(nameof(StudentNote));
     }
 }

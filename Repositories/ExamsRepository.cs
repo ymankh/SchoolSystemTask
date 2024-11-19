@@ -23,7 +23,7 @@ public class ExamsRepository(MyDbContext context)
     }
 
 
-    public void AddExam(CreateExamDto createExamDto)
+    public void AddExam(CreateExamDto createExamDto, int userId)
     {
         var exam = new Exam()
         {
@@ -41,7 +41,7 @@ public class ExamsRepository(MyDbContext context)
         {
             Name = ActionNames.CreateExam,
             Description = "Added a new exam.",
-            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == createExamDto.ClassSubjectId))).Id,
+            UserId = userId,
         });
         context.SaveChanges();
     }
@@ -92,7 +92,7 @@ public class ExamsRepository(MyDbContext context)
         };
     }
 
-    internal void UpdateExamMark(AddExamMarkDto[] examMarksDto)
+    internal void UpdateExamMark(AddExamMarkDto[] examMarksDto, int userId)
     {
         foreach (var mark in examMarksDto)
         {
@@ -104,21 +104,20 @@ public class ExamsRepository(MyDbContext context)
         {
             Name = ActionNames.UpdateExamMark,
             Description = "Updated exam marks.",
-            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == examMarksDto[0].Id))).Id,
+            UserId = userId,
         });
         context.SaveChanges();
     }
 
-    public void DeleteExam(int id)
+    public void DeleteExam(int id, int userId)
     {
         var exam = context.Exams.Find(id) ?? throw new KeyNotFoundException("Exam not found");
         context.Exams.Remove(exam);
-        context.ActionHistories.Add(new ActionHistory { Name = "DeleteExam", Id = exam.Id });
         context.ActionHistories.Add(new ActionHistory
         {
             Name = ActionNames.DeleteExam,
             Description = "Deleted an exam.",
-            UserId = context.UserTeachers.FirstAsync(u => u.Teacher.TeacherSubjects.Any(ts => ts.ClassSubjects.Any(cs => cs.Id == id))).Id,
+            UserId = userId,
         });
         context.SaveChanges();
     }

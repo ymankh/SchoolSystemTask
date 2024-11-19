@@ -17,11 +17,7 @@ public class StudentsRepository(MyDbContext context)
         if (filter.ClassId != null)
             students = students.Where(s => s.Class.Id == filter.ClassId);
         if (!string.IsNullOrEmpty(filter.Name))
-            students = students.Where(s =>
-                s.FirstName.ToLower().Contains(filter.Name.ToLower()) ||
-                s.SecondName.ToLower().Contains(filter.Name.ToLower()) ||
-                s.ThirdName.ToLower().Contains(filter.Name.ToLower()) ||
-                s.LastName.ToLower().Contains(filter.Name.ToLower()));
+            students = students.Where(s => (s.FirstName + " " + s.SecondName + " " + s.ThirdName + " " + s.LastName).ToLower().Contains(filter.Name.ToLower()));
 
         return students.ToList();
     }
@@ -39,7 +35,7 @@ public class StudentsRepository(MyDbContext context)
             .ThenInclude(c => c.Section).ToList();
     }
 
-    public Student Add(AddStudentDto studentDto)
+    public Student Add(AddStudentDto studentDto, int userId)
     {
         var name = SplitFullName(studentDto.FullName);
         var student = new Student
@@ -59,8 +55,7 @@ public class StudentsRepository(MyDbContext context)
         {
             Name = ActionNames.CreateStudent,
             Description = "Added a new student.",
-            UserId = context.UserTeachers.First(u => u.Teacher.Classes.Any(u => u.Id == studentDto.ClassId))
-                .UserTeacherId,
+            UserId = userId,
         });
         context.SaveChanges();
         return student;
