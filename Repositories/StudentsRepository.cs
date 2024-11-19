@@ -8,20 +8,20 @@ namespace SchoolSystemTask.Repositories;
 
 public class StudentsRepository(MyDbContext context)
 {
-
     public List<Student> TeacherStudents(int teacherId, StudentQueryFilter filter)
     {
-        var students = context.Students.Include(s => s.Class.ClassSubjects).
-            ThenInclude(cs => cs.TeacherSubject.Subject).
-            Include(s => s.Class.Section).
-            Include(s => s.StudentAbsences).
-            Include(s => s.Class.Grade).
-            Where(s => s.Class.TeacherId == teacherId ||
-                        s.Class.ClassSubjects.Any(cs => cs.TeacherSubject.TeacherId == teacherId)).AsQueryable();
+        var students = context.Students.Include(s => s.Class.ClassSubjects).ThenInclude(cs => cs.TeacherSubject.Subject)
+            .Include(s => s.Class.Section).Include(s => s.StudentAbsences).Include(s => s.Class.Grade).Where(s =>
+                s.Class.TeacherId == teacherId ||
+                s.Class.ClassSubjects.Any(cs => cs.TeacherSubject.TeacherId == teacherId)).AsQueryable();
         if (filter.ClassId != null)
             students = students.Where(s => s.Class.Id == filter.ClassId);
         if (!string.IsNullOrEmpty(filter.Name))
-            students = students.Where(s => s.FirstName.Contains(filter.Name) || s.SecondName.Contains(filter.Name) || s.ThirdName.Contains(filter.Name) || s.LastName.Contains(filter.Name));
+            students = students.Where(s =>
+                s.FirstName.ToLower().Contains(filter.Name.ToLower()) ||
+                s.SecondName.ToLower().Contains(filter.Name.ToLower()) ||
+                s.ThirdName.ToLower().Contains(filter.Name.ToLower()) ||
+                s.LastName.ToLower().Contains(filter.Name.ToLower()));
 
         return students.ToList();
     }
@@ -29,31 +29,14 @@ public class StudentsRepository(MyDbContext context)
     public List<Student> TeacherStudents(int teacherId)
     {
         var filter = new StudentQueryFilter();
-        var students = context.Students.Include(s => s.Class.ClassSubjects).
-            ThenInclude(cs => cs.TeacherSubject.Subject).
-            Include(s => s.Class.Section).
-            Include(s => s.StudentAbsences).
-            Include(s => s.Class.Grade).
-            Where(s => s.Class.TeacherId == teacherId ||
-                        s.Class.ClassSubjects.Any(cs => cs.TeacherSubject.TeacherId == teacherId)).AsQueryable();
-        if (filter.ClassId != null)
-            students = students.Where(s => s.Class.Id == filter.ClassId);
-        if (!string.IsNullOrEmpty(filter.Name))
-            students = students.Where(s => s.FirstName.Contains(filter.Name) || s.SecondName.Contains(filter.Name) || s.ThirdName.Contains(filter.Name) || s.LastName.Contains(filter.Name));
-
-        return students.ToList();
+        return TeacherStudents(teacherId, filter);
     }
+
     public IEnumerable<Student> All()
     {
-        return context.Students.
-            Include(s => s.StudentAbsences).
-            Include(s => s.Class).
-            ThenInclude(c => c.ClassSubjects).
-            ThenInclude(cs => cs.TeacherSubject).
-            ThenInclude(ts => ts.Subject).
-            Include(s => s.Class).
-            ThenInclude(c => c.Section).
-            ToList();
+        return context.Students.Include(s => s.StudentAbsences).Include(s => s.Class).ThenInclude(c => c.ClassSubjects)
+            .ThenInclude(cs => cs.TeacherSubject).ThenInclude(ts => ts.Subject).Include(s => s.Class)
+            .ThenInclude(c => c.Section).ToList();
     }
 
     public Student Add(AddStudentDto studentDto)
@@ -76,11 +59,13 @@ public class StudentsRepository(MyDbContext context)
         {
             Name = ActionNames.CreateStudent,
             Description = "Added a new student.",
-            UserId = context.UserTeachers.First(u => u.Teacher.Classes.Any(u => u.Id == studentDto.ClassId)).UserTeacherId,
+            UserId = context.UserTeachers.First(u => u.Teacher.Classes.Any(u => u.Id == studentDto.ClassId))
+                .UserTeacherId,
         });
         context.SaveChanges();
         return student;
     }
+
     private static string[] SplitFullName(string fullName)
     {
         var nameParts = fullName.Split(' ');
@@ -111,8 +96,7 @@ public class StudentsRepository(MyDbContext context)
                 lastName = nameParts[^1];
                 break;
         }
+
         return [firstName, secondName, thirdName, lastName];
     }
-
 }
-
