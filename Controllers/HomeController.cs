@@ -117,7 +117,9 @@ public class HomeController(
         userRepository.Register(newTeacher, email, password, "teacher");
         return Redirect(nameof(LoginPage));
     }
+
     [Authorize]
+    [HttpGet]
     public IActionResult Students([FromQuery] StudentQueryFilter filter)
     {
         var user = GetUser();

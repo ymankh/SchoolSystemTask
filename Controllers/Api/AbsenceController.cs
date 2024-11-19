@@ -10,19 +10,19 @@ namespace SchoolSystemTask.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AbsenceController(AbsenceRepository absenceRebasatory) : ControllerBase
+    public class AbsenceController(AbsenceRepository absenceRepository) : ControllerBase
     {
         private int GetUserId()
         {
             return Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
+
         [Authorize]
         [HttpPost]
-        public IActionResult SaveAbcences([FromBody] CreateStudentAbsenceDto[] absences)
+        public IActionResult SaveAbsences([FromBody] CreateStudentAbsenceDto[] absences)
         {
             var userId = GetUserId();
-            var abcences = absenceRebasatory.AddAbsences(absences, userId);
-            return Ok(abcences);
+            return Ok(absenceRepository.AddAbsences(absences, userId));
         }
     }
 }

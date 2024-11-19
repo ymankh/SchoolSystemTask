@@ -20,3 +20,18 @@ public class UserTeacher
 
 }
 
+public class UserStudent
+{
+    [Key]
+    public int UserStudentId { get; set; }
+    [EmailAddress]
+    required public string Email { get; set; }
+    required public string PasswordHash { get; set; }
+    required public string Salt { get; set; }
+
+    [ForeignKey("Student")]
+    required public int StudentId { get; set; }
+
+    public Teacher Student { get; set; }
+}
+

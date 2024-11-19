@@ -8,24 +8,17 @@ namespace SchoolSystemTask.Repositories
 {
     public class ClassesRepository(MyDbContext context)
     {
-        public TeacherClassesDto GetClasses()
+        public List<Class> GetTeacherClasses(int teacherId)
         {
-            return new TeacherClassesDto
-            {
-                Classes = context.Classes.Include(c => c.ClassSubjects).ToList(),
-                Subjects = context.Subjects.ToList(),
-                Grades = context.Grades.ToList(),
-                Sections = context.Sections.ToList()
-            };
+            return context.Classes.Include(c => c.ClassSubjects).ThenInclude(c => c.TeacherSubject.Subject).
+                                 // Get the teacher classes or any classes that the take a subject with that teacher.
+                                 Where(c => c.TeacherId == teacherId || c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).ToList();
         }
-
         public TeacherClassesDto GetClasses(int teacherId)
         {
             return new TeacherClassesDto
             {
-                Classes = context.Classes.Include(c => c.ClassSubjects).ThenInclude(c => c.TeacherSubject.Subject).
-                    // Get the teacher classes or any classes that the take a subject with that teacher.
-                    Where(c => c.TeacherId == teacherId || c.ClassSubjects.Any(cs => cs.TeacherSubjectId == teacherId)).ToList(),
+                Classes = GetTeacherClasses(teacherId),
                 Subjects = context.Subjects.ToList(),
                 Sections = context.Sections.ToList(),
                 Grades = context.Grades.ToList()

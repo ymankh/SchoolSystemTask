@@ -10,11 +10,6 @@ using SchoolSystemTask.ViewModels;
 
 public class ExamsRepository(MyDbContext context)
 {
-    public List<Exam> All()
-    {
-        return context.Exams.ToList();
-    }
-
     public List<Exam> TeacherExams(int teacherId)
     {
         return context.Exams.Include(e => e.ClassSubject.TeacherSubject).
