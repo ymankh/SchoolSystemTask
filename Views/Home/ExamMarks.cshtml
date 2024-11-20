@@ -28,58 +28,58 @@
                         <div class="table-responsive">
                             <table class="table align-items-center mb-0">
                                 <thead>
-                                    <tr>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-10">
-                                            Name
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
-                                            Grade
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-10">
+                                        Name
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
+                                        Grade
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model.ExamWithMarks.Any())
-                                    {
-                                        @foreach (var student in Model.Students)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                            <img src="/assets/new/profile-user.svg"
-                                                                class="avatar avatar-sm me-3"
-                                                                alt="@student.FirstName @student.LastName" />
-                                                        </div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">@student.FirstName @student.LastName</h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="align-middle">
-                                                    <div class="input-group input-group-dynamic mb-4">
-                                                        <input type="number" min="0" max="@Model.Exam.MaxMark"
-                                                            class="form-control" placeholder="Grade" aria-label="Grade"
-                                                            onchange="addStudentMark(event)"
-                                                            id="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Id"
-                                                            aria-describedby="basic-addon2"
-                                                            value="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Mark" />
-                                                        <span class="input-group-text" id="basic-addon2">
-                                                            /@Model.Exam.MaxMark
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                    else
+                                @if (Model.ExamWithMarks.Any())
+                                {
+                                    @foreach (var student in Model.Students)
                                     {
                                         <tr>
-                                            <td colspan="2">There are no registered students in this class</td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="/assets/new/profile-user.svg"
+                                                             class="avatar avatar-sm me-3"
+                                                             alt="@student.FirstName @student.LastName"/>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">@student.FirstName @student.LastName</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="align-middle">
+                                                <div class="input-group input-group-dynamic mb-4">
+                                                    <input type="number" min="0" max="@Model.Exam.MaxMark"
+                                                           class="form-control" placeholder="Grade" aria-label="Grade"
+                                                           onchange="addStudentMark(event)"
+                                                           id="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Id"
+                                                           aria-describedby="basic-addon2"
+                                                           value="@student.ExamMarks.First(e => e.ExamId == Model.Exam.Id).Mark"/>
+                                                    <span class="input-group-text" id="basic-addon2">
+                                                        /@Model.Exam.MaxMark
+                                                    </span>
+                                                </div>
+                                            </td>
                                         </tr>
                                     }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="2">There are no registered students in this class</td>
+                                    </tr>
+                                }
                                 </tbody>
                             </table>
                             <div class="ms-4 mt-4">
@@ -90,7 +90,8 @@
                 </form>
             </div>
         </div>
-        <partial name="_LatestUpdates" />
+        <div class="col-lg-4 col-md-6" id="partialContainer">Loading...</div>
+
     </div>
 </div>
 
@@ -146,4 +147,14 @@
             }
         }
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('@Url.Action("LatestUpdates", "Home")')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('partialContainer').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading partial view:', error));
+    });
+</script>
 }

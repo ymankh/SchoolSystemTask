@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.DTOs.Filters;
 using SchoolSystemTask.DTOs.StudentsDTOs;
+using SchoolSystemTask.Helpers;
 using SchoolSystemTask.Models;
 using SchoolSystemTask.Models.StaticData;
 
@@ -17,7 +18,9 @@ public class StudentsRepository(MyDbContext context)
         if (filter.ClassId != null)
             students = students.Where(s => s.Class.Id == filter.ClassId);
         if (!string.IsNullOrEmpty(filter.Name))
-            students = students.Where(s => (s.FirstName + " " + s.SecondName + " " + s.ThirdName + " " + s.LastName).ToLower().Contains(filter.Name.ToLower()));
+            students = students.Where(s =>
+                (s.FirstName + " " + s.SecondName + " " + s.ThirdName + " " + s.LastName).ToLower()
+                .Contains(filter.Name.ToLower()));
 
         return students.ToList();
     }
@@ -57,8 +60,28 @@ public class StudentsRepository(MyDbContext context)
             Description = "Added a new student.",
             UserId = userId,
         });
+
         context.SaveChanges();
         return student;
+    }
+
+    private UserStudent CreateStudentAccount(Student student)
+    {
+        // Generate a unique salt for this user
+        var salt = SaltHelper.GenerateSalt(16); // 16 bytes salt
+
+        // Hash the password with the salt
+        var hashedPassword = HashHelper.HashPassword(student.NationalId, salt);
+        var user = new UserStudent
+        {
+            Email = student.StudentDetails.Email,
+            PasswordHash = hashedPassword,
+            Salt = salt,
+            StudentId = student.Id
+        };
+        context.UserStudents.Add(user);
+        context.SaveChanges();
+        return user;
     }
 
     private static string[] SplitFullName(string fullName)

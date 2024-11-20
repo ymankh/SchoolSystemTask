@@ -716,6 +716,10 @@ namespace SchoolSystemTask.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Plane")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Role")
                         .HasColumnType("TEXT");
 

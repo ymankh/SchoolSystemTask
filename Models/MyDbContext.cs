@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 namespace SchoolSystemTask.Models;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -27,6 +29,7 @@ public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(opti
     public DbSet<Assignment> Assignments { get; set; }
     public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
     public DbSet<ActionHistory> ActionHistories { get; set; }
+    public DbSet<UserStudent> UserStudents { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -86,11 +89,6 @@ public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(opti
             .HasKey(sc => new { sc.StudentId, sc.ClassId });
 
         modelBuilder.Entity<ActionHistory>()
-            .HasOne(a => a.UserTeacher).
-            WithMany(ut => ut.ActionHistories).
-            OnDelete(DeleteBehavior.Cascade);
-
+            .HasOne(a => a.UserTeacher).WithMany(ut => ut.ActionHistories).OnDelete(DeleteBehavior.Cascade);
     }
 }
-
-

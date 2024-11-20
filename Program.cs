@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolSystemTask.Helpers;
 using SchoolSystemTask.Models;
 using SchoolSystemTask.Repositories;
+using SchoolSystemTask.services;
 
 namespace SchoolSystemTask
 {
@@ -48,6 +49,8 @@ namespace SchoolSystemTask
                 options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
             });
 
+            // AddPayPal
+            builder.Services.AddScoped<PayPalService>();
 
             // Add Repositories
             builder.Services.AddScoped<UserRepository>();
@@ -59,6 +62,7 @@ namespace SchoolSystemTask
             builder.Services.AddScoped<NoteTypesRepository>();
             builder.Services.AddScoped<AbsenceRepository>();
             builder.Services.AddScoped<AssignmentSubmissionRepository>();
+            builder.Services.AddScoped<ActionHistoryRepository>();
 
             // Solve possible object cycle was detected
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -66,7 +70,7 @@ namespace SchoolSystemTask
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-
+            builder.Services.AddSingleton<PayPalService>();
 
             var app = builder.Build();
 
@@ -90,8 +94,6 @@ namespace SchoolSystemTask
                 c.RoutePrefix = string.Empty; // This serves Swagger UI at the root (e.g., https://localhost:{port}/)
             });
             app.UseStaticFiles();
-
-
 
             app.UseRouting();
 

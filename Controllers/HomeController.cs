@@ -26,7 +26,9 @@ public class HomeController(
     StudentsRepository studentsRepository,
     ExamsRepository examsRepository,
     StudentNoteRepository studentNoteRepository,
-    AssignmentSubmissionRepository assignmentSubmissionRepository) : Controller
+    AssignmentSubmissionRepository assignmentSubmissionRepository,
+    ActionHistoryRepository actionHistoryRepository
+    ) : Controller
 {
     [Authorize]
     public IActionResult Index()
@@ -269,5 +271,13 @@ public class HomeController(
     {
         studentNoteRepository.EditNote(editStudentNoteDto, GetUser()!.UserTeacherId);
         return Redirect(nameof(StudentNote));
+    }
+
+    public IActionResult LatestUpdates()
+    {
+        var userId = GetUser()!.UserTeacherId;
+        var actionHistory = actionHistoryRepository.GetLastTenActions(userId);
+
+        return PartialView("_LatestUpdates", actionHistory);
     }
 }

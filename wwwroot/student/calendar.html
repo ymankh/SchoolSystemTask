@@ -426,76 +426,74 @@
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script>
-      var win = navigator.platform.indexOf("Win") > -1;
-      if (win && document.querySelector("#sidenav-scrollbar")) {
+      var win = navigator.platform.indexOf('Win') > -1;
+      if (win && document.querySelector('#sidenav-scrollbar')) {
         var options = {
-          damping: "0.5",
+          damping: '0.5',
         };
-        Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
       }
     </script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
-    <script src="../assets/new/packages/core/main.js"></script>
+    <script src="../assets/new/core/index.js"></script>
     <script src="../assets/new/packages/interaction/main.js"></script>
-    <script src="../assets/new/packages/daygrid/main.js"></script>
+    <script src="../assets/new/daygrid/index.js"></script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("my-calendar");
+    <script type="module">
+      document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('my-calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: ["interaction", "dayGrid"],
-          defaultDate: "2024-09-12",
+          plugins: ['interaction', 'dayGrid'],
+          defaultDate: '2024-09-12',
           editable: true,
           eventLimit: true, // allow "more" link when too many events
           events: [
             {
-              title: "English First Exam",
-              start: "2024-09-01",
+              title: 'English First Exam',
+              start: '2024-09-01',
             },
             {
-              title: "English Second Exam",
-              start: "2024-09-08",
+              title: 'English Second Exam',
+              start: '2024-09-08',
               // end: "2024-09-10",
             },
             {
               groupId: 999,
-              title: "Math Exam",
-              start: "2024-09-02",
+              title: 'Math Exam',
+              start: '2024-09-02',
             },
             {
               groupId: 999,
-              title: "Biology Exam",
+              title: 'Biology Exam',
               // start: "2024-09-16T16:00:00",
-              start: "2024-09-16",
-
+              start: '2024-09-16',
             },
             {
-              title: "History Assessment",
-              start: "2024-09-18",
+              title: 'History Assessment',
+              start: '2024-09-18',
               // end: "2024-09-18",
             },
             {
               title: "Parents' Meeting",
               // start: "2024-09-12T17:30:00",
-              start: "2024-09-12",
-
+              start: '2024-09-12',
             },
             {
-              title: "Open Day",
-              start: "2024-09-1",
+              title: 'Open Day',
+              start: '2024-09-1',
             },
             {
-              title: "Khaled Ghanem Birthday Party",
-              start: "2024-09-13",
+              title: 'Khaled Ghanem Birthday Party',
+              start: '2024-09-13',
             },
             {
-              title: "English assignment",
-              url: "assignment.html",
-              start: "2024-10-07",
+              title: 'English assignment',
+              url: 'assignment.html',
+              start: '2024-10-07',
             },
           ],
         });

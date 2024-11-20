@@ -9,12 +9,6 @@ namespace SchoolSystemTask.Controllers.Api
     [Route("api/[controller]")]
     public class ClassesApiController(ClassesRepository classesRepository) : ControllerBase
     {
-        //[HttpPost]
-        //public IActionResult AddSubject([FromBody] AddSubjectToClassDto subject)
-        //{
-        //    var newClass = classesRepository.CreateClass(addClassDto);
-        //    return Ok(newClass);
-        //}
         [HttpGet("{id:int}")]
         public IActionResult GetClassSubjects(int id)
         {
