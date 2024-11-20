@@ -2,12 +2,11 @@
 {
     public class AddStudentDto
     {
-        public string FullName { get; set; }
-        public int ClassId { get; set; }
-        public string ParentContact { get; set; }
-        public string Address { get; set; }
-        public DateOnly BirthDate { get; set; }
-        public string NationalId { get; set; }
-
+        public required string FullName { get; set; }
+        public required int ClassId { get; set; }
+        public required string ParentContact { get; set; }
+        public required string Address { get; set; }
+        public required DateOnly BirthDate { get; set; }
+        public required string NationalId { get; set; }
     }
 }

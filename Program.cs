@@ -5,112 +5,94 @@ using SchoolSystemTask.Models;
 using SchoolSystemTask.Repositories;
 using SchoolSystemTask.services;
 
-namespace SchoolSystemTask
+namespace SchoolSystemTask;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add DbContext with SQLite connection
+        builder.Services.AddDbContext<MyDbContext>(options =>
+            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
+
+        // Add API controllers support
+        builder.Services.AddControllers();
+
+        // Add session services
+        builder.Services.AddSession(options =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            options.IdleTimeout = TimeSpan.FromDays(30); // Session timeout
+            options.Cookie.HttpOnly = true; // Make the session cookie HttpOnly for security
+            options.Cookie.IsEssential = true; // Make the session cookie essential
+        });
 
-            // Add DbContext with SQLite connection
-            builder.Services.AddDbContext<MyDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+        // Add authentication using cookies
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options => { options.LoginPath = "/Home/LoginPage"; });
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+        // Add authorization with role policies
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+            options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+        });
 
-            // Add API controllers support
-            builder.Services.AddControllers();
+        // Add PayPal
+        builder.Services.AddScoped<PayPalService>();
 
+        // Add Repositories
+        builder.Services.AddScoped<UserRepository>();
+        builder.Services.AddScoped<TeacherRepository>();
+        builder.Services.AddScoped<ClassesRepository>();
+        builder.Services.AddScoped<StudentsRepository>();
+        builder.Services.AddScoped<ExamsRepository>();
+        builder.Services.AddScoped<StudentNoteRepository>();
+        builder.Services.AddScoped<NoteTypesRepository>();
+        builder.Services.AddScoped<AbsenceRepository>();
+        builder.Services.AddScoped<AssignmentSubmissionRepository>();
+        builder.Services.AddScoped<ActionHistoryRepository>();
 
-            // Register Swagger services
-            builder.Services.AddSwaggerGen();
+        // Solve possible object cycle was detected
+        builder.Services.AddControllers().AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        });
 
-            // Add session services
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromDays(30); // Session timeout
-                options.Cookie.HttpOnly = true; // Make the session cookie HttpOnly for security
-                options.Cookie.IsEssential = true; // Make the session cookie essential
-            });
+        builder.Services.AddSingleton<PayPalService>();
 
-            // Add authentication using cookies
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/Home/LoginPage";
-                });
+        var app = builder.Build();
 
-            // Add authorization with role policies
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
-            });
-
-            // AddPayPal
-            builder.Services.AddScoped<PayPalService>();
-
-            // Add Repositories
-            builder.Services.AddScoped<UserRepository>();
-            builder.Services.AddScoped<TeacherRepository>();
-            builder.Services.AddScoped<ClassesRepository>();
-            builder.Services.AddScoped<StudentsRepository>();
-            builder.Services.AddScoped<ExamsRepository>();
-            builder.Services.AddScoped<StudentNoteRepository>();
-            builder.Services.AddScoped<NoteTypesRepository>();
-            builder.Services.AddScoped<AbsenceRepository>();
-            builder.Services.AddScoped<AssignmentSubmissionRepository>();
-            builder.Services.AddScoped<ActionHistoryRepository>();
-
-            // Solve possible object cycle was detected
-            builder.Services.AddControllers().AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
-
-            builder.Services.AddSingleton<PayPalService>();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
-
-            //Enable middleware to serve swagger - ui(HTML, JS, CSS, etc.)
-            // Specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "School System Task API V1");
-                c.RoutePrefix = string.Empty; // This serves Swagger UI at the root (e.g., https://localhost:{port}/)
-            });
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            // Enable session middleware in the request pipeline
-            app.UseSession();
-
-            // Enable middleware for authentication and authorization
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=HomePage}/{id?}");
-            // Maps API controller routes
-            app.MapControllers();
-
-            app.Run();
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
         }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        // Enable session middleware in the request pipeline
+        app.UseSession();
+
+        // Enable middleware for authentication and authorization
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=HomePage}/{id?}");
+        // Maps API controller routes
+        app.MapControllers();
+
+        app.Run();
     }
 }
