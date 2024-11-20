@@ -6,13 +6,11 @@ using SchoolSystemTask.Repositories;
 using SchoolSystemTask.services;
 
 namespace SchoolSystemTask;
-
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
         // Add DbContext with SQLite connection
         builder.Services.AddDbContext<MyDbContext>(options =>
             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -26,9 +24,9 @@ public class Program
         // Add session services
         builder.Services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromDays(30); // Session timeout
-            options.Cookie.HttpOnly = true; // Make the session cookie HttpOnly for security
-            options.Cookie.IsEssential = true; // Make the session cookie essential
+            options.IdleTimeout = TimeSpan.FromDays(30);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
         });
 
         // Add authentication using cookies
@@ -71,16 +69,14 @@ public class Program
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-
         app.UseRouting();
 
-        // Enable session middleware in the request pipeline
+        // Enable session middleware
         app.UseSession();
 
         // Enable middleware for authentication and authorization
@@ -90,6 +86,7 @@ public class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=HomePage}/{id?}");
+
         // Maps API controller routes
         app.MapControllers();
 
