@@ -16,8 +16,6 @@ public class UserTeacher
 
     public Teacher Teacher { get; set; }
     public ICollection<ActionHistory> ActionHistories { get; set; }
-
-    public string Plane { get; set; } = TeacherPlan.BASIC;
 }
 
 public class UserStudent
@@ -30,4 +28,13 @@ public class UserStudent
     [ForeignKey("Student")] required public int StudentId { get; set; }
 
     public Teacher Student { get; set; }
+}
+
+class Subsecription
+{
+    public int SubsecriptionId { get; set; }
+    public string Plane { get; set; } = TeacherPlan.BASIC;
+    public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly EndDate { get; set; } = DateOnly.FromDateTime(DateTime.Now).AddMonths(1);
+    public Teacher Teacher { get; set; }
 }

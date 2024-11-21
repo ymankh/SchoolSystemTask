@@ -13,6 +13,7 @@ using SchoolSystemTask.DTOs.StudentsDTOs;
 using SchoolSystemTask.DTOs.ExamDTOs;
 using SchoolSystemTask.DTOs.StudentNoteDTOs;
 using SchoolSystemTask.DTOs.Filters;
+using SchoolSystemTask.DTOs.TeacherDTOs;
 
 namespace SchoolSystemTask.Controllers;
 
@@ -223,10 +224,20 @@ public class HomeController(
     {
         return View();
     }
-
+    [Authorize]
     public IActionResult Profile()
     {
-        return View();
+        var user = GetUser();
+        return View(user);
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult UpdateProfile([FromForm] UpdateTeacherProfileDto update)
+    {
+        var teacher = GetUser()!.Teacher;
+        teacherRepository.UpdateTeacher(update, teacher);
+        return Redirect(nameof(Profile));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -239,8 +250,7 @@ public class HomeController(
     private UserTeacher? GetUser()
     {
         var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        var user = context.UserTeachers.Find(id);
-        return user;
+        return userRepository.GetUserById(id);
     }
 
     [Authorize]
@@ -277,7 +287,6 @@ public class HomeController(
     {
         var userId = GetUser()!.UserTeacherId;
         var actionHistory = actionHistoryRepository.GetLastTenActions(userId);
-
         return PartialView("_LatestUpdates", actionHistory);
     }
 }

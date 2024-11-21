@@ -66,5 +66,10 @@ namespace SchoolSystemTask.Repositories
 
             return user.PasswordHash == hashedPassword ? user : null;
         }
+
+        internal UserTeacher? GetUserById(int id)
+        {
+            return context.UserTeachers.Include(u => u.Teacher).First(u => u.UserTeacherId == id);
+        }
     }
 }

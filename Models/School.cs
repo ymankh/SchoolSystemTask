@@ -185,7 +185,13 @@ public class Teacher
 
     public string? SecondName { get; set; } // Nullable
     public string? ThirdName { get; set; } // Nullable
-
+    public string? Specialty { get; set; }
+    public string? Mobile { get; set; }
+    public string? Location { get; set; }
+    public string? Bio { get; set; }
+    public string? Facebook { get; set; }
+    public string? Twitter { get; set; }
+    public string? Instagram { get; set; }
     [Required] public string LastName { get; set; } = string.Empty; // Not Null
 
     public ICollection<Class> Classes { get; set; } = new List<Class>();

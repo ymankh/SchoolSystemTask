@@ -103,15 +103,15 @@
                 <span class="nav-link-text ms-1">Subjects</span>
                 </a>
                 </li> *@
-                <li class="nav-item">
-                    <a class="nav-link text-white @((string)ViewData["Title"]! == "Chat" ? "active bg-gradient-primary" : "")"
-                        asp-controller="Home" asp-action="Chat">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">chat</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Chat</span>
-                    </a>
-                </li>
+                @* <li class="nav-item"> 
+                     <a class="nav-link text-white @((string)ViewData["Title"]! == "Chat" ? "active bg-gradient-primary" : "")" 
+                         asp-controller="Home" asp-action="Chat"> 
+                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center"> 
+                             <i class="material-icons opacity-10">chat</i> 
+                         </div> 
+                         <span class="nav-link-text ms-1">Chat</span> 
+                     </a> 
+                 </li> *@
                 <li class="nav-item">
                     <a class="nav-link text-white @((string)ViewData["Title"]! == "Profile" ? "active bg-gradient-primary" : "")"
                         asp-controller="Home" asp-action="Profile">
